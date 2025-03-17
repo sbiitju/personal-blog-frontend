@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const getFrontendDomain = () => {
+export const getFrontendDomain = () => {
   if (typeof window !== "undefined") {
     return window.location.hostname;
   }
