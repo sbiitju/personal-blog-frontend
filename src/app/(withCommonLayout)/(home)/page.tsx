@@ -1,34 +1,19 @@
 import Banner from "@/components/home/Banner";
+import Description from "@/components/home/Description";
 import React from "react";
 
 const page = () => {
-  return <div className="">
-    <div>
-      <Banner />
+  return (
+    <div className="">
+      <div className="space-y-20">
+        <Banner />
+        <Description />
+      </div>
     </div>
-  </div>;
+  );
 };
 
 export default page;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 /**
  * 
