@@ -1,3 +1,4 @@
+import Activity from "@/components/home/Activity";
 import Banner from "@/components/home/Banner";
 import Description from "@/components/home/Description";
 import React from "react";
@@ -8,6 +9,7 @@ const page = () => {
       <div className="space-y-20">
         <Banner />
         <Description />
+        <Activity />
       </div>
     </div>
   );
