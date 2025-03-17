@@ -87,7 +87,7 @@ export default function Activity() {
                     alt={news.title}
                   />
                   <div className="p-6 space-y-4">
-                    <CardTitle>
+                    <CardTitle className="font-semibold">
                       <Link href={"/"}>{news.title}</Link>
                     </CardTitle>
                     <CardDescription>{news.date}</CardDescription>

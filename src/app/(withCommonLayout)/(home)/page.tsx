@@ -1,6 +1,7 @@
 import Activity from "@/components/home/Activity";
 import Banner from "@/components/home/Banner";
 import Description from "@/components/home/Description";
+import Infos from "@/components/home/Infos";
 import React from "react";
 
 const page = () => {
@@ -10,6 +11,7 @@ const page = () => {
         <Banner />
         <Description />
         <Activity />
+        <Infos />
       </div>
     </div>
   );
