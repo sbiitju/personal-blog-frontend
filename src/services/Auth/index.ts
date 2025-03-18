@@ -33,6 +33,31 @@ export const registerAdmin = async (userData: FieldValues) => {
   }
 };
 
+
+export const loginUser = async (userData: FieldValues) => {
+  try {
+    const { data } = await axiosInstance.post("/auth/login", userData);
+    if (data.success) {
+      (await cookies()).set("accessToken", data?.data?.accessToken);
+      (await cookies()).set("refreshToken", data?.data?.refreshToken);
+    }
+    return data;
+  } catch (error: any) {
+    const data = {
+      success: false,
+      message: error?.response?.data?.message,
+    };
+    return data;
+  }
+};
+
+export const logOut = async () => {
+  (await cookies()).delete("accessToken");
+  (await cookies()).delete("refreshToken");
+};
+
+
+
 export const getCurrentUser = async () => {
   const accessToken = (await cookies()).get("accessToken")?.value;
   let decodedToken = null;
@@ -69,4 +94,55 @@ export const getNewAccessToken = async () => {
   } catch (error) {
     throw new Error("Failed to get new access token");
   }
+};
+
+
+
+export const forgotPassword = async (userData: FieldValues) => {
+  try {
+    const { data } = await axiosInstance.post(
+      "/auth/forgot-password",
+      userData
+    );
+    return data;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+};
+
+export const resetPassword = async (userData: FieldValues) => {
+  try {
+    const { data } = await axiosInstance.post(
+      "/auth/reset-password",
+      {
+        password: userData.password,
+        email: userData.email,
+      },
+      {
+        headers: {
+          Authorization: userData.token,
+        },
+      }
+    );
+    return data;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+};
+
+export const changePassword = async (passwordData: FieldValues) => {
+  try {
+    const { data } = await axiosInstance.post(
+      "/auth/change-password",
+      passwordData
+    );
+    return data;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+};
+
+export const cureentUserChecker = async () => {
+  const token = (await cookies()).get("accessToken")?.value;
+  return token;
 };
