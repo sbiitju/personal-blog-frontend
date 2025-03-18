@@ -45,3 +45,8 @@ export const getAllSubCategory = async () => {
   const { data } = await axiosInstance.get(`/category/sub-categories`);
   return data;
 };
+
+export const deleteCategory = async (id: string) => {
+  const { data } = await axiosInstance.delete(`/category/${id}`);
+  return data;
+};
