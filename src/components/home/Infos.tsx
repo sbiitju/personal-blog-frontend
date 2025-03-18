@@ -2,6 +2,7 @@ import Image from "next/image";
 import { Card, CardDescription, CardTitle } from "../ui/card";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import Title from "../ui/title";
 
 const newses = [
   {
@@ -52,7 +53,11 @@ export default function Infos() {
   return (
     <div className="bg-[#FFDBDB] py-16">
       <div className="max-w-screen-2xl mx-auto px-4 lg:px-6 xl:px-10">
-        <h2 className="text-3xl font-bold text-center">তথ্যকোষ</h2>
+        <div className="text-center">
+          <Title className="bg-gradient-to-b from-[#e7000b] to-[#86383c] text-white px-12">
+            তথ্যকোষ
+          </Title>
+        </div>
         <div className="my-8 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {newses.map((news) => (
             <div key={news.id}>
@@ -61,12 +66,12 @@ export default function Infos() {
                   className="w-full"
                   src={"/news.png"}
                   width={400}
-                  height={300}
+                  height={200}
                   alt={news.title}
                 />
                 <div className="p-6 space-y-4">
                   <CardTitle className="font-semibold">
-                    <Link href={"/"}>{news.title}</Link>
+                    <Link href={"/534535dfg54"}>{news.title}</Link>
                   </CardTitle>
                   <CardDescription>{news.date}</CardDescription>
                 </div>

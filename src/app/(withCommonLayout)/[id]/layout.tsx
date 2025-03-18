@@ -38,13 +38,15 @@ export default function layout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <div className="mt-26 max-w-screen-xl mx-auto px-4 lg:px-6 xl:px-10">
-      <div className="grid md:grid-cols-5 gap-12 md:gap-6">
-        <div className="md:col-span-3">{children}</div>
+    <div className="mt-26 max-w-screen-xl mx-auto px-4 mb-14 lg:px-6 xl:px-10">
+      <div className="grid md:grid-cols-7 gap-12 md:gap-6">
+        <div className="md:col-span-4 lg:col-span-5">{children}</div>
 
-        <div className="md:col-span-2">
-          <h2 className="text-xl md:text-2xl font-semibold mb-8">সাম্প্রতিক</h2>
+        <div className="md:col-span-3 lg:col-span-2">
           <div className="space-y-6 sticky top-20">
+            <h2 className="text-xl md:text-2xl font-semibold mb-8">
+              সাম্প্রতিক
+            </h2>
             {newses.map((news) => (
               <div key={news.id}>
                 <Card className="gap-0 py-0 bg-white">
@@ -52,7 +54,7 @@ export default function layout({
                     className="w-full"
                     src={"/news.png"}
                     width={400}
-                    height={300}
+                    height={200}
                     alt={news.title}
                   />
                   <div className="p-6 space-y-4">

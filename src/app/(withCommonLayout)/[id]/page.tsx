@@ -30,7 +30,7 @@ export default function page() {
         className="w-full"
         src={"/news.png"}
         width={400}
-        height={300}
+        height={200}
         alt={news.title}
       />
       <CardDescription className="text-xl text-justify">

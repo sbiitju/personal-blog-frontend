@@ -8,7 +8,7 @@ const user = {
 
 export default function Footer() {
   return (
-    <div className="bg-[#6B6B6B] mt-24 py-10 text-white">
+    <div className="bg-[#6B6B6B] py-10 text-white">
       <div className="max-w-screen-2xl mx-auto px-4 lg:px-6 xl:px-10">
         <div className="flex flex-col lg:flex-row gap-8 lg:gap-0">
           <div className="flex-1">
