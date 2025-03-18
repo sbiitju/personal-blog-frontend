@@ -33,6 +33,10 @@ export const registerAdmin = async (userData: FieldValues) => {
   }
 };
 
+export const getUserByDomain = async (id: string) => {
+  const { data } = await axiosInstance.get(`/client/${id}`);
+  return data;
+};
 
 export const loginUser = async (userData: FieldValues) => {
   try {
@@ -55,8 +59,6 @@ export const logOut = async () => {
   (await cookies()).delete("accessToken");
   (await cookies()).delete("refreshToken");
 };
-
-
 
 export const getCurrentUser = async () => {
   const accessToken = (await cookies()).get("accessToken")?.value;
@@ -95,8 +97,6 @@ export const getNewAccessToken = async () => {
     throw new Error("Failed to get new access token");
   }
 };
-
-
 
 export const forgotPassword = async (userData: FieldValues) => {
   try {

@@ -2,12 +2,13 @@
 import {
   changePassword,
   forgotPassword,
+  getUserByDomain,
   loginUser,
   registerAdmin,
   registerUser,
   resetPassword,
 } from "@/services/Auth";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { FieldValues } from "react-hook-form";
 import { toast } from "sonner";
 
@@ -21,6 +22,13 @@ export const useAdminRegistration = () => {
   return useMutation<any, Error, FieldValues>({
     mutationKey: ["ADMIN_REGISTRATION"],
     mutationFn: async (userData) => await registerAdmin(userData),
+  });
+};
+
+export const useGetUserByDomain = (domain: string) => {
+  return useQuery<any, Error, any, string[]>({
+    queryKey: ["GET_USER_DOMAIN"],
+    queryFn: async () => await getUserByDomain(domain),
   });
 };
 
