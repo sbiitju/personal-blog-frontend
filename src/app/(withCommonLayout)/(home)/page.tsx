@@ -7,7 +7,7 @@ import React from "react";
 const page = () => {
   return (
     <div className="">
-      <div className="space-y-20">
+      <div className="space-y-14">
         <Banner />
         <Description />
         <Activity />

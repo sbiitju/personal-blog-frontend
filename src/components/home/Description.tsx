@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { Button } from "../ui/button";
+import Title from "../ui/title";
 
 const curriculaVitae = {
   title: "জীবন বৃত্তান্ত",
@@ -11,10 +12,12 @@ const curriculaVitae = {
 export default function Description() {
   return (
     <div className="bg-[#FFDBDB]">
-      <div className="max-w-screen-2xl mx-auto px-4 lg:px-6 xl:px-0 py-16 flex justify-center items-center">
+      <div className="max-w-screen-2xl mx-auto px-4 lg:px-6 xl:px-0 py-12 flex justify-center items-center">
         <div className="text-center">
-          <h2 className="text-3xl font-bold">{curriculaVitae.title}</h2>
-          <h3 className="text-sx mt-4 mb-8">{curriculaVitae.subtitle}</h3>
+          <Title className="bg-gradient-to-b from-[#e7000b] to-[#86383c] text-white px-12">
+            {curriculaVitae.title}
+          </Title>
+          <h3 className="text-sx my-8">{curriculaVitae.subtitle}</h3>
           <p className="xl:w-5xl text-justify md:text-center">
             {curriculaVitae.description}
           </p>
