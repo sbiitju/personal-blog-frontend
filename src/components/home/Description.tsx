@@ -22,7 +22,7 @@ export default function Description() {
             {curriculaVitae.description}
           </p>
           <div className="flex justify-center mt-8">
-            <Link href={"/"}>
+            <Link href={"/biograph"}>
               <Button
                 variant="destructive"
                 className="px-4 py-3 text-base font-semibold hover:cursor-pointer hover:bg-gray-200 hover:text-black transition-all duration-300"
