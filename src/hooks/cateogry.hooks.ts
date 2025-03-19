@@ -3,6 +3,7 @@ import {
   createCategory,
   createSubCategory,
   deleteCategory,
+  getAllCategory,
   getAllCategoryByRole,
   getAllSubCategory,
 } from "@/services/Category";
@@ -17,6 +18,13 @@ export const useCreateCategory = () => {
   });
 };
 
+export const useGetAllCategory = () => {
+  return useQuery<any, Error, any, string[]>({
+    queryKey: ["GET_ALL_CATEGORY"],
+    queryFn: async () => await getAllCategory(),
+  });
+};
+
 export const useCreateSubCategory = () => {
   return useMutation<any, Error, FieldValues>({
     mutationKey: ["CREATE_SUB_CATEGORY"],
@@ -26,7 +34,7 @@ export const useCreateSubCategory = () => {
 
 export const useGetAllCategoryByRole = (role: string) => {
   return useQuery<any, Error, any, string[]>({
-    queryKey: ["GET_ALL_CATEGORY"],
+    queryKey: ["GET_ALL_CATEGORY_BY_ROLE"],
     queryFn: async () => await getAllCategoryByRole(role),
   });
 };
