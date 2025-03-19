@@ -21,7 +21,7 @@ const Home = () => {
     <div className="">
       <div className="space-y-14">
         <Banner />
-        <Description />
+        <Description domain={domain} />
         <Activity />
         <Infos />
       </div>

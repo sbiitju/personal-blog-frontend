@@ -1,38 +1,53 @@
 import Link from "next/link";
 import { Button } from "../ui/button";
 import Title from "../ui/title";
+import { useGetBiographByDomain } from "@/hooks/biograph.hook";
 
-const curriculaVitae = {
-  title: "জীবন বৃত্তান্ত",
-  subtitle: "পারিবারিক ও শিক্ষা জীবন",
-  description:
-    "গোলাম মোস্তফা কামাল ১৯৫৯ সালের ৮ জানুয়ারী খুলনা জেলার ফুলতলা উপজেলার শিরোমণি গ্রামের এক  সম্ভ্রান্ত মুসলিম পরিবারে জন্মগ্রহন করেন। পারিবারিক জীবনে তার পিতা-মাতা, ৫ ভাই, ৫ বোন, স্ত্রী, ২ কন্যা ও ২ পুত্রসন্তান রয়েছে। শিরোমণি হাইস্কুল, বিএল বিশ্ববিদ্যালয় কলেজ ও আযম খান বাণিজ্য বিশ্ববিদ্যালয় কলেজ থেকে যথাক্রমে এসএসসি, এইচএসসি, বিকম অর্নাসসহ (হিসাব বিজ্ঞান) এম কম পাস করেন।",
-};
+interface DescriptionProps {
+  domain: string;
+}
 
-export default function Description() {
+export default function Description({ domain }: DescriptionProps) {
+  const { data: bioData, isLoading, isError } = useGetBiographByDomain(domain);
+
+  const title = "জীবন বৃত্তান্ত";
+  const shortDescription = "পারিবারিক ও শিক্ষা জীবন";
+  const description = bioData?.data?.shortDescription; 
   return (
-    <div className="bg-[#FFDBDB]">
+    <section className="bg-[#FFDBDB]">
       <div className="max-w-screen-2xl mx-auto px-4 lg:px-6 xl:px-0 py-12 flex justify-center items-center">
-        <div className="text-center">
-          <Title className="bg-gradient-to-b from-[#e7000b] to-[#86383c] text-white px-12">
-            {curriculaVitae.title}
+        <div className="text-center max-w-3xl">
+          <Title className="bg-gradient-to-b from-[#e7000b] to-[#86383c] text-white px-12 py-2 rounded-md">
+            {title}
           </Title>
-          <h3 className="text-sx my-8">{curriculaVitae.subtitle}</h3>
-          <p className="xl:w-5xl text-justify md:text-center">
-            {curriculaVitae.description}
-          </p>
-          <div className="flex justify-center mt-8">
-            <Link href={"/biograph"}>
+
+          {isLoading ? (
+            <p className="text-gray-600 mt-6">লোড হচ্ছে...</p>
+          ) : isError ? (
+            <p className="text-red-600 mt-6">ডাটা আনতে সমস্যা হয়েছে।</p>
+          ) : (
+            <>
+              <h3 className="text-2xl my-4 font-medium text-gray-800">
+                {shortDescription}
+              </h3>
+              <p className="text-justify md:text-center text-gray-700 leading-relaxed">
+                {description}
+              </p>
+            </>
+          )}
+
+          <div className="flex justify-center mt-2">
+            <Link href="/biograph">
               <Button
                 variant="destructive"
-                className="px-4 py-3 text-base font-semibold hover:cursor-pointer hover:bg-gray-200 hover:text-black transition-all duration-300"
+                className="px-6 py-3 text-lg font-semibold hover:cursor-pointer hover:bg-gray-200 hover:text-black transition-all duration-300 rounded-md"
               >
-                জীবনি পড়ুন
+                জীবনী পড়ুন
               </Button>
             </Link>
           </div>
         </div>
       </div>
-    </div>
+    </section>
   );
 }
