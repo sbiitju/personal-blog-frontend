@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -62,7 +61,7 @@ const Banner = () => {
   }
 
   return (
-    <div className="w-full h-[60vh] -mt-5 relative rounded-lg overflow-hidden">
+    <div className="w-full relative rounded-lg -mt-4 overflow-hidden">
       <Swiper
         onSwiper={setSwiper}
         pagination={{
@@ -135,6 +134,28 @@ const Banner = () => {
         }
         .swiper-pagination {
           bottom: 16px !important;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+          .banner-swiper {
+            height: 25vh; /* Fixed height for mobile */
+          }
+          .banner-swiper .swiper-slide img {
+            object-fit: cover; /* Ensure image fully covers area */
+          }
+        }
+
+        @media (min-width: 768px) and (max-width: 1024px) {
+          .banner-swiper {
+            height: 50vh; /* Adjust height for medium devices */
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .banner-swiper {
+            height: 60vh; /* Larger height for desktops */
+          }
         }
       `}</style>
     </div>
