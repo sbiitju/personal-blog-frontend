@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use server";
 
+import envConfig from "@/config/env.confg";
 import axiosInstance from "@/lib/AxiousInstance";
 import { FieldValues } from "react-hook-form";
 
@@ -18,6 +19,11 @@ export const createCategory = async (categoryData: FieldValues) => {
     };
     return data;
   }
+};
+
+export const getAllCategory = async () => {
+  const res = await fetch(`${envConfig.baseApi}/category`);
+  return res.json();
 };
 
 export const createSubCategory = async (subCategoryData: FieldValues) => {
