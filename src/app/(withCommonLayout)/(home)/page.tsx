@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 import Activity from "@/components/home/Activity";
 import Banner from "@/components/home/Banner";
@@ -10,7 +11,7 @@ const Home = () => {
   const [domain, setDomain] = useState<string>("");
 
   const { data: userData } = useGetUserByDomain(domain);
-  console.log(userData);
+  // console.log(userData);
 
   useEffect(() => {
     if (typeof window !== "undefined") {
@@ -22,7 +23,7 @@ const Home = () => {
       <div className="space-y-14">
         <Banner />
         <Description domain={domain} />
-        <Activity />
+        <Activity domain={domain} />
         <Infos />
       </div>
     </div>
