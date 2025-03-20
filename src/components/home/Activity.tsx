@@ -32,10 +32,7 @@ export default function Activity({ domain }: { domain: string }) {
     isLoading: eventLoading,
     error: eventError,
   } = useGetAllContentByCategoryAndDomain("events", domain)
-
-  // Debug output to verify different data is being received
-  console.log("Blog data:", blogData)
-  console.log("Events data:", eventsData)
+ 
 
   // Extract the content items with proper typing
   const blogItems: ContentItem[] = blogData?.data || []
