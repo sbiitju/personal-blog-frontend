@@ -1,41 +1,176 @@
-import { Card, CardDescription, CardTitle } from "@/components/ui/card";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
+
+import { use, useEffect, useState } from "react";
 import Image from "next/image";
+import { CalendarIcon, Clock, User } from "lucide-react";
 
-const news = {
-  id: "8678686",
-  image: "news.png",
-  title:
-    "ঝিনাইদহের জামায়াতের নারী নেত্রীদের উপর বিএনপির সন্ত্রাসীদের হামলার ন্যক্কারজনক ঘটনার তীব্র নিন্দা এবং প্রতিবাদ",
-  date: "১৭ মার্চ ২০২৫",
-  description: `পিপাসু ইসলামী জনতার হৃদয় ব্যাথিত বাংলাদেশ জামায়াতে ইসলামীর সাবেক আমীর, ভাষা সৈনিক, সাবেক ডাকসু জি এস, মজলুম জননেতা অধ্যাপক গোলাম আযম (রহঃ)  তার জীবনের শেষ দিন পর্যন্ত শতভাগ আন্তরিকতা, উদারতা ও দরদ দিয়ে দেশের সকল শীর্ষ আলেম ও পীর মাশায়েখদের সাথে সম্পর্ক রক্ষা করে গেছেন। সবার ঐক্যের চেষ্টায় অনেক অবদান  রেখে গেছেন তিনি সবার সোহবতে যেতেন, আবার সবাই তার সোহবতেও আসতেন তাঁদের অনেকেই দুনিয়া থেকে বিদায় নিয়েছেন আবার কেউ কেউ আজও সে সব ইতিহাসের সাক্ষী হয়ে বেঁচে আছেন অধ্যাপক গোলাম আযম রচিত ‘ইকামাতে দ্বীন’বইতে ইসলাম ও ইসলামী ঐক্যের জন্য তাঁর গভীর আবেগ ও অভিব্যাক্তি এভাবে প্রকাশ করেছেন – আমার পিতা থেকে ইসলামকে একটি ধর্ম বলেই বুঝেছিলাম। হযরত মাওলানা থানভী রহমাতুল্লাহি আলাইহির লেখা থেকে ও মাওলানা শামছুল হক ফরিদপুরী রহমতুল্লাহি আলাইহি এর সোহবতে বুঝতে পারলাম যে, ইসলাম অত্যন্ত যুক্তিপূর্ণ ধর্ম। তাবলীগ জামায়াতের মাধ্যমে অনুভব করলাম যে, ইসলাম এক মহান মিশন এবং এর জন্য জীবন উৎসর্গ করাই ঈমানের দাবি এদেশে তাবলীগ জামায়াতের আমীর হযরত মাওলানা আব্দুল আজিজ (রহঃ) এর সাথে চিল্লা দেবার সুযোগ পাওয়ায় এবং তাবলীগের চিল্লা উপলক্ষে হিন্দুস্তান গিয়ে অনেক যোগ্য আলেম হতে দ্বীনের পথে জীবন উৎসর্গ করার প্রেরণা পাই। সাড়ে চার বছর তাবলীগ জামায়াতের নিয়মিত কাজ করার যে তৌফিক আল্লাহ পাক দিয়েছেন তাতে আমার জীবনে এ জযবা পয়দা হয়েছে যে, ইসলামই মুসলিম জীবনের একমাত্র উদ্দেশ্য হওয়া উচিত জামায়াতে ইসলামীতে এসে অনুধাবন করলাম যে, ইসলাম এমন এক বিপ্লবী আন্দোলন, যার মাধ্যমে আল্লাহর জমিনে আল্লাহর বিধানকে কায়েম করার জন্য চেষ্টা করা মুমিনের জীবনের সবচেয়ে বড় ফরজ
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
+import { useGetUserByDomain } from "@/hooks/auth.hook";
+import { useGetAllContentById } from "@/hooks/contnet.hook";
 
-এখন আমি কৃতজ্ঞতার সাথে স্বীকার করছি যে, হযরত থানভী (রহ), তাবলীগ জামায়াত, তমুদ্দুন মজলিস ও জামায়াতে ইসলামী আমাকে ক্রমিক পর্যায়ে সত্যিকারের মুসলিম হবার প্রেরণা দিয়েছে। জামায়াতে ইসলামীতে এসে পূর্ণাঙ্গ ইসলামের রূপ বিস্তারিতভাবে জানবার সুযোগ পেয়েছি
+interface Params {
+  id: string;
+}
 
-জামায়াতে ইসলামীর বাইরে এমন কয়েকজন বড় আলেমের সাথে আমার সম্পর্ক ছিল, যাদের কাছ থেকে দ্বীনের বিভিন্ন দিক সম্পর্কে আমি যথেষ্ট আলো পেয়েছি। তাঁরা যেহেতু আমাকে স্নেহ করতেন সেহেতু অল্প সময়ে অনেক বেশি ফায়দা তাদের কাছ থেকে হাসিল করার সুযোগ তাঁরা দিতেন।
+export default function ContentDetails({
+  params,
+}: {
+  params: Promise<Params>;
+}) {
+  const { id } = use(params);
+  const { data: contentsData, isLoading, isError } = useGetAllContentById(id);
+  const content = contentsData?.data || [];
 
-হযরত মাওলানা শামসুল হক ফরিদপুরী রহিমাহুল্লাহ এর মাধ্যমেই হযরত মাওলানা নূর মোহাম্মদ আজমী রহমাতুল্লাহি আলাইহির মত বড় আলেমের সাথে ঘনিষ্ঠ হওয়ার সৌভাগ্য হয়েছিল।
+  const [domain, setDomain] = useState<string>("");
+  const { data: userData } = useGetUserByDomain(domain);
+  const user = userData?.data || {};
 
-সকল প্রকার দ্বীনি খিদমত ও সব দ্বীনি সংগঠনের প্রতি শ্রদ্ধাবোধ এবং সবার সম্পর্কে উদার মনোভাব পোষণ করার ব্যাপারে এ দু’জনের মতো এমন বিশালমনা লোক বাংলাদেশে আমি পাইনি`,
-};
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setDomain(window.location.hostname);
+    }
+  }, []);
 
-const user = "গোলাম মোস্তফা কামাল";
+  if (isError) {
+    return (
+      <Card className="max-w-4xl mx-auto my-8 shadow-md">
+        <CardContent className="py-10">
+          <div className="text-center space-y-4">
+            <h2 className="text-2xl font-bold text-red-500">
+              কন্টেন্ট লোড করতে সমস্যা হয়েছে
+            </h2>
+            <p className="text-gray-600">
+              দুঃখিত, আপনার অনুরোধ করা কন্টেন্টটি এই মুহূর্তে উপলব্ধ নয়। পরে
+              আবার চেষ্টা করুন।
+            </p>
+          </div>
+        </CardContent>
+      </Card>
+    );
+  }
 
-export default function page() {
   return (
-    <Card className="py-0 shadow-none border-none">
-      <CardTitle className="text-2xl md:text-3xl">{news.title}</CardTitle>
-      <p className="text-xl">- {user}</p>
-      <p className="">{news.date}</p>
-      <Image
-        className="w-full"
-        src={"/news.png"}
-        width={400}
-        height={200}
-        alt={news.title}
-      />
-      <CardDescription className="text-xl text-justify">
-        {news.description}
-      </CardDescription>
+    <div className="max-w-4xl mx-auto my-8 px-4">
+      {isLoading ? (
+        <ContentDetailsSkeleton />
+      ) : (
+        <Card className="overflow-hidden shadow-md border-gray-200">
+          <div className="relative aspect-video w-full">
+            <Image
+              className="object-cover"
+              src={content?.photo || "/placeholder.svg?height=500&width=1000"}
+              fill
+              sizes="(max-width: 768px) 100vw, 1000px"
+              priority
+              alt={content?.title || "Content image"}
+            />
+          </div>
+
+          <CardHeader className="space-y-4">
+            <div className="space-y-2">
+              <CardTitle className="text-2xl md:text-3xl lg:text-4xl font-bold leading-tight">
+                {content?.title}
+              </CardTitle>
+
+              <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
+                <div className="flex items-center gap-2">
+                  <CalendarIcon className="h-4 w-4" />
+                  <span>{content?.date || "No date available"}</span>
+                </div>
+
+                <div className="flex items-center gap-2">
+                  <Clock className="h-4 w-4" />
+                  <span>{content?.readTime || "5 min read"}</span>
+                </div>
+              </div>
+            </div>
+
+            <Separator />
+
+            <div className="flex items-center gap-3">
+              <Avatar className="h-10 w-10 border">
+                <AvatarImage
+                  src={
+                    user?.profilePicture ||
+                    "/placeholder.svg?height=40&width=40"
+                  }
+                  alt={user?.name || "Author"}
+                />
+                <AvatarFallback>
+                  <User className="h-5 w-5" />
+                </AvatarFallback>
+              </Avatar>
+              <div>
+                <p className="font-medium">{user?.name || "Anonymous"}</p>
+                <p className="text-sm text-muted-foreground">
+                  {user?.title || "Author"}
+                </p>
+              </div>
+            </div>
+          </CardHeader>
+
+          <CardContent className="prose prose-lg max-w-none pb-10">
+            {content?.description ? (
+              <div className="text-justify leading-relaxed space-y-4">
+                {content.description
+                  .split("\n\n")
+                  .map((paragraph: any, index: number) => (
+                    <p key={index}>{paragraph}</p>
+                  ))}
+              </div>
+            ) : (
+              <p className="text-muted-foreground italic">
+                No content available
+              </p>
+            )}
+          </CardContent>
+        </Card>
+      )}
+    </div>
+  );
+}
+
+function ContentDetailsSkeleton() {
+  return (
+    <Card className="overflow-hidden shadow-md border-gray-200">
+      <Skeleton className="aspect-video w-full" />
+
+      <CardHeader className="space-y-4">
+        <div className="space-y-3">
+          <Skeleton className="h-10 w-3/4" />
+          <Skeleton className="h-10 w-1/2" />
+
+          <div className="flex items-center gap-4 pt-2">
+            <Skeleton className="h-5 w-32" />
+            <Skeleton className="h-5 w-24" />
+          </div>
+        </div>
+
+        <Skeleton className="h-px w-full" />
+
+        <div className="flex items-center gap-3">
+          <Skeleton className="h-10 w-10 rounded-full" />
+          <div className="space-y-2">
+            <Skeleton className="h-5 w-32" />
+            <Skeleton className="h-4 w-24" />
+          </div>
+        </div>
+      </CardHeader>
+
+      <CardContent className="space-y-4 pb-10">
+        <Skeleton className="h-5 w-full" />
+        <Skeleton className="h-5 w-full" />
+        <Skeleton className="h-5 w-full" />
+        <Skeleton className="h-5 w-full" />
+        <Skeleton className="h-5 w-3/4" />
+        <Skeleton className="h-5 w-full" />
+        <Skeleton className="h-5 w-full" />
+        <Skeleton className="h-5 w-2/3" />
+      </CardContent>
     </Card>
   );
 }
