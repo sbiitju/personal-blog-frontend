@@ -10,9 +10,7 @@ import React, { useEffect, useState } from "react";
 const Home = () => {
   const [domain, setDomain] = useState<string>("");
 
-  const { data: userData } = useGetUserByDomain(domain);
-  // console.log(userData);
-
+ 
   useEffect(() => {
     if (typeof window !== "undefined") {
       setDomain(window.location.hostname);

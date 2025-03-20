@@ -33,8 +33,8 @@ export const registerAdmin = async (userData: FieldValues) => {
   }
 };
 
-export const getUserByDomain = async (id: string) => {
-  const { data } = await axiosInstance.get(`/client/${id}`);
+export const getUserByDomain = async (domain: string) => {
+  const { data } = await axiosInstance.get(`/client/${domain}`);
   return data;
 };
 
