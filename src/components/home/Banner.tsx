@@ -62,7 +62,7 @@ const Banner = () => {
   }
 
   return (
-    <div className="w-full h-[60vh] relative rounded-lg overflow-hidden">
+    <div className="w-full h-[60vh] -mt-5 relative rounded-lg overflow-hidden">
       <Swiper
         onSwiper={setSwiper}
         pagination={{

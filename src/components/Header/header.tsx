@@ -255,9 +255,9 @@ const Header = () => {
           <div>
             <Link
               href="/"
-              className="hidden lg:block p-3 px-5 rounded-full rounded-tl-none bg-gradient-to-r from-brand-primary to-brand-primary-light border font-bold select-none transition-all hover:shadow-md hover:scale-105 active:scale-95"
+              className="hidden lg:block p-3 px-5 rounded-full rounded-tl-none bg-gradient-to-b from-[#e7000b] to-[#86383c] text-white  border font-bold select-none transition-all hover:shadow-md hover:scale-105 active:scale-95"
             >
-              Get a Proposal
+              পরামর্শ দিন
             </Link>
           </div>
 
@@ -386,10 +386,10 @@ const Header = () => {
               <div className="pt-6">
                 <Link
                   href="/"
-                  className="block w-full text-center p-3 px-4 rounded-full rounded-tl-none bg-gradient-to-r from-brand-primary to-brand-primary-light border font-bold shadow-md hover:shadow-lg transition-all"
+                  className="block w-full text-center p-3 px-4 rounded-full rounded-tl-none  bg-gradient-to-b from-[#e7000b] to-[#86383c] text-white  border font-bold shadow-md hover:shadow-lg transition-all"
                   onClick={() => setOpen(false)}
                 >
-                  Get a Proposal
+                  পরামর্শ দিন
                 </Link>
               </div>
 
