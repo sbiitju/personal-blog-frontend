@@ -1,51 +1,56 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client"
+"use client";
 
-import { use, useEffect, useState } from "react"
-import Image from "next/image"
-import { CalendarIcon, Clock, User } from "lucide-react"
+import { use, useEffect, useState } from "react";
+import Image from "next/image";
+import { CalendarIcon, Clock, User } from "lucide-react";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Skeleton } from "@/components/ui/skeleton"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { Separator } from "@/components/ui/separator"
-import { useGetUserByDomain } from "@/hooks/auth.hook"
-import { useGetAllContentById } from "@/hooks/contnet.hook"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Separator } from "@/components/ui/separator";
+import { useGetUserByDomain } from "@/hooks/auth.hook";
+import { useGetAllContentById } from "@/hooks/contnet.hook";
 
 interface Params {
-  id: string
+  id: string;
 }
 
 export default function ContentDetails({
   params,
 }: {
-  params: Promise<Params>
+  params: Promise<Params>;
 }) {
-  const { id } = use(params)
-  const { data: contentsData, isLoading, isError } = useGetAllContentById(id)
-  const content = contentsData?.data || []
+  const { id } = use(params);
+  const { data: contentsData, isLoading, isError } = useGetAllContentById(id);
+  const content = contentsData?.data || [];
 
-  const [domain, setDomain] = useState<string>("")
-  const { data: userData } = useGetUserByDomain(domain)
-  const user = userData?.data || {}
+  const [domain, setDomain] = useState<string>("");
+  const { data: userData } = useGetUserByDomain(domain);
+  const user = userData?.data || {};
 
   useEffect(() => {
     if (typeof window !== "undefined") {
-      setDomain(window.location.hostname)
+      setDomain(window.location.hostname);
     }
-  }, [])
+  }, []);
 
   if (isError) {
     return (
       <Card className="max-w-4xl mx-auto my-8 shadow-md">
         <CardContent className="py-10">
           <div className="text-center space-y-4">
-            <h2 className="text-2xl font-bold text-red-500">কন্টেন্ট লোড করতে সমস্যা হয়েছে</h2>
-            <p className="text-gray-600">দুঃখিত, আপনার অনুরোধ করা কন্টেন্টটি এই মুহূর্তে উপলব্ধ নয়। পরে আবার চেষ্টা করুন।</p>
+            <h2 className="text-2xl font-bold text-red-500">
+              কন্টেন্ট লোড করতে সমস্যা হয়েছে
+            </h2>
+            <p className="text-gray-600">
+              দুঃখিত, আপনার অনুরোধ করা কন্টেন্টটি এই মুহূর্তে উপলব্ধ নয়। পরে
+              আবার চেষ্টা করুন।
+            </p>
           </div>
         </CardContent>
       </Card>
-    )
+    );
   }
 
   return (
@@ -89,7 +94,10 @@ export default function ContentDetails({
             <div className="flex items-center gap-3">
               <Avatar className="h-10 w-10 border">
                 <AvatarImage
-                  src={user?.profilePicture || "/placeholder.svg?height=40&width=40"}
+                  src={
+                    user?.profilePicture ||
+                    "/placeholder.svg?height=40&width=40"
+                  }
                   alt={user?.name || "Author"}
                 />
                 <AvatarFallback>
@@ -98,7 +106,9 @@ export default function ContentDetails({
               </Avatar>
               <div>
                 <p className="font-medium">{user?.name || "Anonymous"}</p>
-                <p className="text-sm text-muted-foreground">{user?.title || "Author"}</p>
+                <p className="text-sm text-muted-foreground">
+                  {user?.title || "Author"}
+                </p>
               </div>
             </div>
           </CardHeader>
@@ -106,18 +116,22 @@ export default function ContentDetails({
           <CardContent className="prose prose-lg max-w-none pb-10">
             {content?.description ? (
               <div className="text-justify leading-relaxed space-y-4">
-                {content.description.split("\n\n").map((paragraph : any, index : number) => (
-                  <p key={index}>{paragraph}</p>
-                ))}
+                {content.description
+                  .split("\n\n")
+                  .map((paragraph: any, index: number) => (
+                    <p key={index}>{paragraph}</p>
+                  ))}
               </div>
             ) : (
-              <p className="text-muted-foreground italic">No content available</p>
+              <p className="text-muted-foreground italic">
+                No content available
+              </p>
             )}
           </CardContent>
         </Card>
       )}
     </div>
-  )
+  );
 }
 
 function ContentDetailsSkeleton() {
@@ -158,6 +172,5 @@ function ContentDetailsSkeleton() {
         <Skeleton className="h-5 w-2/3" />
       </CardContent>
     </Card>
-  )
+  );
 }
-

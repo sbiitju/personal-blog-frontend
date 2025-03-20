@@ -1,11 +1,17 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { ChevronDown, Menu, X } from "lucide-react"
-import { useState, useEffect } from "react"
-import Link from "next/link"
-import { FaFacebookF, FaInstagram, FaYoutube, FaLinkedin } from "react-icons/fa"
-import { cn } from "@/lib/utils"
+import { Button } from "@/components/ui/button";
+import { ChevronDown, Menu, X } from "lucide-react";
+import { useState, useEffect } from "react";
+import Link from "next/link";
+import {
+  FaFacebookF,
+  FaInstagram,
+  FaYoutube,
+  FaLinkedin,
+} from "react-icons/fa";
+import { cn } from "@/lib/utils";
+import { useGetUserByDomain } from "@/hooks/auth.hook";
 
 // Navigation data structure
 const navigationItems = [
@@ -118,63 +124,79 @@ const navigationItems = [
       },
     ],
   },
-]
+];
 
 const Header = () => {
-  const [isOpen, setOpen] = useState(false)
-  const [scrolled, setScrolled] = useState(false)
-  const [activeDropdown, setActiveDropdown] = useState<number | null>(null)
+  const [isOpen, setOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
 
+  const [domain, setDomain] = useState<string>("");
+
+  const { data: userData } = useGetUserByDomain(domain);
   // Handle scroll effect for header
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 10)
-    }
+      setScrolled(window.scrollY > 10);
+    };
 
-    window.addEventListener("scroll", handleScroll)
-    return () => window.removeEventListener("scroll", handleScroll)
-  }, [])
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   // Close mobile menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
-      const target = e.target as HTMLElement
-      if (isOpen && !target.closest(".mobile-menu-container") && !target.closest(".menu-button")) {
-        setOpen(false)
+      const target = e.target as HTMLElement;
+      if (
+        isOpen &&
+        !target.closest(".mobile-menu-container") &&
+        !target.closest(".menu-button")
+      ) {
+        setOpen(false);
       }
-    }
+    };
 
-    document.addEventListener("mousedown", handleClickOutside)
-    return () => document.removeEventListener("mousedown", handleClickOutside)
-  }, [isOpen])
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, [isOpen]);
 
   // Prevent body scroll when mobile menu is open
   useEffect(() => {
     if (isOpen) {
-      document.body.style.overflow = "hidden"
+      document.body.style.overflow = "hidden";
     } else {
-      document.body.style.overflow = "auto"
+      document.body.style.overflow = "auto";
     }
 
     return () => {
-      document.body.style.overflow = "auto"
-    }
-  }, [isOpen])
+      document.body.style.overflow = "auto";
+    };
+  }, [isOpen]);
 
   // Toggle mobile dropdown
   const toggleMobileDropdown = (index: number) => {
-    setActiveDropdown(activeDropdown === index ? null : index)
-  }
+    setActiveDropdown(activeDropdown === index ? null : index);
+  };
+
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setDomain(window.location.hostname);
+    }
+  }, []);
 
   return (
     <header
       className={cn(
         "w-full z-40 fixed border-b top-0 left-0 bg-background transition-all duration-300",
-        scrolled ? "shadow-md py-2" : "py-3",
+        scrolled ? "shadow-md py-2" : "py-3"
       )}
     >
       <div className="container mx-auto px-4 xl:px-6 relative flex items-center justify-between">
-        <Link href="/" className="flex items-center pr-4 cursor-pointer select-none">
+        <Link
+          href="/"
+          className="flex items-center pr-4 cursor-pointer select-none"
+        >
           <p className="font-semibold text-lg md:text-xl flex items-center gap-1">
             {/* <Image
               className="font-semibold text-lg"
@@ -183,7 +205,7 @@ const Header = () => {
               height={40}
               alt="Company logo"
             /> */}
-            Abu Hosain
+            {userData?.data?.name || "CodeByPremiumSheba"}
           </p>
         </Link>
 
@@ -198,7 +220,7 @@ const Header = () => {
                     className={cn(
                       "inline-flex h-10 items-center justify-center rounded-md px-4 py-2 text-base font-medium transition-colors",
                       "hover:bg-accent/50 hover:text-accent-foreground focus:bg-accent/50 focus:text-accent-foreground focus:outline-none",
-                      "border-b-2 border-transparent group-hover:border-brand-primary",
+                      "border-b-2 border-transparent group-hover:border-brand-primary"
                     )}
                   >
                     <span>{item.title}</span>
@@ -217,7 +239,9 @@ const Header = () => {
                                 href={subItem.href}
                                 className="block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
                               >
-                                <span className="text-sm font-medium">{subItem.title}</span>
+                                <span className="text-sm font-medium">
+                                  {subItem.title}
+                                </span>
                               </Link>
                             </li>
                           ))}
@@ -277,14 +301,17 @@ const Header = () => {
         <div
           className={cn(
             "fixed inset-0 bg-background/95 backdrop-blur-sm z-50 lg:hidden mobile-menu-container transition-all duration-300 ease-in-out",
-            isOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0",
+            isOpen ? "translate-x-0 opacity-100" : "translate-x-full opacity-0"
           )}
           style={{ top: "64px" }}
         >
           <div className="h-full overflow-y-auto pb-20 px-6">
             <div className="py-6 space-y-4">
               {navigationItems.map((item, index) => (
-                <div key={item.title} className="border-b border-border/50 pb-3">
+                <div
+                  key={item.title}
+                  className="border-b border-border/50 pb-3"
+                >
                   <div className="flex flex-col">
                     <div className="flex items-center justify-between">
                       <Link
@@ -301,14 +328,14 @@ const Header = () => {
                           size="sm"
                           className="p-1 rounded-full"
                           onClick={(e) => {
-                            e.preventDefault()
-                            toggleMobileDropdown(index)
+                            e.preventDefault();
+                            toggleMobileDropdown(index);
                           }}
                         >
                           <ChevronDown
                             className={cn(
                               "h-5 w-5 text-muted-foreground transition-transform duration-200",
-                              activeDropdown === index ? "rotate-180" : "",
+                              activeDropdown === index ? "rotate-180" : ""
                             )}
                           />
                         </Button>
@@ -319,7 +346,9 @@ const Header = () => {
                       <div
                         className={cn(
                           "pl-4 space-y-1 mt-1 overflow-hidden transition-all duration-300",
-                          activeDropdown === index ? "max-h-[500px] opacity-100" : "max-h-0 opacity-0",
+                          activeDropdown === index
+                            ? "max-h-[500px] opacity-100"
+                            : "max-h-0 opacity-0"
                         )}
                       >
                         {item.items.map((subItem) => (
@@ -372,8 +401,7 @@ const Header = () => {
         </div>
       </div>
     </header>
-  )
-}
+  );
+};
 
-export default Header
-
+export default Header;
