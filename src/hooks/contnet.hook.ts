@@ -4,9 +4,11 @@ import {
   deleteContent,
   getAllContent,
   getAllContentByCategory,
+  getAllContentByCategoryAndDomain,
   getAllContentByDomain,
   getAllContentById,
   getAllContentBySubCategory,
+  getAllContentBySubCategoryAndDomain,
   updateContent,
 } from "@/services/Content";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -48,10 +50,32 @@ export const useGetAllContentByCategory = (categoryId: string) => {
   });
 };
 
+export const useGetAllContentByCategoryAndDomain = (
+  categoryId: string,
+  domain: string
+) => {
+  return useQuery<any, Error, any, string[]>({
+    queryKey: ["GET_ALL_CONTENT_BY_CATEGORY_AND_DOMAIN"],
+    queryFn: async () =>
+      await getAllContentByCategoryAndDomain(categoryId, domain),
+  });
+};
+
 export const useGetAllContentBySubCategory = (subcategoryId: string) => {
   return useQuery<any, Error, any, string[]>({
     queryKey: ["GET_ALL_CONTENT_BY_SUB_CATEGORY"],
     queryFn: async () => await getAllContentBySubCategory(subcategoryId),
+  });
+};
+
+export const useGetAllContentBySubCategoryAndDomain = (
+  subcategoryId: string,
+  domain: string
+) => {
+  return useQuery<any, Error, any, string[]>({
+    queryKey: ["GET_ALL_CONTENT_BY_SUB_CATEGORY"],
+    queryFn: async () =>
+      await getAllContentBySubCategoryAndDomain(subcategoryId, domain),
   });
 };
 
