@@ -20,11 +20,9 @@ export default function Description({ domain }: DescriptionProps) {
 
   return (
     <section className="bg-gradient-to-r from-[#FFDBDB] to-[#FFE5E5]">
-      <div className="max-w-screen-2xl mx-auto px-4 lg:px-6 xl:px-0 py-16 flex justify-center items-center">
+      <div className="max-w-screen-2xl mx-auto px-4 lg:px-6 xl:px-0 py-8 flex justify-center items-center">
         <div className="text-center max-w-3xl relative">
-          <div className="absolute -top-10 left-1/2 -translate-x-1/2 w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md">
-            <BookOpen className="h-8 w-8 text-[#e7000b]" />
-          </div>
+          
 
           <Title className="bg-gradient-to-b from-[#e7000b] to-[#86383c] text-white px-12 py-2 rounded-md shadow-md transform hover:scale-[1.02] transition-transform duration-300">
             {title}
@@ -39,7 +37,7 @@ export default function Description({ domain }: DescriptionProps) {
             </Alert>
           ) : (
             <>
-              <h3 className="text-2xl my-6 font-medium text-gray-800 animate-in fade-in duration-500">
+              <h3 className="text-2xl my-3 font-medium text-gray-800 animate-in fade-in duration-500">
                 {shortDescription}
               </h3>
               <div className="relative">
@@ -52,7 +50,7 @@ export default function Description({ domain }: DescriptionProps) {
             </>
           )}
 
-          <div className="flex justify-center mt-8">
+          <div className="flex justify-center mt-4">
             <Link href="/biograph">
               <Button
                 variant="destructive"

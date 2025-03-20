@@ -16,7 +16,7 @@ const Home = () => {
   }, []);
   return (
     <div className="">
-      <div className="space-y-14">
+      <div className="space-y-1">
         <Banner />
         <Description domain={domain} />
         <Activity domain={domain} />

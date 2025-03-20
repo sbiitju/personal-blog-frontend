@@ -1,22 +1,28 @@
-"use client"
+"use client";
 
-import { FaStar } from "react-icons/fa"
-import Link from "next/link"
-import { Card, CardContent, CardDescription, CardFooter, CardTitle } from "@/components/ui/card"
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import Title from "@/components/ui/title"
-import { useGetAllContentByCategoryAndDomain } from "@/hooks/contnet.hook"
-import { CalendarIcon } from "lucide-react"
-import { Skeleton } from "@/components/ui/skeleton"
+import { FaStar } from "react-icons/fa";
+import Link from "next/link";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardTitle,
+} from "@/components/ui/card";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import Title from "@/components/ui/title";
+import { useGetAllContentByCategoryAndDomain } from "@/hooks/contnet.hook";
+import { CalendarIcon } from "lucide-react";
+import { Skeleton } from "@/components/ui/skeleton";
 
 // Define proper types for content items
 interface ContentItem {
-  _id: string
-  title: string
-  photo?: string
-  date: string
-  description?: string
+  _id: string;
+  title: string;
+  photo?: string;
+  date: string;
+  description?: string;
 }
 
 export default function Activity({ domain }: { domain: string }) {
@@ -25,31 +31,34 @@ export default function Activity({ domain }: { domain: string }) {
     data: blogData,
     isLoading: blogLoading,
     error: blogError,
-  } = useGetAllContentByCategoryAndDomain("blog", domain)
+  } = useGetAllContentByCategoryAndDomain("blog", domain);
 
   const {
     data: eventsData,
     isLoading: eventLoading,
     error: eventError,
-  } = useGetAllContentByCategoryAndDomain("events", domain)
- 
+  } = useGetAllContentByCategoryAndDomain("events", domain);
 
   // Extract the content items with proper typing
-  const blogItems: ContentItem[] = blogData?.data || []
-  const eventItems: ContentItem[] = eventsData?.data || []
+  const blogItems: ContentItem[] = blogData?.data || [];
+  const eventItems: ContentItem[] = eventsData?.data || [];
 
   return (
-    <section className="py-16">
+    <section className="py-6">
       <div className="max-w-screen-2xl mx-auto px-4 lg:px-6 xl:px-10">
         {/* Section Title */}
-        <div className="text-center mb-10">
-          <Title className="bg-gradient-to-b from-[#e7000b] to-[#86383c] text-white px-12 inline-block">কার্যক্রম</Title>
+        <div className="text-center mb-6">
+          <Title className="bg-gradient-to-b from-[#e7000b] to-[#86383c] text-white px-12 inline-block">
+            কার্যক্রম
+          </Title>
         </div>
 
         <div className="mt-10 grid lg:grid-cols-4 gap-14 lg:gap-8">
           {/* Blogs Section */}
           <div className="order-2 lg:order-1 lg:col-span-1">
-            <h3 className="text-xl md:text-2xl font-semibold border-b-2 border-gray-200 pb-2 mb-6">লেখালেখি</h3>
+            <h3 className="text-xl md:text-2xl font-semibold border-b-2 border-gray-200 pb-2 mb-6">
+              লেখালেখি
+            </h3>
 
             <div className="space-y-4 my-8">
               {/* Show loading, error, or data */}
@@ -58,7 +67,12 @@ export default function Activity({ domain }: { domain: string }) {
               ) : blogError ? (
                 <div className="p-4 bg-red-50 rounded-lg">
                   <p className="text-red-600">ডাটা লোড করতে সমস্যা হয়েছে!</p>
-                  <Button variant="outline" size="sm" className="mt-2" onClick={() => window.location.reload()}>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    className="mt-2"
+                    onClick={() => window.location.reload()}
+                  >
                     আবার চেষ্টা করুন
                   </Button>
                 </div>
@@ -70,7 +84,9 @@ export default function Activity({ domain }: { domain: string }) {
                       className="hover:underline flex gap-3 items-start group-hover:text-[#e7000b] transition-colors"
                     >
                       <FaStar className="text-xl flex-shrink-0 text-[#C74646] mt-1" />
-                      <span className="line-clamp-2 font-medium">{blog?.title}</span>
+                      <span className="line-clamp-2 font-medium">
+                        {blog?.title}
+                      </span>
                     </Link>
                   </div>
                 ))
@@ -85,7 +101,7 @@ export default function Activity({ domain }: { domain: string }) {
             <Link href="/category/blog">
               <Button
                 variant="destructive"
-                className="w-full md:w-auto px-7 py-5 text-base font-semibold transition-all duration-300 hover:translate-y-[-2px]"
+                className="w-full cursor-pointer md:w-auto px-7 py-5 text-base font-semibold transition-all duration-300 hover:translate-y-[-2px]"
               >
                 আরও পড়ুন
               </Button>
@@ -94,7 +110,9 @@ export default function Activity({ domain }: { domain: string }) {
 
           {/* Events Section */}
           <div className="order-1 lg:order-2 lg:col-span-3">
-            <h3 className="text-xl md:text-2xl font-semibold border-b-2 border-gray-200 pb-2 mb-6">সংবাদ</h3>
+            <h3 className="text-xl md:text-2xl font-semibold border-b-2 border-gray-200 pb-2 mb-6">
+              সংবাদ
+            </h3>
 
             <div className="my-8 grid md:grid-cols-2 xl:grid-cols-3 gap-6">
               {/* Show loading, error, or data */}
@@ -102,8 +120,14 @@ export default function Activity({ domain }: { domain: string }) {
                 <EventSkeletonLoader />
               ) : eventError ? (
                 <div className="col-span-full p-6 bg-red-50 rounded-lg text-center">
-                  <p className="text-red-600 font-medium">ডাটা লোড করতে সমস্যা হয়েছে!</p>
-                  <Button variant="outline" className="mt-4" onClick={() => window.location.reload()}>
+                  <p className="text-red-600 font-medium">
+                    ডাটা লোড করতে সমস্যা হয়েছে!
+                  </p>
+                  <Button
+                    variant="outline"
+                    className="mt-4"
+                    onClick={() => window.location.reload()}
+                  >
                     আবার চেষ্টা করুন
                   </Button>
                 </div>
@@ -123,7 +147,7 @@ export default function Activity({ domain }: { domain: string }) {
                         priority={false}
                       />
                     </div>
-                    <CardContent className="p-4 bg-white">
+                    <CardContent className="p-4 bg-white -mt-6">
                       <CardTitle className="font-semibold text-lg line-clamp-2 leading-relaxed mb-2 hover:text-[#e7000b] transition-colors">
                         <Link href={`/${event._id}`}>{event.title}</Link>
                       </CardTitle>
@@ -132,8 +156,11 @@ export default function Activity({ domain }: { domain: string }) {
                         {event.date}
                       </CardDescription>
                     </CardContent>
-                    <CardFooter className="p-4 pt-0 bg-white">
-                      <Link href={`/${event._id}`} className="text-[#e7000b] text-sm font-medium hover:underline">
+                    <CardFooter className="px-4 pt-0 -mt-4 bg-white">
+                      <Link
+                        href={`/${event._id}`}
+                        className="text-[#e7000b] text-sm font-medium hover:underline"
+                      >
                         বিস্তারিত পড়ুন →
                       </Link>
                     </CardFooter>
@@ -141,7 +168,9 @@ export default function Activity({ domain }: { domain: string }) {
                 ))
               ) : (
                 <div className="col-span-full p-6 bg-gray-50 rounded-lg text-center">
-                  <p className="text-gray-600 font-medium">কোনো সংবাদ পাওয়া যায়নি</p>
+                  <p className="text-gray-600 font-medium">
+                    কোনো সংবাদ পাওয়া যায়নি
+                  </p>
                 </div>
               )}
             </div>
@@ -150,7 +179,7 @@ export default function Activity({ domain }: { domain: string }) {
             <Link href="/category/events">
               <Button
                 variant="destructive"
-                className="px-7 py-5 text-base font-semibold transition-all duration-300 hover:translate-y-[-2px]"
+                className="px-7 cursor-pointer py-5 text-base font-semibold transition-all duration-300 hover:translate-y-[-2px]"
               >
                 আরও সংবাদ
               </Button>
@@ -159,7 +188,7 @@ export default function Activity({ domain }: { domain: string }) {
         </div>
       </div>
     </section>
-  )
+  );
 }
 
 function BlogSkeletonLoader() {
@@ -175,7 +204,7 @@ function BlogSkeletonLoader() {
         </div>
       ))}
     </>
-  )
+  );
 }
 
 function EventSkeletonLoader() {
@@ -192,6 +221,5 @@ function EventSkeletonLoader() {
         </Card>
       ))}
     </>
-  )
+  );
 }
-
