@@ -4,12 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import {
-  FaFacebookF,
-  FaInstagram,
-  FaYoutube,
-  FaLinkedin,
-} from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaYoutube, FaTwitter } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 import { useGetUserByDomain } from "@/hooks/auth.hook";
 
@@ -269,10 +264,30 @@ const Header = () => {
           {/* Social Media Icons */}
           <div className="hidden xl:flex gap-4">
             {[
-              { Icon: FaFacebookF, href: "https://www.facebook.com/" },
-              { Icon: FaInstagram, href: "https://www.instagram.com/" },
-              { Icon: FaYoutube, href: "https://www.youtube.com/" },
-              { Icon: FaLinkedin, href: "http://www.linkedin.com/" },
+              {
+                Icon: FaFacebookF,
+                href:
+                  userData?.data?.socialLinks?.facebook ||
+                  "https://www.facebook.com/",
+              },
+              {
+                Icon: FaInstagram,
+                href:
+                  userData?.data?.socialLinks?.instagram ||
+                  "https://www.instagram.com/",
+              },
+              {
+                Icon: FaYoutube,
+                href:
+                  userData?.data?.socialLinks?.youtube ||
+                  "https://www.youtube.com/",
+              },
+              {
+                Icon: FaTwitter,
+                href:
+                  userData?.data?.socialLinks?.twitter ||
+                  "http://www.linkedin.com/",
+              },
             ].map(({ Icon, href }, index) => (
               <Link
                 key={index}
@@ -381,10 +396,30 @@ const Header = () => {
               {/* Mobile Social Icons */}
               <div className="flex justify-center gap-6 pt-8">
                 {[
-                  { Icon: FaFacebookF, href: "https://www.facebook.com/" },
-                  { Icon: FaInstagram, href: "https://www.instagram.com/" },
-                  { Icon: FaYoutube, href: "https://www.youtube.com/" },
-                  { Icon: FaLinkedin, href: "http://www.linkedin.com/" },
+                  {
+                    Icon: FaFacebookF,
+                    href:
+                      userData?.data?.socialLinks?.facebook ||
+                      "https://www.facebook.com/",
+                  },
+                  {
+                    Icon: FaInstagram,
+                    href:
+                      userData?.data?.socialLinks?.instagram ||
+                      "https://www.instagram.com/",
+                  },
+                  {
+                    Icon: FaYoutube,
+                    href:
+                      userData?.data?.socialLinks?.youtube ||
+                      "https://www.youtube.com/",
+                  },
+                  {
+                    Icon: FaTwitter,
+                    href:
+                      userData?.data?.socialLinks?.twitter ||
+                      "http://www.linkedin.com/",
+                  },
                 ].map(({ Icon, href }, index) => (
                   <Link
                     key={index}
