@@ -50,16 +50,18 @@ export const useGetAllContentByCategory = (categoryId: string) => {
   });
 };
 
-export const useGetAllContentByCategoryAndDomain = (
-  categoryId: string,
-  domain: string
-) => {
+// Hook with proper query key
+export const useGetAllContentByCategoryAndDomain = (categoryId: string, domain: string) => {
+  // Include categoryId and domain in the query key to make it unique
   return useQuery<any, Error, any, string[]>({
-    queryKey: ["GET_ALL_CONTENT_BY_CATEGORY_AND_DOMAIN"],
-    queryFn: async () =>
-      await getAllContentByCategoryAndDomain(categoryId, domain),
-  });
-};
+    queryKey: ["GET_ALL_CONTENT_BY_CATEGORY_AND_DOMAIN", categoryId, domain],
+    queryFn: async () => await getAllContentByCategoryAndDomain(categoryId, domain),
+    // Optional: Add these settings for better control
+    staleTime: 60000, // 1 minute
+    // cacheTime: 300000, // 5 minutes
+    refetchOnWindowFocus: false,
+  })
+}
 
 export const useGetAllContentBySubCategory = (subcategoryId: string) => {
   return useQuery<any, Error, any, string[]>({

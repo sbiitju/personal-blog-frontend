@@ -19,8 +19,11 @@ interface ContentItem {
 }
 
 export default function Infos({ domain }: { domain: string }) {
+  // Use the fixed hook with proper query key
   const { data: infoData, isLoading, error } = useGetAllContentByCategoryAndDomain("informatics", domain)
-  console.log("infoData", infoData)
+
+  // Debug output
+  console.log("Informatics data:", infoData)
 
   // Extract the content items with proper typing
   const contentItems: ContentItem[] = infoData?.data || []
