@@ -73,7 +73,7 @@ export default function Activity({ domain }: { domain: string }) {
                       className="hover:underline flex gap-3 items-start group-hover:text-[#e7000b] transition-colors"
                     >
                       <FaStar className="text-xl flex-shrink-0 text-[#C74646] mt-1" />
-                      <span className="line-clamp-2 font-medium">{blog.title}</span>
+                      <span className="line-clamp-2 font-medium">{blog?.title}</span>
                     </Link>
                   </div>
                 ))
