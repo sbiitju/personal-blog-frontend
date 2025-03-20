@@ -40,10 +40,29 @@ export const getAllContentByCategory = async (categoryId: string) => {
   const { data } = await axiosInstance.get(`/content/category/${categoryId}`);
   return data;
 };
+export const getAllContentByCategoryAndDomain = async (
+  categoryId: string,
+  domain: string
+) => {
+  const { data } = await axiosInstance.get(
+    `/content/category/${categoryId}/domain/${domain}`
+  );
+  return data;
+};
 
 export const getAllContentBySubCategory = async (subCategoryId: string) => {
   const { data } = await axiosInstance.get(
     `/content/subcategory/${subCategoryId}`
+  );
+  return data;
+};
+
+export const getAllContentBySubCategoryAndDomain = async (
+  subCategoryId: string,
+  domain: string
+) => {
+  const { data } = await axiosInstance.get(
+    `/content/subcategory/${subCategoryId}/domain/${domain}`
   );
   return data;
 };
