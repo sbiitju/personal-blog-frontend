@@ -24,7 +24,7 @@ const Home = () => {
         <Banner />
         <Description domain={domain} />
         <Activity domain={domain} />
-        <Infos />
+        <Infos domain={domain} />
       </div>
     </div>
   );

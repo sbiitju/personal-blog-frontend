@@ -12,7 +12,7 @@ export default function Activity({ domain }: { domain: string }) {
     useGetAllContentByCategoryAndDomain("blog", domain);
   const { data: eventsData, isLoading: eventLoading, error: eventError } = 
     useGetAllContentByCategoryAndDomain("events", domain);
-
+console.log("eventdata", eventsData)
   return (
     <div className="max-w-screen-2xl mx-auto px-4 lg:px-6 xl:px-10">
       {/* Section Title */}
@@ -76,7 +76,7 @@ export default function Activity({ domain }: { domain: string }) {
                 <Card key={index} className="gap-0 py-0 bg-[#FFDBDB]">
                   <Image
                     className="w-full"
-                    src={"/news.png"}
+                    src={event?.photo}
                     width={400}
                     height={200}
                     alt={event.title}
