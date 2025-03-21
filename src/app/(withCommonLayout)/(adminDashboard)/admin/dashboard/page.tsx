@@ -12,10 +12,6 @@ export default function Page() {
             <p className="text-2xl font-bold">1,234</p>
           </div>
           <div className="rounded-lg border bg-card p-4 shadow-sm">
-            <h3 className="font-medium">Products</h3>
-            <p className="text-2xl font-bold">567</p>
-          </div>
-          <div className="rounded-lg border bg-card p-4 shadow-sm">
             <h3 className="font-medium">Categories</h3>
             <p className="text-2xl font-bold">12</p>
           </div>
