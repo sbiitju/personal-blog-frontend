@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -14,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { useGetAllBanner } from "@/hooks/banner.hook";
+import Loader from "../common/Loader";
 
 // Define Banner type
 interface Banner {
@@ -36,8 +36,14 @@ const Banner = () => {
   }, []);
 
   if (isLoading) {
-    return <BannerSkeleton />;
-  }
+    return (
+        <>
+            <BannerSkeleton />
+            <Loader />
+        </>
+    );
+}
+
 
   if (isError) {
     return (
@@ -62,7 +68,7 @@ const Banner = () => {
   }
 
   return (
-    <div className="w-full h-[60vh] -mt-5 relative rounded-lg overflow-hidden">
+    <div className="w-full relative rounded-lg -mt-4 overflow-hidden">
       <Swiper
         onSwiper={setSwiper}
         pagination={{
@@ -136,6 +142,28 @@ const Banner = () => {
         .swiper-pagination {
           bottom: 16px !important;
         }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+          .banner-swiper {
+            height: 25vh; /* Fixed height for mobile */
+          }
+          .banner-swiper .swiper-slide img {
+            object-fit: cover; /* Ensure image fully covers area */
+          }
+        }
+
+        @media (min-width: 768px) and (max-width: 1024px) {
+          .banner-swiper {
+            height: 50vh; /* Adjust height for medium devices */
+          }
+        }
+
+        @media (min-width: 1024px) {
+          .banner-swiper {
+            height: 60vh; /* Larger height for desktops */
+          }
+        }
       `}</style>
     </div>
   );
@@ -143,7 +171,7 @@ const Banner = () => {
 
 const BannerSkeleton = () => {
   return (
-    <div className="w-full h-[60vh] relative rounded-lg overflow-hidden">
+    <div className="w-full md:h-[60vh] h-[30vh] relative rounded-lg overflow-hidden">
       <Skeleton className="w-full h-full" />
 
       {/* Fake pagination dots */}
