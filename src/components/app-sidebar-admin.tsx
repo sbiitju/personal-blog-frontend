@@ -60,7 +60,15 @@ const menuItems = [
     submenu: [
       {
         title: "All Users",
-        url: "/admin/dashboard/user",
+        url: "/admin/user",
+      },
+      {
+        title: "Create User",
+        url: "/admin/user/create-user",
+      },
+      {
+        title: "Create Admin",
+        url: "/admin/user/create-admin",
       },
     ],
   },
@@ -80,7 +88,7 @@ const menuItems = [
   },
 ];
 
-export function AppSidebar() {
+export function AppSidebarAdmin() {
   const pathname = usePathname();
   const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({});
 
