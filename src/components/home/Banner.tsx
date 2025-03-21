@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { useGetAllBanner } from "@/hooks/banner.hook";
+import Loader from "../common/Loader";
 
 // Define Banner type
 interface Banner {
@@ -35,8 +36,14 @@ const Banner = () => {
   }, []);
 
   if (isLoading) {
-    return <BannerSkeleton />;
-  }
+    return (
+        <>
+            <BannerSkeleton />
+            <Loader />
+        </>
+    );
+}
+
 
   if (isError) {
     return (
@@ -164,7 +171,7 @@ const Banner = () => {
 
 const BannerSkeleton = () => {
   return (
-    <div className="w-full h-[60vh] relative rounded-lg overflow-hidden">
+    <div className="w-full md:h-[60vh] h-[30vh] relative rounded-lg overflow-hidden">
       <Skeleton className="w-full h-full" />
 
       {/* Fake pagination dots */}

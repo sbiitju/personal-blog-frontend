@@ -200,7 +200,7 @@ const Header = () => {
               height={40}
               alt="Company logo"
             /> */}
-            {userData?.data?.name || "CodeByPremiumSheba"}
+            {userData?.data?.name || ""}
           </p>
         </Link>
 
