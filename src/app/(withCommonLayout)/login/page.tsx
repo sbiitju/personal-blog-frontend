@@ -6,7 +6,7 @@ import Link from "next/link";
 import { FaEye, FaEyeSlash } from "react-icons/fa";
 import { useState } from "react";
 
-const page = () => {
+const Login = () => {
   const [show, setShow] = useState<boolean>(false);
   const handleShowPassword = () => setShow(!show);
 
@@ -74,4 +74,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Login;

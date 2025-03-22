@@ -5,9 +5,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
       <AppSidebarAdmin />
-      <main>
+      <main className="w-full">
         <SidebarTrigger />
-        <div className="px-12">{children}</div>
+        <div className="px-10">{children}</div>
       </main>
     </SidebarProvider>
   );
