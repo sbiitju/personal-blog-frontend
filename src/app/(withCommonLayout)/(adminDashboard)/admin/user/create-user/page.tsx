@@ -42,7 +42,6 @@ export default function PoliticalUserRegisterPage() {
 
   // Handle form submission
   const onSubmit: SubmitHandler<PoliticalUserFormData> = (formData) => {
-    console.log("Form submitted:", formData)
     const {
       password,
       name,
