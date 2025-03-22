@@ -9,7 +9,7 @@ import { FieldValues } from "react-hook-form";
 
 export const registerUser = async (userData: FieldValues) => {
   try {
-    const { data } = await axiosInstance.post("/user/create-client", userData);
+    const { data } = await axiosInstance.post("/users/create-client", userData);
     return data;
   } catch (error: any) {
     const data = {
@@ -22,7 +22,7 @@ export const registerUser = async (userData: FieldValues) => {
 
 export const registerAdmin = async (userData: FieldValues) => {
   try {
-    const { data } = await axiosInstance.post("/user/create-admin", userData);
+    const { data } = await axiosInstance.post("/users/create-admin", userData);
     return data;
   } catch (error: any) {
     const data = {

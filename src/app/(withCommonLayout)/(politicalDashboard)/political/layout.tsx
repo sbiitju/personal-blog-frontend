@@ -1,12 +1,12 @@
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
-import { AppSidebarAdmin } from "@/components/app-sidebar-admin";
+import { AppSidebarPolitical } from "@/components/app-sidebar-political";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
-      <AppSidebarAdmin />
+      <AppSidebarPolitical />
       <main className="">
-        <SidebarTrigger  />
+        <SidebarTrigger />
         <div className="px-12 mx-auto">{children}</div>
       </main>
     </SidebarProvider>
