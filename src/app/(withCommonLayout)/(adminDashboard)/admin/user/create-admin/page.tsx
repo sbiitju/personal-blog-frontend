@@ -47,7 +47,7 @@ function CreateAdmin() {
     <>
       {isPending && <Loader />}
       <div className="flex min-h-screen items-center justify-center bg-background p-4">
-        <div className="w-full max-w-lg space-y-8 flex flex-col items-center text-center">
+        <div className="w-full   space-y-8 flex flex-col items-center text-center">
           <div className="space-y-2 w-full">
             <h2 className="text-3xl font-bold tracking-tight">Create Admin</h2>
             <p className="text-muted-foreground">
@@ -61,17 +61,19 @@ function CreateAdmin() {
               onSubmit={onSubmit}
             >
               <div className="space-y-5">
-                <PHInput
-                  label="Name"
-                  name="admin.name"
-                  placeholder="John Doe"
-                />
-                <PHInput
-                  label="Email"
-                  name="admin.email"
-                  type="email"
-                  placeholder="admin@example.com"
-                />
+                <div className="grid md:grid-cols-2 gap-4">
+                  <PHInput
+                    label="Name"
+                    name="admin.name"
+                    placeholder="John Doe"
+                  />
+                  <PHInput
+                    label="Email"
+                    name="admin.email"
+                    type="email"
+                    placeholder="admin@example.com"
+                  />
+                </div>
                 <PHInput
                   label="Phone"
                   name="admin.phone"
