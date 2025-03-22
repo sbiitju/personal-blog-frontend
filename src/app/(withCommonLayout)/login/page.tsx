@@ -6,7 +6,7 @@ import Link from "next/link";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
-import {   ArrowRight } from 'lucide-react';
+import { ArrowRight } from "lucide-react";
 
 import Loader from "@/components/common/Loader";
 import PHForm from "@/components/form/PHForm";
@@ -27,7 +27,7 @@ function Login() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const redirect = searchParams?.get("redirect");
-  
+
   const {
     mutate: handleUserLogin,
     isPending,
@@ -35,7 +35,7 @@ function Login() {
     data,
   } = useUserLogin();
 
-  const onSubmit: SubmitHandler<FieldValues> = (data) => { 
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
     handleUserLogin(data);
     userLoading(true);
   };
@@ -67,12 +67,15 @@ function Login() {
     <>
       {isPending && <Loader />}
       <div className="flex min-h-[calc(100vh-80px)] w-full flex-col items-center  justify-center">
-       
         <div className="flex w-full md:w-1/2 items-center justify-center p-4 md:p-8 bg-background">
           <div className="w-full max-w-md space-y-8">
             <div className="text-center space-y-2">
-              <h2 className="text-3xl font-bold tracking-tight">Welcome Back!</h2>
-              <p className="text-muted-foreground">Sign in to your account to continue</p>
+              <h2 className="text-3xl font-bold tracking-tight">
+                Welcome Back!
+              </h2>
+              <p className="text-muted-foreground">
+                Sign in to your account to continue
+              </p>
             </div>
 
             <div className="bg-card rounded-xl shadow-lg p-6 border border-border/50">
@@ -82,31 +85,31 @@ function Login() {
               >
                 <div className="space-y-5">
                   <div className="space-y-2">
-                    <PHInput 
-                      label="Email" 
-                      name="email" 
-                      type="email" 
+                    <PHInput
+                      label="Email"
+                      name="email"
+                      type="email"
                       placeholder="your.email@example.com"
-                     
                     />
                   </div>
-                  
+
                   <div className="space-y-2">
-                    <PHInput 
-                      label="Password" 
-                      name="password" 
+                    <PHInput
+                      label="Password"
+                      name="password"
                       type="password"
                       placeholder="••••••••"
-                     
                     />
                   </div>
 
                   <div className="flex items-center justify-between">
                     <div className="flex items-center space-x-2">
-                      <Checkbox 
-                        id="remember" 
+                      <Checkbox
+                        id="remember"
                         checked={rememberMe}
-                        onCheckedChange={(checked) => setRememberMe(checked as boolean)}
+                        onCheckedChange={(checked) =>
+                          setRememberMe(checked as boolean)
+                        }
                       />
                       <label
                         htmlFor="remember"
@@ -170,7 +173,11 @@ function Login() {
                     Google
                   </Button>
                   <Button variant="outline" className="w-full">
-                    <svg className="mr-2 h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
+                    <svg
+                      className="mr-2 h-4 w-4"
+                      fill="currentColor"
+                      viewBox="0 0 24 24"
+                    >
                       <path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z" />
                     </svg>
                     Facebook
