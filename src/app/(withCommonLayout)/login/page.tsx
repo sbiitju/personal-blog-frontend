@@ -1,92 +1,102 @@
-'use client';
-
-import { useForm } from 'react-hook-form';
-import { zodResolver } from '@hookform/resolvers/zod';
-import * as z from 'zod';
-
-import { Button } from '@/components/ui/button';
-import {
-  Form,
-  FormControl, 
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from '@/components/ui/form';
-import { Input } from '@/components/ui/input';  
+"use client";
  
-import { PasswordInput } from '@/components/ui/password-input';
+ 
+import Loader from "@/components/common/Loader";
+import PHForm from "@/components/form/PHForm";
+import { useUser } from "@/context/user.provider";
+import { useUserLogin } from "@/hooks/auth.hook";
+import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
+import React, { Suspense, useEffect } from "react";
+import { FieldValues, SubmitHandler } from "react-hook-form";
+import { toast } from "sonner";
+import { zodResolver } from "@hookform/resolvers/zod";
+import loginValidationSchema from "@/schema/login.schema";
+import PHInput from "@/components/form/PHInput";
+import { Button } from "@/components/ui/button";
 
-const formSchema = z.object({
-  email: z.string(),
-  password: z.string(),
-});
+function Login() {
+  const { setIsLoading: userLoading } = useUser();
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const redirect = searchParams?.get("redirect"); // Ensure safe access to searchParams
+  const {
+    mutate: handleUserLogin,
+    isPending,
+    isSuccess,
+    data,
+  } = useUserLogin();
 
-export default function Page() { 
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    console.log(data)
+    handleUserLogin(data);
+    userLoading(true);
+  };
 
-  const form = useForm<z.infer<typeof formSchema>>({
-    resolver: zodResolver(formSchema),
-  });
-
-  function onSubmit(values: z.infer<typeof formSchema>) { 
-    console.log(values);
-  }
+  useEffect(() => {
+    if (data && !data.success) {
+      toast.error(data?.message);
+    } else if (!isPending && isSuccess) {
+      toast.success("User Logged successfully");
+      console.log(data)
+      if (redirect) {
+        router.push(redirect);
+      } else {
+        router.push("/");
+      }
+    }
+  }, [isPending, isSuccess, redirect, router, data]);
 
   return (
-    <div className='min-w-screen min-h-screen px-6 grid grid-rows-3 justify-center bg-brand-primary-light bg-opacity-5'>
-      <section className='font-semibold mx-6 flex flex-col gap-1 justify-end items-center pb-10'>
-        <span className='text-3xl'>Admin Login</span>
-      </section>
-      <section className='max-w-md w-full h-fit px-8 py-6 flex flex-col items-center gap-4 border rounded-lg shadow-lg bg-white'>
-        <Form {...form}>
-          <form
-            onSubmit={form.handleSubmit(onSubmit)}
-            className='w-full flex flex-col gap-6'
+    <>
+      {isPending && <Loader />}
+      <div className="flex h-[calc(100vh-200px)] w-full flex-col items-center justify-center">
+        <h3 className="my-2 text-2xl font-bold">Premium Haat</h3>
+        <p className="mb-4">Welcome Back! Let&lsquo;s Get Started</p>
+        <div className="md:w-[45%]">
+          <PHForm
+            resolver={zodResolver(loginValidationSchema)}
+            onSubmit={onSubmit}
           >
-            <FormField
-              control={form.control}
-              name='email'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder='john@example.com'
-                      type='email'
-                      {...field}
-                    />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name='password'
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <PasswordInput placeholder='Password' {...field} />
-                  </FormControl>
-
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            <div className="py-3">
+              <PHInput label="Email" name="email" type="email" />
+            </div>
+            <div className="py-3">
+              <PHInput label="Password" name="password" type="password" />
+            </div>
 
             <Button
-              type='submit'
-              className='bg-brand-primary hover:bg-brand-primary-light focus:bg-brand-primary-light'
+              className="my-3 w-full rounded-md bg-red-300 font-semibold text-white"
+              size="lg"
+              type="submit"
             >
-              Submit
+              Login
             </Button>
-          </form>
-        </Form>
-      </section>
-      <section></section>
-    </div>
+          </PHForm>
+          <div className="flex justify-between items-center py-2">
+            <Link
+              className="text-sm text-blue-500 hover:underline"
+              href="/forgot-password"
+            >
+              Forgot Password?
+            </Link>
+          </div>
+          <div className="text-center">
+            Don&lsquo;t have an account?{" "}
+            <Link className="text-blue-500 hover:underline" href="/register">
+              Register
+            </Link>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={<Loader />}>
+      <Login />
+    </Suspense>
   );
 }
