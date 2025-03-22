@@ -21,15 +21,12 @@ interface ContentItem {
 export default function Infos({ domain }: { domain: string }) {
   // Use the fixed hook with proper query key
   const { data: infoData, isLoading, error } = useGetAllContentByCategoryAndDomain("informatics", domain)
-
-  // Debug output
-  console.log("Informatics data:", infoData)
-
+ 
   // Extract the content items with proper typing
   const contentItems: ContentItem[] = infoData?.data || []
 
   return (
-    <section className="bg-[#FFDBDB] py-16">
+    <section className="bg-[#FFDBDB] py-6">
       <div className="container px-4 mx-auto">
         <div className="text-center mb-10">
           <Title className="bg-gradient-to-b from-[#e7000b] to-[#86383c] text-white px-12 inline-block">তথ্যকোষ</Title>
@@ -58,7 +55,7 @@ export default function Infos({ domain }: { domain: string }) {
                     priority={false}
                   />
                 </div>
-                <CardContent className="p-4 bg-white">
+                <CardContent className="p-4 -mt-4 bg-white">
                   <CardTitle className="font-semibold text-lg line-clamp-2 leading-relaxed mb-2 hover:text-[#e7000b] transition-colors">
                     <Link href={`/${item._id}`}>{item.title}</Link>
                   </CardTitle>
@@ -67,7 +64,7 @@ export default function Infos({ domain }: { domain: string }) {
                     {item.date}
                   </CardDescription>
                 </CardContent>
-                <CardFooter className="p-4 pt-0 bg-white">
+                <CardFooter className="-mt-3 pt-0 bg-white">
                   <Link href={`/${item._id}`} className="text-[#e7000b] text-sm font-medium hover:underline">
                     বিস্তারিত পড়ুন →
                   </Link>
@@ -85,7 +82,7 @@ export default function Infos({ domain }: { domain: string }) {
           <Link href="/category/informatics">
             <Button
               variant="destructive"
-              className="px-7 py-6 text-base font-semibold rounded-md transition-all duration-300 hover:translate-y-[-2px]"
+              className="px-7 cursor-pointer py-6 text-base font-semibold rounded-md transition-all duration-300 hover:translate-y-[-2px]"
             >
               আরও তথ্যকোষ
             </Button>

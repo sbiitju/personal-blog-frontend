@@ -4,12 +4,7 @@ import { Button } from "@/components/ui/button";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import {
-  FaFacebookF,
-  FaInstagram,
-  FaYoutube,
-  FaLinkedin,
-} from "react-icons/fa";
+import { FaFacebookF, FaInstagram, FaYoutube, FaTwitter } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 import { useGetUserByDomain } from "@/hooks/auth.hook";
 
@@ -205,7 +200,7 @@ const Header = () => {
               height={40}
               alt="Company logo"
             /> */}
-            {userData?.data?.name || "CodeByPremiumSheba"}
+            {userData?.data?.name || ""}
           </p>
         </Link>
 
@@ -260,19 +255,39 @@ const Header = () => {
           <div>
             <Link
               href="/"
-              className="hidden lg:block p-3 px-5 rounded-full rounded-tl-none bg-gradient-to-r from-brand-primary to-brand-primary-light border font-bold select-none transition-all hover:shadow-md hover:scale-105 active:scale-95"
+              className="hidden lg:block p-3 px-5 rounded-full rounded-tl-none bg-gradient-to-b from-[#e7000b] to-[#86383c] text-white  border font-bold select-none transition-all hover:shadow-md hover:scale-105 active:scale-95"
             >
-              Get a Proposal
+              পরামর্শ দিন
             </Link>
           </div>
 
           {/* Social Media Icons */}
           <div className="hidden xl:flex gap-4">
             {[
-              { Icon: FaFacebookF, href: "https://www.facebook.com/" },
-              { Icon: FaInstagram, href: "https://www.instagram.com/" },
-              { Icon: FaYoutube, href: "https://www.youtube.com/" },
-              { Icon: FaLinkedin, href: "http://www.linkedin.com/" },
+              {
+                Icon: FaFacebookF,
+                href:
+                  userData?.data?.socialLinks?.facebook ||
+                  "https://www.facebook.com/",
+              },
+              {
+                Icon: FaInstagram,
+                href:
+                  userData?.data?.socialLinks?.instagram ||
+                  "https://www.instagram.com/",
+              },
+              {
+                Icon: FaYoutube,
+                href:
+                  userData?.data?.socialLinks?.youtube ||
+                  "https://www.youtube.com/",
+              },
+              {
+                Icon: FaTwitter,
+                href:
+                  userData?.data?.socialLinks?.twitter ||
+                  "http://www.linkedin.com/",
+              },
             ].map(({ Icon, href }, index) => (
               <Link
                 key={index}
@@ -371,20 +386,40 @@ const Header = () => {
               <div className="pt-6">
                 <Link
                   href="/"
-                  className="block w-full text-center p-3 px-4 rounded-full rounded-tl-none bg-gradient-to-r from-brand-primary to-brand-primary-light border font-bold shadow-md hover:shadow-lg transition-all"
+                  className="block w-full text-center p-3 px-4 rounded-full rounded-tl-none  bg-gradient-to-b from-[#e7000b] to-[#86383c] text-white  border font-bold shadow-md hover:shadow-lg transition-all"
                   onClick={() => setOpen(false)}
                 >
-                  Get a Proposal
+                  পরামর্শ দিন
                 </Link>
               </div>
 
               {/* Mobile Social Icons */}
               <div className="flex justify-center gap-6 pt-8">
                 {[
-                  { Icon: FaFacebookF, href: "https://www.facebook.com/" },
-                  { Icon: FaInstagram, href: "https://www.instagram.com/" },
-                  { Icon: FaYoutube, href: "https://www.youtube.com/" },
-                  { Icon: FaLinkedin, href: "http://www.linkedin.com/" },
+                  {
+                    Icon: FaFacebookF,
+                    href:
+                      userData?.data?.socialLinks?.facebook ||
+                      "https://www.facebook.com/",
+                  },
+                  {
+                    Icon: FaInstagram,
+                    href:
+                      userData?.data?.socialLinks?.instagram ||
+                      "https://www.instagram.com/",
+                  },
+                  {
+                    Icon: FaYoutube,
+                    href:
+                      userData?.data?.socialLinks?.youtube ||
+                      "https://www.youtube.com/",
+                  },
+                  {
+                    Icon: FaTwitter,
+                    href:
+                      userData?.data?.socialLinks?.twitter ||
+                      "http://www.linkedin.com/",
+                  },
                 ].map(({ Icon, href }, index) => (
                   <Link
                     key={index}
