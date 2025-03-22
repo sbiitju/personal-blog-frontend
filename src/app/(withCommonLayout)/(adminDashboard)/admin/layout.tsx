@@ -1,14 +1,14 @@
-import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar"
-import { AppSidebar } from "@/components/app-sidebar"
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import { AppSidebarAdmin } from "@/components/app-sidebar-admin";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
-      <AppSidebar />
+      <AppSidebarAdmin />
       <main>
         <SidebarTrigger />
-        {children}
+        <div className="px-12">{children}</div>
       </main>
     </SidebarProvider>
-  )
+  );
 }
