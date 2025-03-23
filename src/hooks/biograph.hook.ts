@@ -24,6 +24,7 @@ export const useCreateBiograph = () => {
     },
     onError: (error) => {
       toast.error(error?.message);
+      console.log(error?.message)
     },
   });
 };
@@ -33,11 +34,5 @@ export const useUpdateBiograph = () => {
     mutationKey: ["UPDATE_BIOGRAPH"],
     mutationFn: async ({ domain, bioData }) =>
       await updateBiograph(domain, bioData),
-    onSuccess: () => {
-      toast.success("Biograph Updated successfully");
-    },
-    onError: (error) => {
-      toast.error(error?.message);
-    },
   });
 };
