@@ -1,5 +1,5 @@
 "use client";
- 
+
 import { AlertCircle } from "lucide-react";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -18,8 +18,6 @@ const Biograph = () => {
   } = useGetBiographByDomain(user?.domain || "");
   const bio = bioData?.data?.description;
   const shortBio = bioData?.data?.shortDescription;
-
-   
 
   return (
     <div className="lg:flex justify-between">
