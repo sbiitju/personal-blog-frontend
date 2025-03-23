@@ -14,13 +14,14 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Skeleton } from "@/components/ui/skeleton";
-import { AlertCircle, Trash2 } from "lucide-react";
+import { AlertCircle, Trash2, Edit } from "lucide-react";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import Swal from "sweetalert2";
 import {
   useDeleteContent,
   useGetAllContentByDomain,
 } from "@/hooks/contnet.hook";
+import Link from "next/link";
 
 // Define proper types for the content data
 interface content {
@@ -148,7 +149,7 @@ const AllContent = () => {
                 <TableHead className="text-center">Place</TableHead>
                 <TableHead className="text-center">Category</TableHead>
                 <TableHead className="text-center">Subcategory</TableHead>
-                <TableHead className="text-center w-[100px]">Action</TableHead>
+                <TableHead className="text-center w-[150px]">Action</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -185,17 +186,30 @@ const AllContent = () => {
                     <TableCell className="text-center">
                       {content.subcategory || "N/A"}
                     </TableCell>
-                    <TableCell className="text-center">
+                    <TableCell className="text-center ">
                       <Button
                         variant="destructive"
                         size="sm"
                         onClick={() => handleDelete(content._id)}
                         disabled={isDeleting}
-                        className="gap-1 cursor-pointer"
+                        className="gap-1 cursor-pointer mr-2"
                       >
                         <Trash2 className="h-4 w-4" />
                         <span className="sr-only sm:not-sr-only">Delete</span>
                       </Button>
+                      <Link href={`/political/content/${content?._id}`}>
+                      <Button
+                        variant="link"
+                        size="sm"
+                        className="gap-1 cursor-pointer"
+                      >
+                        <Edit className="h-4 w-4" />
+                       
+                         
+                          <span className="sr-only sm:not-sr-only">Edit</span>
+                       
+                      </Button>
+                      </Link>
                     </TableCell>
                   </TableRow>
                 ))

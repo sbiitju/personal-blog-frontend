@@ -66,10 +66,6 @@ const menuItems = [
         title: "Create Content",
         url: "/political/content/create-content",
       },
-      {
-        title: "Update Content",
-        url: "/political/content/update-content",
-      },
     ],
   },
   {
