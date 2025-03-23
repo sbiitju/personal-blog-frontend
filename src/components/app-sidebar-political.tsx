@@ -82,7 +82,7 @@ const menuItems = [
       },
       {
         title: "Create Banner",
-        url: "/political/create-banner",
+        url: "/political/banner/create-banner",
       },
     ],
   },

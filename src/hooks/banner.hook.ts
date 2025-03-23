@@ -15,6 +15,12 @@ export const useCreateBanner = () => {
   return useMutation<any, Error, FieldValues>({
     mutationKey: ["CREATE_BANNER"],
     mutationFn: async (userData) => await createBanner(userData),
+    onSuccess: () => {
+      toast.success("Banner Created successfully");
+    },
+    onError: (error) => {
+      toast.error(error?.message);
+    },
   });
 };
 
