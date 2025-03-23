@@ -170,7 +170,7 @@ const AllContent = () => {
                         />
                       </div>
                     </TableCell>
-                    <TableCell className="text-center font-medium">
+                    <TableCell className="text-center font-medium   ">
                       {content.title || "N/A"}
                     </TableCell>
                     <TableCell className="text-center">

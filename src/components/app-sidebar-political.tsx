@@ -64,11 +64,11 @@ const menuItems = [
       },
       {
         title: "Create Content",
-        url: "/political/create-content",
+        url: "/political/content/create-content",
       },
       {
         title: "Update Content",
-        url: "/political/update-content",
+        url: "/political/content/update-content",
       },
     ],
   },
