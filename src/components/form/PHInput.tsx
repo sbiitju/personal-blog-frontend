@@ -10,6 +10,7 @@ interface IProps {
   name: string;
   label: string;
   type?: string;
+  disabled? : boolean;
   required?: boolean;
   placeholder?: string;
   className?: string;
@@ -18,6 +19,7 @@ interface IProps {
 export default function PHInput({
   name,
   label,
+  disabled = false,
   type = "text",
   required = false,
   placeholder = "",
@@ -39,6 +41,7 @@ export default function PHInput({
         {...register(name)}
         placeholder={placeholder}
         required={required}
+        disabled={disabled}
         className={clsx(
           "w-full p-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500",
           errorMessage ? "border-red-500" : "border-gray-300"

@@ -6,6 +6,7 @@ import {
 } from "@/services/Biograph";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { FieldValues } from "react-hook-form";
+import { toast } from "sonner";
 
 export const useGetBiographByDomain = (domain: string) => {
   return useQuery<any, Error, any, string[]>({
@@ -18,6 +19,13 @@ export const useCreateBiograph = () => {
   return useMutation<any, Error, FieldValues>({
     mutationKey: ["CREATE_BIOGRAPH"],
     mutationFn: async (userData) => await createBiograph(userData),
+    onSuccess: () => {
+      toast.success("Biograph Created successfully");
+    },
+    onError: (error) => {
+      toast.error(error?.message);
+      console.log(error?.message)
+    },
   });
 };
 

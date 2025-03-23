@@ -22,7 +22,7 @@ export const createBiograph = async (bioData: FieldValues) => {
 
 export const updateBiograph = async (bioId: string, bioData: FieldValues) => {
   try {
-    const { data } = await axiosInstance.put(`/category/${bioId}`, bioData);
+    const { data } = await axiosInstance.put(`/biograph/${bioId}`, bioData);
     return data;
   } catch (error: any) {
     const data = {
