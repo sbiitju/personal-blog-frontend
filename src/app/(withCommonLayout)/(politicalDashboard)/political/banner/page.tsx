@@ -1,37 +1,50 @@
-"use client"
+"use client";
 
-import { useUser } from "@/context/user.provider"
-import { useDeleteBanner, useGetAllBanner } from "@/hooks/banner.hook"
-import { useEffect, useState } from "react"
-import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
-import { Skeleton } from "@/components/ui/skeleton"
-import { AlertCircle, Trash2 } from "lucide-react"
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
-import Swal from "sweetalert2"
+import { useUser } from "@/context/user.provider";
+import { useDeleteBanner, useGetAllBanner } from "@/hooks/banner.hook";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import {
+  Table,
+  TableBody,
+  TableCaption,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
+import { Skeleton } from "@/components/ui/skeleton";
+import { AlertCircle, Trash2 } from "lucide-react";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import Swal from "sweetalert2";
 
 // Define proper types for the banner data
 interface Banner {
-  _id: string
-  image: string
+  _id: string;
+  image: string;
   // Add other banner properties if needed
 }
 
 const AllBanner = () => {
-  const { user } = useUser()
-  const { data: bannerData, isLoading, isError, refetch } = useGetAllBanner(user?.domain || "")
-  const { mutate: deleteBanner, isSuccess: isDeleting } = useDeleteBanner()
+  const { user } = useUser();
+  const {
+    data: bannerData,
+    isLoading,
+    isError,
+    refetch,
+  } = useGetAllBanner(user?.domain || "");
+  const { mutate: deleteBanner, isSuccess: isDeleting } = useDeleteBanner();
 
   // Initialize with empty array and update when data is available
-  const [banners, setBanners] = useState<Banner[]>([])
+  const [banners, setBanners] = useState<Banner[]>([]);
 
   // Update state when data changes
   useEffect(() => {
     if (bannerData?.data) {
-      setBanners(bannerData.data)
+      setBanners(bannerData.data);
     }
-  }, [bannerData])
+  }, [bannerData]);
 
   // Handle banner delete confirmation
   const handleDelete = (id: string) => {
@@ -53,33 +66,38 @@ const AllBanner = () => {
               icon: "success",
               timer: 1500,
               showConfirmButton: false,
-            })
+            });
             // Update local state to reflect deletion
-            setBanners((prev) => prev.filter((banner) => banner._id !== id))
+            setBanners((prev) => prev.filter((banner) => banner._id !== id));
           },
           onError: (error) => {
             Swal.fire({
               title: "Error!",
               text: "Failed to delete banner. Please try again.",
               icon: "error",
-            })
-            console.error("Delete error:", error)
+            });
+            console.error("Delete error:", error);
           },
-        })
+        });
       }
-    })
-  }
+    });
+  };
 
   // Function to retry loading data
   const handleRetry = () => {
-    refetch()
-  }
+    refetch();
+  };
 
   return (
     <div className="w-full px-4 py-6 space-y-6">
       <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
         <h2 className="text-2xl font-semibold">All Banners</h2>
-        <Button variant="outline" onClick={handleRetry} disabled={isLoading} className="self-end">
+        <Button
+          variant="outline"
+          onClick={handleRetry}
+          disabled={isLoading}
+          className="self-end"
+        >
           Refresh
         </Button>
       </div>
@@ -96,7 +114,12 @@ const AllBanner = () => {
           <AlertTitle>Error</AlertTitle>
           <AlertDescription className="flex flex-col gap-2">
             <span>Failed to load banners. Please try again later.</span>
-            <Button variant="outline" size="sm" onClick={handleRetry} className="self-start">
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleRetry}
+              className="self-start"
+            >
               Retry
             </Button>
           </AlertDescription>
@@ -118,7 +141,9 @@ const AllBanner = () => {
               {banners.length > 0 ? (
                 banners.map((banner, index) => (
                   <TableRow key={banner._id}>
-                    <TableCell className="text-center font-medium">{index + 1}</TableCell>
+                    <TableCell className="text-center font-medium">
+                      {index + 1}
+                    </TableCell>
                     <TableCell className="flex justify-center py-4">
                       <div className="relative h-24 w-48 overflow-hidden rounded-md shadow-md transition-all hover:scale-105">
                         <Image
@@ -147,7 +172,10 @@ const AllBanner = () => {
                 ))
               ) : (
                 <TableRow>
-                  <TableCell colSpan={3} className="h-24 text-center text-muted-foreground">
+                  <TableCell
+                    colSpan={3}
+                    className="h-24 text-center text-muted-foreground"
+                  >
                     No banners found. Add some banners to see them here.
                   </TableCell>
                 </TableRow>
@@ -157,8 +185,8 @@ const AllBanner = () => {
         </div>
       )}
     </div>
-  )
-}
+  );
+};
 
 // Loading skeleton for the banner table
 const LoadingBannerTable = () => (
@@ -190,7 +218,6 @@ const LoadingBannerTable = () => (
       </TableBody>
     </Table>
   </div>
-)
+);
 
-export default AllBanner
-
+export default AllBanner;

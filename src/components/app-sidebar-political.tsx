@@ -96,11 +96,11 @@ const menuItems = [
       },
       {
         title: "Create Biography",
-        url: "/political/create-biograph",
+        url: "/political/biograph/create-biograph",
       },
       {
         title: "Update Biography",
-        url: "/political/update-biograph",
+        url: "/political/biograph/update-biograph",
       },
     ],
   },
