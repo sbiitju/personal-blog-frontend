@@ -38,12 +38,12 @@ const GetAllUsers = () => {
   const { mutate: blockUser, isSuccess: isBlocking } = useBlockUser()
 
   // Initialize with empty array and update when data is available
-  const [contents, setContents] = useState<User[]>([])
-
+  const [users, setUsers] = useState<User[]>([])
+console.log(users)
   // Update state when data changes
   useEffect(() => {
     if (contentData?.data) {
-      setContents(contentData.data)
+      setUsers(contentData.data)
     }
   }, [contentData])
 
@@ -166,8 +166,8 @@ const GetAllUsers = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {contents.length > 0 ? (
-                contents.map((user, index) => (
+              {users.length > 0 ? (
+                users.map((user, index) => (
                   <TableRow key={user._id}>
                     <TableCell className="text-center font-medium">{index + 1}</TableCell>
                     <TableCell className="text-center font-medium">{user.name || "N/A"}</TableCell>
