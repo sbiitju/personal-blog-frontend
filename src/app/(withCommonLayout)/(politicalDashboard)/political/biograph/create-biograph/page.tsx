@@ -29,7 +29,7 @@ type RichTextEditorHandle = {
 
 function CreateBiograph() {
   const editorRef = useRef<RichTextEditorHandle>(null);
-  const { setIsLoading: userLoading } = useUser();
+  const { setIsLoading: userLoading, user } = useUser();
   const router = useRouter();
 
   const {
@@ -76,9 +76,15 @@ function CreateBiograph() {
             <PHForm
               resolver={zodResolver(bioGraphValidationSchema)}
               onSubmit={onSubmit}
+              defaultValues={{
+                 
+                domain: user?.domain,   
+              }}
             >
               <div className="space-y-5">
                 <PHInput
+                 disabled={true}
+                
                   label="Domain"
                   name="domain"
                   placeholder="domain.com"
