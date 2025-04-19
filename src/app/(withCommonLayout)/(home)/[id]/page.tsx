@@ -116,11 +116,7 @@ export default function ContentDetails({
           <CardContent className="prose prose-lg max-w-none pb-10">
             {content?.description ? (
               <div className="text-justify leading-relaxed space-y-4">
-                {content.description
-                  .split("\n\n")
-                  .map((paragraph: any, index: number) => (
-                    <p key={index}>{paragraph}</p>
-                  ))}
+                 <div className="text-gray-800 leading-relaxed text-justify" dangerouslySetInnerHTML={{ __html: content?.description }} />
               </div>
             ) : (
               <p className="text-muted-foreground italic">
