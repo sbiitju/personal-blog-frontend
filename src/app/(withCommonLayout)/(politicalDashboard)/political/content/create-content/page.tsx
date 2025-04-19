@@ -3,18 +3,22 @@
 import Loader from "@/components/common/Loader"
 import PHForm from "@/components/form/PHForm"
 import PHInput from "@/components/form/PHInput"
+import PHSelect from "@/components/form/PHSelect"
 import PHTextarea from "@/components/form/PHTextArea"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
 import { useUser } from "@/context/user.provider"
 import { useCreateContent } from "@/hooks/contnet.hook"
+import { categoryItems } from "@/lib/category-items"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useRouter } from "next/navigation"
-import { type ChangeEvent, useEffect, useState } from "react"
+import { type ChangeEvent, useEffect, useState, useMemo } from "react"
 import type { SubmitHandler } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
+
+ 
 
 // Define the validation schema with Zod - making it less strict
 const contentSchema = z.object({
@@ -35,11 +39,37 @@ export default function ContentCreatePage() {
   const router = useRouter()
   const [imageFiles, setImageFiles] = useState<File | null>(null)
   const [imagePreview, setImagePreview] = useState<string | null>(null)
+  const [selectedCategory, setSelectedCategory] = useState<string>("")
   const { mutate: handleCreateContent, isPending, isSuccess, data } = useCreateContent()
+
+  // Format categories for the dropdown
+  const categoryOptions = useMemo(() => {
+    return categoryItems.map((category) => ({
+      key: category.href,
+      label: category.title,
+    }))
+  }, [])
+
+  // Get subcategories based on selected category
+  const subcategoryOptions = useMemo(() => {
+    if (!selectedCategory) return []
+
+    const selectedCategoryData = categoryItems.find((cat) => cat.href === selectedCategory)
+    if (!selectedCategoryData) return []
+
+    return selectedCategoryData.items.map((subcat) => ({
+      key: subcat.href,
+      label: subcat.title,
+    }))
+  }, [selectedCategory])
 
   // Handle form submission
   const onSubmit: SubmitHandler<ContentFormData> = (formData) => {
     const { title, date, place, description, category, subcategory } = formData
+
+    // Extract the last part of the category path for the actual category name
+    const categoryName = category.split("/").pop() || ""
+    const subcategoryName = subcategory.split("/").pop() || ""
 
     const userData = new FormData()
 
@@ -55,8 +85,8 @@ export default function ContentCreatePage() {
           place,
           description,
           domain,
-          category,
-          subcategory,
+          category: categoryName,
+          subcategory: subcategoryName,
         }),
       )
       handleCreateContent(userData)
@@ -75,6 +105,11 @@ export default function ContentCreatePage() {
       const previewUrl = URL.createObjectURL(files)
       setImagePreview(previewUrl)
     }
+  }
+
+  // Handle category change
+  const handleCategoryChange = (value: string) => {
+    setSelectedCategory(value)
   }
 
   // Clean up preview URL when component unmounts
@@ -128,16 +163,27 @@ export default function ContentCreatePage() {
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <PHInput label="Title" name="title" placeholder="Enter content title" />
-                    <PHInput label="Date" name="date"  placeholder="মার্চ ১৬, ২০২৫" />
+                    <PHInput label="Date" name="date" placeholder="মার্চ ১৬, ২০২৫" />
                     <PHInput label="Place" name="place" placeholder="Event location" />
-                    <PHInput label="Category" name="category" placeholder="Content category" />
-                    <PHInput label="Subcategory" name="subcategory" placeholder="Content subcategory" />
+
+                    {/* Category Selection */}
+                    <PHSelect
+                      label="Category"
+                      name="category"
+                      options={categoryOptions}
+                      onChange={handleCategoryChange}
+                    />
+
+                    {/* Subcategory Selection */}
+                    <PHSelect
+                      label="Subcategory"
+                      name="subcategory"
+                      options={subcategoryOptions}
+                      disabled={!selectedCategory}
+                    />
+
                     <div className="space-y-2 col-span-full">
-                      
-                      <PHTextarea
-                        name="description"
-                         label="Description"
-                      />
+                      <PHTextarea name="description" label="Description" />
                     </div>
                   </div>
                 </div>
@@ -192,4 +238,3 @@ export default function ContentCreatePage() {
     </>
   )
 }
-
