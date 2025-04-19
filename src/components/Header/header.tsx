@@ -7,6 +7,7 @@ import Link from "next/link";
 import { FaFacebookF, FaInstagram, FaYoutube, FaTwitter } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 import { useGetUserByDomain } from "@/hooks/auth.hook";
+import { useUser } from "@/context/user.provider";
 
 // Navigation data structure
 const navigationItems = [
@@ -122,6 +123,8 @@ const navigationItems = [
 ];
 
 const Header = () => {
+  const { user } = useUser();
+  console.log(user);
   const [isOpen, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
@@ -260,6 +263,16 @@ const Header = () => {
               পরামর্শ দিন
             </Link>
           </div>
+          <div>
+            {user && (
+              <Link
+                href={`/${user.role}/dashboard`}
+                className="hidden lg:block p-3 px-5 rounded-full rounded-tl-none bg-gradient-to-b from-[#e7000b] to-[#86383c] text-white  border font-bold select-none transition-all hover:shadow-md hover:scale-105 active:scale-95"
+              >
+                Dashboard
+              </Link>
+            )}
+          </div>
 
           {/* Social Media Icons */}
           <div className="hidden xl:flex gap-4">
@@ -392,6 +405,16 @@ const Header = () => {
                   পরামর্শ দিন
                 </Link>
               </div>
+              <div>
+            {user && (
+              <Link
+                href={`/${user.role}/dashboard`}
+                className="block w-full text-center p-3 px-4 rounded-full rounded-tl-none  bg-gradient-to-b from-[#e7000b] to-[#86383c] text-white  border font-bold shadow-md hover:shadow-lg transition-all"
+              >
+                Dashboard
+              </Link>
+            )}
+          </div>
 
               {/* Mobile Social Icons */}
               <div className="flex justify-center gap-6 pt-8">

@@ -4,7 +4,7 @@ import { getCurrentUser } from "./services/Auth";
 
 // Define role-based routes
 const roleBasedRoutes = {
-  technical: [/^\/technical/],
+  political: [/^\/political/],
   admin: [/^\/admin/],
 };
 
@@ -14,11 +14,11 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const user = await getCurrentUser();
  
-  if (!user && (pathname.startsWith("/admin") || pathname.startsWith("/technical"))) {
+  if (!user && (pathname.startsWith("/admin") || pathname.startsWith("/political"))) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
  
-  if (user && (pathname.startsWith("/admin") || pathname.startsWith("/technical"))) {
+  if (user && (pathname.startsWith("/admin") || pathname.startsWith("/political"))) {
     if (user?.role) {
       const allowedRoutes = roleBasedRoutes[user?.role as Role];
 
@@ -37,5 +37,5 @@ export async function middleware(request: NextRequest) {
 
 // Configuration for matching paths
 export const config = {
-  matcher: ["/admin/:path*", "/technical/:path*"],
+  matcher: ["/admin/:path*", "/political/:path*"],
 };

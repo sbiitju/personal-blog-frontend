@@ -141,7 +141,7 @@ export default function SubCategoryPage({ params }: { params: Promise<Params> })
                 <div className=" px-2 py-2 space-y-4  flex-grow">
                   <CardTitle className="font-semibold line-clamp-3  ">
                     <Link
-                      href={`/content/${content?._id}`}
+                      href={`/${content?._id}`}
                       className="hover:text-primary hover:underline tracking-wider leading-relaxed"
                     >
                       {content?.title}
