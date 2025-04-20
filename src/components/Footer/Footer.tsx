@@ -20,7 +20,7 @@ console.log(userInfo)
       <div className="max-w-screen-2xl mx-auto px-4 lg:px-6 xl:px-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
           {/* Contact Information */}
-          <div className="space-y-6">
+          {/* <div className="space-y-6">
             <h3 className="text-xl font-semibold border-b border-white/30 pb-2 inline-block">যোগাযোগ</h3>
             <div className="space-y-3 text-gray-100">
               {userInfo?.address && (
@@ -39,10 +39,10 @@ console.log(userInfo)
                 </p>
               )}
             </div>
-          </div>
+          </div> */}
 
           {/* Social Media Links */}
-          <div className="flex flex-col items-start lg:items-end">
+          <div className="flex flex-col items-start  ">
             <h3 className="text-xl font-semibold border-b border-white/30 pb-2 inline-block mb-6">সোশ্যাল মিডিয়া</h3>
             <div className="flex gap-4">
               {userInfo?.socialLinks?.facebook && (

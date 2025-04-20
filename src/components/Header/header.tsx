@@ -276,41 +276,45 @@ const Header = () => {
 
           {/* Social Media Icons */}
           <div className="hidden xl:flex gap-4">
-            {[
-              {
-                Icon: FaFacebookF,
-                href:
-                  userData?.data?.socialLinks?.facebook ||
-                  "https://www.facebook.com/",
-              },
-              {
-                Icon: FaInstagram,
-                href:
-                  userData?.data?.socialLinks?.instagram ||
-                  "https://www.instagram.com/",
-              },
-              {
-                Icon: FaYoutube,
-                href:
-                  userData?.data?.socialLinks?.youtube ||
-                  "https://www.youtube.com/",
-              },
-              {
-                Icon: FaTwitter,
-                href:
-                  userData?.data?.socialLinks?.twitter ||
-                  "http://www.linkedin.com/",
-              },
-            ].map(({ Icon, href }, index) => (
+            {userData?.data?.socialLinks?.facebook && (
               <Link
-                key={index}
-                href={href}
+                href={userData.data.socialLinks.facebook}
                 className="bg-brand-primary-light border p-2 rounded-full hover:bg-accent transition-all duration-200 flex items-center justify-center hover:shadow-md hover:scale-110"
-                aria-label={`Visit our ${Icon.name.replace("Fa", "")}`}
+                aria-label="Visit our Facebook"
               >
-                <Icon className="w-4 h-4" />
+                <FaFacebookF className="w-4 h-4" />
               </Link>
-            ))}
+            )}
+
+            {userData?.data?.socialLinks?.instagram && (
+              <Link
+                href={userData.data.socialLinks.instagram}
+                className="bg-brand-primary-light border p-2 rounded-full hover:bg-accent transition-all duration-200 flex items-center justify-center hover:shadow-md hover:scale-110"
+                aria-label="Visit our Instagram"
+              >
+                <FaInstagram className="w-4 h-4" />
+              </Link>
+            )}
+
+            {userData?.data?.socialLinks?.youtube && (
+              <Link
+                href={userData.data.socialLinks.youtube}
+                className="bg-brand-primary-light border p-2 rounded-full hover:bg-accent transition-all duration-200 flex items-center justify-center hover:shadow-md hover:scale-110"
+                aria-label="Visit our YouTube"
+              >
+                <FaYoutube className="w-4 h-4" />
+              </Link>
+            )}
+
+            {userData?.data?.socialLinks?.twitter && (
+              <Link
+                href={userData.data.socialLinks.twitter}
+                className="bg-brand-primary-light border p-2 rounded-full hover:bg-accent transition-all duration-200 flex items-center justify-center hover:shadow-md hover:scale-110"
+                aria-label="Visit our Twitter"
+              >
+                <FaTwitter className="w-4 h-4" />
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -406,53 +410,57 @@ const Header = () => {
                 </Link>
               </div>
               <div>
-            {user && (
-              <Link
-                href={`/${user.role}/dashboard`}
-                className="block w-full text-center p-3 px-4 rounded-full rounded-tl-none  bg-gradient-to-b from-[#e7000b] to-[#86383c] text-white  border font-bold shadow-md hover:shadow-lg transition-all"
-              >
-                Dashboard
-              </Link>
-            )}
-          </div>
-
-              {/* Mobile Social Icons */}
-              <div className="flex justify-center gap-6 pt-8">
-                {[
-                  {
-                    Icon: FaFacebookF,
-                    href:
-                      userData?.data?.socialLinks?.facebook ||
-                      "https://www.facebook.com/",
-                  },
-                  {
-                    Icon: FaInstagram,
-                    href:
-                      userData?.data?.socialLinks?.instagram ||
-                      "https://www.instagram.com/",
-                  },
-                  {
-                    Icon: FaYoutube,
-                    href:
-                      userData?.data?.socialLinks?.youtube ||
-                      "https://www.youtube.com/",
-                  },
-                  {
-                    Icon: FaTwitter,
-                    href:
-                      userData?.data?.socialLinks?.twitter ||
-                      "http://www.linkedin.com/",
-                  },
-                ].map(({ Icon, href }, index) => (
+                {user && (
                   <Link
-                    key={index}
-                    href={href}
-                    className="bg-brand-primary-light border p-2 rounded-full hover:bg-accent transition-all duration-200 flex items-center justify-center hover:shadow-md"
-                    aria-label={`Visit our ${Icon.name.replace("Fa", "")}`}
+                    href={`/${user.role}/dashboard`}
+                    className="block w-full text-center p-3 px-4 rounded-full rounded-tl-none  bg-gradient-to-b from-[#e7000b] to-[#86383c] text-white  border font-bold shadow-md hover:shadow-lg transition-all"
                   >
-                    <Icon className="w-4 h-4" />
+                    Dashboard
                   </Link>
-                ))}
+                )}
+              </div>
+
+               
+              <div className="flex justify-center gap-6 pt-8">
+                {userData?.data?.socialLinks?.facebook && (
+                  <Link
+                    href={userData.data.socialLinks.facebook}
+                    className="bg-brand-primary-light border p-2 rounded-full hover:bg-accent transition-all duration-200 flex items-center justify-center hover:shadow-md hover:scale-110"
+                    aria-label="Visit our Facebook"
+                  >
+                    <FaFacebookF className="w-4 h-4" />
+                  </Link>
+                )}
+
+                {userData?.data?.socialLinks?.instagram && (
+                  <Link
+                    href={userData.data.socialLinks.instagram}
+                    className="bg-brand-primary-light border p-2 rounded-full hover:bg-accent transition-all duration-200 flex items-center justify-center hover:shadow-md hover:scale-110"
+                    aria-label="Visit our Instagram"
+                  >
+                    <FaInstagram className="w-4 h-4" />
+                  </Link>
+                )}
+
+                {userData?.data?.socialLinks?.youtube && (
+                  <Link
+                    href={userData.data.socialLinks.youtube}
+                    className="bg-brand-primary-light border p-2 rounded-full hover:bg-accent transition-all duration-200 flex items-center justify-center hover:shadow-md hover:scale-110"
+                    aria-label="Visit our YouTube"
+                  >
+                    <FaYoutube className="w-4 h-4" />
+                  </Link>
+                )}
+
+                {userData?.data?.socialLinks?.twitter && (
+                  <Link
+                    href={userData.data.socialLinks.twitter}
+                    className="bg-brand-primary-light border p-2 rounded-full hover:bg-accent transition-all duration-200 flex items-center justify-center hover:shadow-md hover:scale-110"
+                    aria-label="Visit our Twitter"
+                  >
+                    <FaTwitter className="w-4 h-4" />
+                  </Link>
+                )}
               </div>
             </div>
           </div>
