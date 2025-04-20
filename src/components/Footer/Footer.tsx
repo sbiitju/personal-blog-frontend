@@ -1,67 +1,106 @@
-import Link from "next/link";
-
-const user = {
-  address: "৫০৫, এলিফ্যান্ট রোড, বড় মগবাজারঢাকা-১২১৭, বাংলাদেশ",
-  phone: "+৮৮ ০২ ৯৩৩১৫৮১",
-  email: "golammostofakamal@gmail.com",
-};
+"use client"
+import { useGetUserByDomain } from "@/hooks/auth.hook"
+import Link from "next/link"
+import { useEffect, useState } from "react"
+import { Facebook, Instagram, Twitter, Youtube } from "lucide-react"
 
 export default function Footer() {
-  return (
-    <div className="bg-[#6B6B6B] py-10 text-white">
-      <div className="max-w-screen-2xl mx-auto px-4 lg:px-6 xl:px-10">
-        <div className="flex flex-col lg:flex-row gap-8 lg:gap-0">
-          <div className="flex-1">
-            <h3>যোগাযোগ</h3>
+  const [domain, setDomain] = useState<string>("")
+  const { data: userData } = useGetUserByDomain(domain)
+  const userInfo = userData?.data
 
-            <div className="mt-5 space-y-2">
-              <p>{user.address}</p>
-              <p>ফোন : {user.phone}</p>
-              <p>ইমেইল : {user.email}</p>
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      setDomain(window.location.hostname)
+    }
+  }, [])
+console.log(userInfo)
+  return (
+    <footer className="bg-[#6B6B6B] py-12 text-white">
+      <div className="max-w-screen-2xl mx-auto px-4 lg:px-6 xl:px-10">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+          {/* Contact Information */}
+          <div className="space-y-6">
+            <h3 className="text-xl font-semibold border-b border-white/30 pb-2 inline-block">যোগাযোগ</h3>
+            <div className="space-y-3 text-gray-100">
+              {userInfo?.address && (
+                <p className="flex items-start">
+                  <span className="mr-2">ঠিকানা:</span> <span>{userInfo.address}</span>
+                </p>
+              )}
+              {userInfo?.phone && (
+                <p className="flex items-start">
+                  <span className="mr-2">ফোন:</span> <span>{userInfo.phone}</span>
+                </p>
+              )}
+              {userInfo?.email && (
+                <p className="flex items-start">
+                  <span className="mr-2">ইমেইল:</span> <span>{userInfo.email}</span>
+                </p>
+              )}
             </div>
           </div>
-          <div className="flex-1 flex justify-center lg:justify-end flex-wrap">
-            <Link
-              href={"/"}
-              className="hover:text-gray-200 transition-all duration-300"
-            >
-              বাংলাদেশ
-            </Link>
-            <span className="px-2">/</span>
-            <Link
-              href={"/"}
-              className="hover:text-gray-200 transition-all duration-300"
-            >
-              জামায়াতে ইসলামী
-            </Link>
-            <span className="px-2">/</span>
-            <Link
-              href={"/"}
-              className="hover:text-gray-200 transition-all duration-300"
-            >
-              লাইব্রেরী
-            </Link>
-            <span className="px-2">/</span>
-            <Link
-              href={"/"}
-              className="hover:text-gray-200 transition-all duration-300"
-            >
-              গুরুত্বপূর্ণ লিঙ্কসমূহ
-            </Link>
-            <span className="px-2">/</span>
-            <Link
-              href={"/"}
-              className="hover:text-gray-200 transition-all duration-300"
-            >
-              যোগাযোগ
-            </Link>
+
+          {/* Social Media Links */}
+          <div className="flex flex-col items-start lg:items-end">
+            <h3 className="text-xl font-semibold border-b border-white/30 pb-2 inline-block mb-6">সোশ্যাল মিডিয়া</h3>
+            <div className="flex gap-4">
+              {userInfo?.socialLinks?.facebook && (
+                <Link
+                  href={userInfo.socialLinks.facebook}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all duration-300"
+                  aria-label="Facebook"
+                >
+                  <Facebook size={24} />
+                </Link>
+              )}
+              {userInfo?.socialLinks?.instagram && (
+                <Link
+                  href={userInfo.socialLinks.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all duration-300"
+                  aria-label="Instagram"
+                >
+                  <Instagram size={24} />
+                </Link>
+              )}
+              {userInfo?.socialLinks?.twitter && (
+                <Link
+                  href={userInfo.socialLinks.twitter}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all duration-300"
+                  aria-label="Twitter"
+                >
+                  <Twitter size={24} />
+                </Link>
+              )}
+              {userInfo?.socialLinks?.youtube && (
+                <Link
+                  href={userInfo.socialLinks.youtube}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all duration-300"
+                  aria-label="YouTube"
+                >
+                  <Youtube size={24} />
+                </Link>
+              )}
+            </div>
           </div>
         </div>
-        <div className="my-6 w-full h-[2px] bg-white"></div>
-        <p className="text-center">
-          © ২০২০ সর্বস্বত্ত গোলাম মোস্তফা কামাল কতৃক সংরক্ষিত
-        </p>
+
+        <div className="my-8 w-full h-[1px] bg-white/30"></div>
+
+        <div className="text-center">
+          <p className="text-gray-200">
+            © {new Date().getFullYear()} সর্বস্বত্ব {userInfo?.name || ""} কতৃক সংরক্ষিত
+          </p>
+        </div>
       </div>
-    </div>
-  );
+    </footer>
+  )
 }
