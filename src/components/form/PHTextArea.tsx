@@ -15,7 +15,7 @@ export default function PHTextarea({ name, label }: IProps) {
     register,
     formState: { errors },
   } = useFormContext();
-  
+
   const currentValue = useWatch({ name });
   const errorMessage = errors[name]?.message as string | undefined;
 
@@ -25,7 +25,7 @@ export default function PHTextarea({ name, label }: IProps) {
       <Textarea
         id={name}
         {...register(name)}
-       maxLength={500}
+       
         value={currentValue || ""}
         className={errorMessage ? "border-red-500" : ""}
       />
