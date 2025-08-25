@@ -91,6 +91,7 @@ const menuItems = [
     url: "/political/biograph",
     icon: User,
   },
+
 ];
 
 export function AppSidebarPolitical() {

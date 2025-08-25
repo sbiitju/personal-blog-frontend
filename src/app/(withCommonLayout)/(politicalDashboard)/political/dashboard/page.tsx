@@ -247,6 +247,7 @@ const PoliticalDashboard = () => {
                 জীবন বৃত্তান্ত
               </Button>
             </Link>
+
             <Link href="/political/content">
               <Button variant="outline" className="w-full justify-start h-12 font-bengali-medium">
                 <BarChart3 className="w-4 h-4 mr-3" />
