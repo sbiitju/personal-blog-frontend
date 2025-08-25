@@ -88,21 +88,8 @@ const menuItems = [
   },
   {
     title: "জীবন বৃত্তান্ত",
+    url: "/political/biograph",
     icon: User,
-    submenu: [
-      {
-        title: "জীবন বৃত্তান্ত",
-        url: "/political/biograph",
-      },
-      {
-        title: "জীবন বৃত্তান্ত তৈরি",
-        url: "/political/biograph/create-biograph",
-      },
-      {
-        title: "জীবন বৃত্তান্ত আপডেট",
-        url: "/political/biograph/update-biograph",
-      },
-    ],
   },
 ];
 
