@@ -1,49 +1,102 @@
 "use client"
 import { useGetUserByDomain } from "@/hooks/auth.hook"
+import { useGetAllContentByDomain } from "@/hooks/contnet.hook"
+import { navigationItems } from "@/data/navigation"
 import Link from "next/link"
 import { useEffect, useState } from "react"
-import { Facebook, Instagram, Twitter, Youtube } from "lucide-react"
+import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin, Calendar } from "lucide-react"
 
 export default function Footer() {
   const [domain, setDomain] = useState<string>("")
   const { data: userData } = useGetUserByDomain(domain)
+  const { data: contentData } = useGetAllContentByDomain(domain)
   const userInfo = userData?.data
+  const recentContent = contentData?.data?.slice(0, 4) || [] // Get latest 4 content
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       setDomain(window.location.hostname)
     }
   }, [])
-console.log(userInfo)
+
   return (
     <footer className="bg-[#6B6B6B] py-12 text-white">
       <div className="max-w-screen-2xl mx-auto px-4 lg:px-6 xl:px-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {/* Contact Information */}
-          {/* <div className="space-y-6">
-            <h3 className="text-xl font-semibold border-b border-white/30 pb-2 inline-block">যোগাযোগ</h3>
-            <div className="space-y-3 text-gray-100">
+          <div className="space-y-6">
+            <h3 className="text-xl font-semibold border-b border-white/30 pb-2 inline-block font-bengali-semibold">যোগাযোগ</h3>
+            <div className="space-y-4 text-gray-100">
               {userInfo?.address && (
-                <p className="flex items-start">
-                  <span className="mr-2">ঠিকানা:</span> <span>{userInfo.address}</span>
-                </p>
+                <div className="flex items-start gap-3">
+                  <MapPin className="w-5 h-5 text-white/70 mt-0.5 flex-shrink-0" />
+                  <p className="font-bengali-normal">{userInfo.address}</p>
+                </div>
               )}
               {userInfo?.phone && (
-                <p className="flex items-start">
-                  <span className="mr-2">ফোন:</span> <span>{userInfo.phone}</span>
-                </p>
+                <div className="flex items-center gap-3">
+                  <Phone className="w-5 h-5 text-white/70 flex-shrink-0" />
+                  <p className="font-bengali-normal">{userInfo.phone}</p>
+                </div>
               )}
               {userInfo?.email && (
-                <p className="flex items-start">
-                  <span className="mr-2">ইমেইল:</span> <span>{userInfo.email}</span>
-                </p>
+                <div className="flex items-center gap-3">
+                  <Mail className="w-5 h-5 text-white/70 flex-shrink-0" />
+                  <p className="font-bengali-normal">{userInfo.email}</p>
+                </div>
               )}
             </div>
-          </div> */}
+          </div>
+
+          {/* Quick Links */}
+          <div className="space-y-6">
+            <h3 className="text-xl font-semibold border-b border-white/30 pb-2 inline-block font-bengali-semibold">দ্রুত লিংক</h3>
+            <div className="space-y-3">
+              {navigationItems.slice(0, 4).map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="block text-gray-100 hover:text-white transition-colors duration-200 font-bengali-normal"
+                >
+                  {item.title}
+                </Link>
+              ))}
+            </div>
+          </div>
+
+          {/* Recent Content */}
+          <div className="space-y-6">
+            <h3 className="text-xl font-semibold border-b border-white/30 pb-2 inline-block font-bengali-semibold">সাম্প্রতিক কন্টেন্ট</h3>
+            <div className="space-y-3">
+              {recentContent.length > 0 ? (
+                recentContent.map((content: any) => (
+                  <Link
+                    key={content._id}
+                    href={`/${content._id}`}
+                    className="block group"
+                  >
+                    <div className="flex items-start gap-3">
+                      <Calendar className="w-4 h-4 text-white/70 mt-1 flex-shrink-0" />
+                      <div>
+                        <p className="text-gray-100 group-hover:text-white transition-colors duration-200 font-bengali-normal text-sm line-clamp-2">
+                          {content.title}
+                        </p>
+                        <p className="text-gray-400 text-xs font-bengali-normal">
+                          {content.date}
+                        </p>
+                      </div>
+                    </div>
+                  </Link>
+                ))
+              ) : (
+                <p className="text-gray-400 font-bengali-normal text-sm">কোন সাম্প্রতিক কন্টেন্ট নেই</p>
+              )}
+            </div>
+          </div>
 
           {/* Social Media Links */}
-          <div className="flex flex-col items-start  ">
-            <h3 className="text-xl font-semibold border-b border-white/30 pb-2 inline-block mb-6">সোশ্যাল মিডিয়া</h3>
+          <div className="space-y-6">
+            <h3 className="text-xl font-semibold border-b border-white/30 pb-2 inline-block font-bengali-semibold">সোশ্যাল মিডিয়া</h3>
             <div className="flex gap-4">
               {userInfo?.socialLinks?.facebook && (
                 <Link
@@ -53,7 +106,7 @@ console.log(userInfo)
                   className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all duration-300"
                   aria-label="Facebook"
                 >
-                  <Facebook size={24} />
+                  <Facebook size={20} />
                 </Link>
               )}
               {userInfo?.socialLinks?.instagram && (
@@ -64,7 +117,7 @@ console.log(userInfo)
                   className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all duration-300"
                   aria-label="Instagram"
                 >
-                  <Instagram size={24} />
+                  <Instagram size={20} />
                 </Link>
               )}
               {userInfo?.socialLinks?.twitter && (
@@ -75,7 +128,7 @@ console.log(userInfo)
                   className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all duration-300"
                   aria-label="Twitter"
                 >
-                  <Twitter size={24} />
+                  <Twitter size={20} />
                 </Link>
               )}
               {userInfo?.socialLinks?.youtube && (
@@ -86,17 +139,26 @@ console.log(userInfo)
                   className="bg-white/10 hover:bg-white/20 p-3 rounded-full transition-all duration-300"
                   aria-label="YouTube"
                 >
-                  <Youtube size={24} />
+                  <Youtube size={20} />
                 </Link>
               )}
             </div>
+            
+            {/* Additional Info */}
+            {userInfo?.name && (
+              <div className="pt-4 border-t border-white/20">
+                <p className="text-gray-200 font-bengali-medium text-sm">
+                  {userInfo.name}
+                </p>
+              </div>
+            )}
           </div>
         </div>
 
         <div className="my-8 w-full h-[1px] bg-white/30"></div>
 
         <div className="text-center">
-          <p className="text-gray-200">
+          <p className="text-gray-200 font-bengali-normal">
             © {new Date().getFullYear()} সর্বস্বত্ব {userInfo?.name || ""} কতৃক সংরক্ষিত
           </p>
         </div>
