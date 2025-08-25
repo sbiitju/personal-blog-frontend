@@ -4,12 +4,15 @@ import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import Title from "@/components/ui/title";
 import { useGetAllContentBySubCategoryAndDomain } from "@/hooks/contnet.hook";
+import { getSubCategoryBengaliTitle } from "@/lib/category-items";
 import Image from "next/image";
 import Link from "next/link";
 import { use, useEffect, useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
+import { Calendar, MapPin, Eye } from "lucide-react";
 
 interface Params {
+  maincategory: string;
   subcategory: string;
 }
 
@@ -17,20 +20,20 @@ interface ContentItem {
   _id: string;
   photo: string;
   title: string;
+  description: string;
   date: string;
+  place: string;
 }
 
 export default function SubCategoryPage({ params }: { params: Promise<Params> }) {
-  const { subcategory } = use(params);
-  const toFirstLetterCapital = (str: string) => {
-    if (!str) return "";
-    return str.charAt(0).toUpperCase() + str.slice(1);
-  };
-
-  const cCategory = toFirstLetterCapital(subcategory);
+  const { maincategory, subcategory } = use(params);
+  
+  // Get Bengali title for the subcategory
+  const bengaliTitle = getSubCategoryBengaliTitle(maincategory, subcategory);
+  
   const [page, setPage] = useState(1);
   const [domain, setDomain] = useState<string>("");
-  const ITEMS_PER_PAGE = 12;
+  const ITEMS_PER_PAGE = 9; // Reduced for better layout
 
   const {
     data: contents,
@@ -72,186 +75,253 @@ export default function SubCategoryPage({ params }: { params: Promise<Params> })
   const getPaginationButtons = () => {
     const buttons = [];
     const maxVisibleButtons = 5;
-
     let startPage = Math.max(1, page - Math.floor(maxVisibleButtons / 2));
-    const endPage = Math.min(totalPages, startPage + maxVisibleButtons - 1);
+    let endPage = Math.min(totalPages, startPage + maxVisibleButtons - 1);
 
-    // Adjust start page if we're near the end
     if (endPage - startPage + 1 < maxVisibleButtons) {
       startPage = Math.max(1, endPage - maxVisibleButtons + 1);
     }
 
+    // Previous button
+    if (page > 1) {
+      buttons.push(
+        <Button
+          key="prev"
+          variant="outline"
+          size="sm"
+          onClick={() => handlePageChange(page - 1)}
+          className="flex items-center gap-1 font-bengali-medium hover:bg-primary hover:text-primary-foreground transition-colors"
+        >
+          <IoIosArrowBack className="w-4 h-4" />
+          আগে
+        </Button>
+      );
+    }
+
+    // Page numbers
     for (let i = startPage; i <= endPage; i++) {
-      buttons.push(i);
+      buttons.push(
+        <Button
+          key={i}
+          variant={i === page ? "default" : "outline"}
+          size="sm"
+          onClick={() => handlePageChange(i)}
+          className="font-bengali-medium hover:bg-primary hover:text-primary-foreground transition-colors"
+        >
+          {i}
+        </Button>
+      );
+    }
+
+    // Next button
+    if (page < totalPages) {
+      buttons.push(
+        <Button
+          key="next"
+          variant="outline"
+          size="sm"
+          onClick={() => handlePageChange(page + 1)}
+          className="flex items-center gap-1 font-bengali-medium hover:bg-primary hover:text-primary-foreground transition-colors"
+        >
+          পরবর্তী
+          <IoIosArrowForward className="w-4 h-4" />
+        </Button>
+      );
     }
 
     return buttons;
   };
 
-  // Content skeleton loader
   const ContentSkeleton = () => (
     <>
-      {[...Array(6)].map((_, index) => (
-        <Card key={`skeleton-${index}`} className="gap-0 py-0">
-          <Skeleton className="w-full h-[200px]" />
-          <div className="p-6 space-y-4">
-            <Skeleton className="h-6 w-full" />
-            <Skeleton className="h-4 w-1/3" />
-          </div>
-        </Card>
+      {Array.from({ length: ITEMS_PER_PAGE }).map((_, index) => (
+        <div key={index} className="group">
+          <Card className="overflow-hidden border-0 shadow-xl hover:shadow-2xl transition-all duration-300 bg-white rounded-xl">
+            <div className="space-y-4">
+              <Skeleton className="h-[240px] w-full" />
+              <div className="p-6 space-y-4">
+                <Skeleton className="h-6 w-3/4" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-2/3" />
+                <div className="flex justify-between items-center pt-4 border-t border-gray-100">
+                  <Skeleton className="h-4 w-20" />
+                  <Skeleton className="h-4 w-24" />
+                </div>
+              </div>
+              <div className="px-6 pb-6">
+                <Skeleton className="h-12 w-full rounded-xl" />
+              </div>
+            </div>
+          </Card>
+        </div>
       ))}
     </>
   );
 
   return (
-    <div>
-      <Title className="bg-gradient-to-b from-[#e7000b] to-[#86383c] text-white px-10">
-        {cCategory}
-      </Title>
-
-      {contentError && (
-        <div className="text-center py-8 text-red-500">
-          কন্টেন্ট লোড করতে সমস্যা হয়েছে। অনুগ্রহ করে পুনরায় চেষ্টা করুন।
-        </div>
-      )}
-
-      <div className="my-8 grid md:grid-cols-2 xl:grid-cols-3 gap-6">
-        {contentLoading ? (
-          <ContentSkeleton />
-        ) : (
-          currentItems.map((content: ContentItem) => (
-            <div key={content._id}>
-              <Card className="gap-0 py-0 h-full flex flex-col transition-transform hover:scale-[1.02]">
-                {content.photo ? (
-                  <div className="relative w-full h-[200px]">
-                    <Image
-                      className="object-cover"
-                      src={content.photo || "/placeholder.svg"}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      alt={content.title || "Content Image"}
-                      priority={page === 1}
-                    />
-                  </div>
-                ) : (
-                  <div className="w-full h-[200px] bg-gray-200 flex items-center justify-center">
-                    <span className="text-gray-400">ছবি নেই</span>
-                  </div>
-                )}
-                <div className=" px-2 py-2 space-y-4  flex-grow">
-                  <CardTitle className="font-semibold line-clamp-3  ">
-                    <Link
-                      href={`/${content?._id}`}
-                      className="hover:text-primary hover:underline tracking-wider leading-relaxed"
-                    >
-                      {content?.title}
-                    </Link>
-                  </CardTitle>
-                  <CardDescription>{content.date}</CardDescription>
-                </div>
-              </Card>
-            </div>
-          ))
-        )}
-      </div>
-
-      {/* Show pagination only if we have content and more than one page */}
-      {!contentLoading && totalItems > 0 && totalPages > 1 && (
-        <div className="flex justify-center flex-wrap items-center gap-2 my-8">
-          {/* Backward button */}
-          <Button
-            onClick={() => handlePageChange(page - 1)}
-            variant="outline"
-            className="hover:cursor-pointer"
-            disabled={page === 1}
-            aria-label="Previous page"
-          >
-            <IoIosArrowBack />
-          </Button>
-
-          {/* First page button if not visible */}
-          {getPaginationButtons()[0] > 1 && (
-            <>
-              <Button
-                onClick={() => handlePageChange(1)}
-                variant="outline"
-                className="hover:cursor-pointer"
-              >
-                1
-              </Button>
-              {getPaginationButtons()[0] > 2 && (
-                <span className="px-2">...</span>
-              )}
-            </>
-          )}
-
-          {/* Pagination buttons */}
-          {getPaginationButtons().map((pageNum) => (
-            <Button
-              onClick={() => handlePageChange(pageNum)}
-              key={`pagination-${pageNum}`}
-              variant={page === pageNum ? "destructive" : "outline"}
-              className="hover:cursor-pointer"
-            >
-              {pageNum}
-            </Button>
-          ))}
-
-          {/* Last page button if not visible */}
-          {getPaginationButtons()[getPaginationButtons().length - 1] <
-            totalPages && (
-            <>
-              {getPaginationButtons()[getPaginationButtons().length - 1] <
-                totalPages - 1 && <span className="px-2">...</span>}
-              <Button
-                onClick={() => handlePageChange(totalPages)}
-                variant="outline"
-                className="hover:cursor-pointer"
-              >
-                {totalPages}
-              </Button>
-            </>
-          )}
-
-          {/* Forward button */}
-          <Button
-            onClick={() => handlePageChange(page + 1)}
-            variant="outline"
-            className="hover:cursor-pointer"
-            disabled={page === totalPages}
-            aria-label="Next page"
-          >
-            <IoIosArrowForward />
-          </Button>
-        </div>
-      )}
-
-      {/* Show message when no content is available */}
-      {!contentLoading && totalItems === 0 && !contentError && (
-        <div className="flex justify-center items-center py-12 px-6">
-          <div className="text-center max-w-lg mx-auto bg-white p-8 rounded-lg shadow-lg border border-gray-200">
-            <div className="mb-6">
-              <svg
-                className="w-16 h-16 text-gray-400 mx-auto"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M12 4v16m8-8H4"
-                />
-              </svg>
-            </div>
-            <h2 className="text-xl font-semibold text-gray-700">
-              কোন কন্টেন্ট পাওয়া যায়নি
-            </h2>
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50">
+      {/* Modern Header Section */}
+      <div className="relative overflow-hidden">
+        {/* Background Pattern */}
+        <div className="absolute inset-0 bg-gradient-to-r from-[#e7000b] via-[#d6000a] to-[#86383c]">
+          <div className="absolute inset-0 opacity-30">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_30px_30px,rgba(255,255,255,0.1)_2px,transparent_2px)] bg-[length:60px_60px]"></div>
           </div>
         </div>
-      )}
+        
+        {/* Content Container */}
+        <div className="relative mt-12 container mx-auto px-4 py-12">
+          <div className="flex justify-center">
+            {/* Subcategory Title Only */}
+            <div className="bg-gray-100/90 backdrop-blur-sm rounded-2xl p-6 border border-gray-200/50 shadow-2xl">
+              <Title className="text-3xl md:text-4xl lg:text-5xl font-bengali-bold text-gray-800 mb-2 leading-tight text-center">
+                {bengaliTitle}
+              </Title>
+              <div className="w-16 h-1 bg-gray-600 rounded-full mx-auto"></div>
+            </div>
+          </div>
+        </div>
+        
+        {/* Decorative Elements */}
+        <div className="absolute top-4 right-4 w-32 h-32 bg-white/10 rounded-full blur-3xl"></div>
+        <div className="absolute bottom-4 left-4 w-24 h-24 bg-white/5 rounded-full blur-2xl"></div>
+      </div>
+
+      <div className="container mx-auto px-4 pb-16 mt-16 relative z-10">
+        {contentError && (
+          <div className="text-center py-12">
+            <div className="bg-white/80 backdrop-blur-sm border border-red-200 rounded-2xl p-8 max-w-md mx-auto shadow-xl">
+              <div className="text-red-500 text-6xl mb-4">⚠️</div>
+              <h3 className="text-red-700 font-bengali-semibold text-lg mb-2">
+                কন্টেন্ট লোড করতে সমস্যা হয়েছে
+              </h3>
+              <p className="text-red-600 font-bengali-normal text-sm">
+                অনুগ্রহ করে পুনরায় চেষ্টা করুন
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Content Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+          {contentLoading ? (
+            <ContentSkeleton />
+          ) : (
+            currentItems.map((content: ContentItem) => (
+              <div key={content._id} className="group">
+                <Card className="overflow-hidden border-0 shadow-2xl hover:shadow-3xl transition-all duration-500 bg-white/90 backdrop-blur-sm h-full flex flex-col group-hover:-translate-y-3 rounded-2xl border border-white/20">
+                  {/* Image Section */}
+                  <div className="relative overflow-hidden">
+                    {content.photo ? (
+                      <div className="relative w-full h-[280px]">
+                        <Image
+                          className="object-cover transition-transform duration-700 group-hover:scale-110"
+                          src={content.photo || "/placeholder.svg"}
+                          fill
+                          sizes="(max-width: 1024px) 100vw, 50vw"
+                          alt={content.title || "Content Image"}
+                          priority={page === 1}
+                        />
+                        <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        
+                        {/* Category Badge */}
+                        <div className="absolute top-4 left-4">
+                          <span className="bg-white/95 backdrop-blur-sm text-gray-800 px-4 py-2 rounded-full text-sm font-bengali-medium shadow-xl border border-white/50">
+                            {bengaliTitle}
+                          </span>
+                        </div>
+                        
+                        {/* Date Badge */}
+                        <div className="absolute top-4 right-4">
+                          <span className="bg-black/70 backdrop-blur-sm text-white px-3 py-1.5 rounded-full text-xs font-bengali-medium shadow-lg">
+                            {content.date}
+                          </span>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="w-full h-[280px] bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center relative">
+                        <div className="text-center">
+                          <div className="text-gray-400 text-5xl mb-3">📷</div>
+                          <span className="text-gray-500 font-bengali-normal text-sm">ছবি নেই</span>
+                        </div>
+                        
+                        {/* Category Badge for placeholder */}
+                        <div className="absolute top-4 left-4">
+                          <span className="bg-white/95 backdrop-blur-sm text-gray-800 px-4 py-2 rounded-full text-sm font-bengali-medium shadow-xl border border-white/50">
+                            {bengaliTitle}
+                          </span>
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Content Section */}
+                  <div className="p-8 flex-grow flex flex-col">
+                    <div className="flex-grow space-y-4">
+                      <CardTitle className="text-2xl font-bengali-semibold line-clamp-2 leading-tight text-gray-800 group-hover:text-[#e7000b] transition-colors duration-300">
+                        {content.title}
+                      </CardTitle>
+                      <CardDescription className="text-sm text-gray-600 line-clamp-3 font-bengali-normal leading-relaxed">
+                        {content.description}
+                      </CardDescription>
+                    </div>
+
+                    {/* Meta Information */}
+                    <div className="mt-6 pt-6 border-t border-gray-100">
+                      <div className="flex items-center justify-between text-sm text-gray-500 font-bengali-normal">
+                        <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-2 bg-blue-50 px-3 py-1.5 rounded-full">
+                            <Calendar className="w-4 h-4 text-blue-600" />
+                            <span className="text-blue-700">{content.date}</span>
+                          </div>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <div className="flex items-center gap-2 bg-red-50 px-3 py-1.5 rounded-full">
+                            <MapPin className="w-4 h-4 text-red-600" />
+                            <span className="text-red-700">{content.place}</span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Action Button */}
+                  <div className="px-8 pb-8">
+                    <Link href={`/${content._id}`} className="block">
+                      <Button className="w-full bg-gradient-to-r from-[#e7000b] to-[#86383c] text-white hover:from-[#d6000a] hover:to-[#7a3236] transition-all duration-500 font-bengali-medium py-4 rounded-2xl shadow-xl hover:shadow-2xl group-hover:scale-[1.02] flex items-center justify-center gap-3 text-base font-semibold">
+                        <Eye className="w-5 h-5" />
+                        আরও পড়ুন
+                      </Button>
+                    </Link>
+                  </div>
+                </Card>
+              </div>
+            ))
+          )}
+        </div>
+
+        {/* Empty State */}
+        {!contentLoading && currentItems.length === 0 && !contentError && (
+          <div className="text-center py-20">
+            <div className="bg-white/80 backdrop-blur-sm rounded-2xl p-16 max-w-md mx-auto shadow-2xl border border-white/20">
+              <div className="text-gray-400 text-7xl mb-6">📭</div>
+              <h3 className="text-gray-700 font-bengali-semibold text-2xl mb-3">
+                কোন কন্টেন্ট পাওয়া যায়নি
+              </h3>
+              <p className="text-gray-500 font-bengali-normal text-lg">
+                এই বিভাগে এখনও কোন কন্টেন্ট যোগ করা হয়নি
+              </p>
+            </div>
+          </div>
+        )}
+
+        {/* Pagination */}
+        {totalPages > 1 && (
+          <div className="flex justify-center items-center gap-4 mt-16">
+            {getPaginationButtons()}
+          </div>
+        )}
+      </div>
     </div>
   );
 }

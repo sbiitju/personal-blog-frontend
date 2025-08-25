@@ -1,4 +1,16 @@
-export const categoryItems = [
+
+// Navigation data structure
+export const navigationItems = [
+  {
+    title: "প্রচ্ছদ",
+    href: "/",
+    description: "",
+  },
+  {
+    title: "জীবন বৃত্তান্ত",
+    href: "/biograph",
+    description: "",
+  },
   {
     title: "লেখালেখি",
     href: "/category/blog",
@@ -99,42 +111,3 @@ export const categoryItems = [
     ],
   },
 ];
-
-// Utility function to get Bengali title for main category
-export const getMainCategoryBengaliTitle = (categoryName: string): string => {
-  const category = categoryItems.find(item => 
-    item.href === `/category/${categoryName}`
-  );
-  return category?.title || categoryName;
-};
-
-// Utility function to get Bengali title for subcategory
-export const getSubCategoryBengaliTitle = (mainCategory: string, subCategoryName: string): string => {
-  const category = categoryItems.find(item => 
-    item.href === `/category/${mainCategory}`
-  );
-  
-  if (category?.items) {
-    const subCategory = category.items.find(subItem => 
-      subItem.href === `/category/${mainCategory}/${subCategoryName}`
-    );
-    return subCategory?.title || subCategoryName;
-  }
-  
-  return subCategoryName;
-};
-
-// Utility function to get Bengali title for any category/subcategory path
-export const getBengaliTitle = (path: string): string => {
-  const pathParts = path.split('/').filter(Boolean);
-  
-  if (pathParts.length === 2 && pathParts[0] === 'category') {
-    // Main category
-    return getMainCategoryBengaliTitle(pathParts[1]);
-  } else if (pathParts.length === 3 && pathParts[0] === 'category') {
-    // Subcategory
-    return getSubCategoryBengaliTitle(pathParts[1], pathParts[2]);
-  }
-  
-  return path;
-};

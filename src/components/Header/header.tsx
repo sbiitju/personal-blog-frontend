@@ -8,119 +8,8 @@ import { FaFacebookF, FaInstagram, FaYoutube, FaTwitter } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 import { useGetUserByDomain } from "@/hooks/auth.hook";
 import { useUser } from "@/context/user.provider";
+import { navigationItems } from "@/data/navigation";
 
-// Navigation data structure
-const navigationItems = [
-  {
-    title: "প্রচ্ছদ",
-    href: "/",
-    description: "",
-  },
-  {
-    title: "জীবন বৃত্তান্ত",
-    href: "/biograph",
-    description: "",
-  },
-  {
-    title: "লেখালেখি",
-    href: "/category/blog",
-    description: "/category/blog",
-    items: [
-      { title: "অর্থনীতি", href: "/category/blog/economics" },
-      { title: "ইতিহাস", href: "/category/blog/history" },
-      { title: "ধর্ম", href: "/category/blog/religion" },
-      { title: "ইসলামী আন্দোলন", href: "/category/blog/islamic-movement" },
-      { title: "বাংলাদেশ", href: "/category/blog/bangladesh" },
-      { title: "রাজনীতি", href: "/category/blog/politics" },
-      { title: "সংস্কৃতি", href: "/category/blog/culture" },
-      { title: "বিবিধ", href: "/category/blog/others" },
-    ],
-  },
-  {
-    title: "সংবাদ/কার্যক্রম",
-    href: "/category/events",
-    description: "",
-    items: [
-      { title: "বিবৃতি/বাণী", href: "/category/events/statement-message" },
-      {
-        title: "দাওয়াহ কার্যক্রম",
-        href: "/category/events/preaching-activities",
-      },
-      { title: "সমাজ কল্যাণ", href: "/category/events/social-welfare" },
-      {
-        title: "সংগঠন ও রাজনীতি",
-        href: "/category/events/organization-politics",
-      },
-      {
-        title: "শিক্ষা ও প্রশিক্ষণ",
-        href: "/category/events/education-training",
-      },
-      {
-        title: "স্বাস্থ্যসেবা",
-        href: "/category/events/healthcare",
-      },
-      {
-        title: "শ্রমিক কল্যাণ",
-        href: "/category/events/labor-welfare",
-      },
-      {
-        title: "আইন ও মানবাধিকার",
-        href: "/category/events/law-human-rights",
-      },
-      {
-        title: "তথ্য ও গবেষণা",
-        href: "/category/events/information-research",
-      },
-      {
-        title: "বিজ্ঞান ও তথ্যপ্রযুক্তি",
-        href: "/category/events/science-it",
-      },
-      {
-        title: "সাহিত্য ও সংস্কৃতি",
-        href: "/category/events/literature-culture",
-      },
-      {
-        title: "পরিবেশ ও কৃষি উন্নয়ন",
-        href: "/category/events/environmental-agricultural-development",
-      },
-      {
-        title: "যুব ও ক্রীড়া",
-        href: "/category/events/youth-sports",
-      },
-      {
-        title: "আন্তর্জাতিক",
-        href: "/category/events/international",
-      },
-    ],
-  },
-  {
-    title: "তথ্যকোষ",
-    href: "/category/informatics",
-    description: "",
-    items: [
-      { title: "বই", href: "/category/informatics/books" },
-      { title: "বক্তব্য", href: "/category/informatics/speech" },
-      { title: "উদ্ধৃতি", href: "/category/informatics/quote" },
-      { title: "সাক্ষাৎকার", href: "/category/informatics/interview" },
-      {
-        title: "বিশেষ প্রতিবেদন",
-        href: "/category/informatics/special-articles",
-      },
-      { title: "স্মারক", href: "/category/informatics/commemoration" },
-      {
-        title: "বুকলেট/লিফলেট",
-        href: "/category/informatics/booklet-leaflet",
-      },
-      { title: "পোস্টার", href: "/category/informatics/posters" },
-      { title: "ডকুমেন্টারি", href: "/category/informatics/documentaries" },
-      { title: "ছবি গ্যালারী", href: "/category/informatics/photo-gallery" },
-      {
-        title: "ভিডিও গ্যালারী",
-        href: "/category/informatics/video-gallery",
-      },
-    ],
-  },
-];
 
 const Header = () => {
   const { user } = useUser();
@@ -195,7 +84,7 @@ const Header = () => {
           href="/"
           className="flex items-center pr-4 cursor-pointer select-none"
         >
-          <p className="font-semibold text-lg md:text-xl flex items-center gap-1">
+          <p className="font-bengali-semibold text-lg md:text-xl flex items-center gap-1">
             {/* <Image
               className="font-semibold text-lg"
               src="/logo1.png"
@@ -216,7 +105,7 @@ const Header = () => {
                   <Link
                     href={item.href || "#"}
                     className={cn(
-                      "inline-flex h-10 items-center justify-center rounded-md px-4 py-2 text-base font-medium transition-colors",
+                      "inline-flex h-10 items-center justify-center rounded-md px-4 py-2 text-base font-bengali-medium transition-colors",
                       "hover:bg-accent/50 hover:text-accent-foreground focus:bg-accent/50 focus:text-accent-foreground focus:outline-none",
                       "border-b-2 border-transparent group-hover:border-brand-primary"
                     )}
@@ -235,9 +124,9 @@ const Header = () => {
                             <li key={subIndex}>
                               <Link
                                 href={subItem.href}
-                                className="block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                                className="block select-none rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground font-bengali-normal"
                               >
-                                <span className="text-sm font-medium">
+                                <span className="text-sm font-bengali-medium">
                                   {subItem.title}
                                 </span>
                               </Link>
@@ -258,7 +147,7 @@ const Header = () => {
           <div>
             <Link
               href="/"
-              className="hidden lg:block p-3 px-5 rounded-full rounded-tl-none bg-gradient-to-b from-[#e7000b] to-[#86383c] text-white  border font-bold select-none transition-all hover:shadow-md hover:scale-105 active:scale-95"
+              className="hidden lg:block p-3 px-5 rounded-full rounded-tl-none bg-gradient-to-b from-[#e7000b] to-[#86383c] text-white  border font-bengali-bold select-none transition-all hover:shadow-md hover:scale-105 active:scale-95"
             >
               পরামর্শ দিন
             </Link>
@@ -267,7 +156,7 @@ const Header = () => {
             {user && (
               <Link
                 href={`/${user.role}/dashboard`}
-                className="hidden lg:block p-3 px-5 rounded-full rounded-tl-none bg-gradient-to-b from-[#e7000b] to-[#86383c] text-white  border font-bold select-none transition-all hover:shadow-md hover:scale-105 active:scale-95"
+                className="hidden lg:block p-3 px-5 rounded-full rounded-tl-none bg-gradient-to-b from-[#e7000b] to-[#86383c] text-white  border font-bengali-bold select-none transition-all hover:shadow-md hover:scale-105 active:scale-95"
               >
                 Dashboard
               </Link>
@@ -276,41 +165,45 @@ const Header = () => {
 
           {/* Social Media Icons */}
           <div className="hidden xl:flex gap-4">
-            {[
-              {
-                Icon: FaFacebookF,
-                href:
-                  userData?.data?.socialLinks?.facebook ||
-                  "https://www.facebook.com/",
-              },
-              {
-                Icon: FaInstagram,
-                href:
-                  userData?.data?.socialLinks?.instagram ||
-                  "https://www.instagram.com/",
-              },
-              {
-                Icon: FaYoutube,
-                href:
-                  userData?.data?.socialLinks?.youtube ||
-                  "https://www.youtube.com/",
-              },
-              {
-                Icon: FaTwitter,
-                href:
-                  userData?.data?.socialLinks?.twitter ||
-                  "http://www.linkedin.com/",
-              },
-            ].map(({ Icon, href }, index) => (
+            {userData?.data?.socialLinks?.facebook && (
               <Link
-                key={index}
-                href={href}
+                href={userData.data.socialLinks.facebook}
                 className="bg-brand-primary-light border p-2 rounded-full hover:bg-accent transition-all duration-200 flex items-center justify-center hover:shadow-md hover:scale-110"
-                aria-label={`Visit our ${Icon.name.replace("Fa", "")}`}
+                aria-label="Visit our Facebook"
               >
-                <Icon className="w-4 h-4" />
+                <FaFacebookF className="w-4 h-4" />
               </Link>
-            ))}
+            )}
+
+            {userData?.data?.socialLinks?.instagram && (
+              <Link
+                href={userData.data.socialLinks.instagram}
+                className="bg-brand-primary-light border p-2 rounded-full hover:bg-accent transition-all duration-200 flex items-center justify-center hover:shadow-md hover:scale-110"
+                aria-label="Visit our Instagram"
+              >
+                <FaInstagram className="w-4 h-4" />
+              </Link>
+            )}
+
+            {userData?.data?.socialLinks?.youtube && (
+              <Link
+                href={userData.data.socialLinks.youtube}
+                className="bg-brand-primary-light border p-2 rounded-full hover:bg-accent transition-all duration-200 flex items-center justify-center hover:shadow-md hover:scale-110"
+                aria-label="Visit our YouTube"
+              >
+                <FaYoutube className="w-4 h-4" />
+              </Link>
+            )}
+
+            {userData?.data?.socialLinks?.twitter && (
+              <Link
+                href={userData.data.socialLinks.twitter}
+                className="bg-brand-primary-light border p-2 rounded-full hover:bg-accent transition-all duration-200 flex items-center justify-center hover:shadow-md hover:scale-110"
+                aria-label="Visit our Twitter"
+              >
+                <FaTwitter className="w-4 h-4" />
+              </Link>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
@@ -344,7 +237,7 @@ const Header = () => {
                     <div className="flex items-center justify-between">
                       <Link
                         href={item.href || "#"}
-                        className="text-lg font-medium hover:text-primary py-2"
+                        className="text-lg font-bengali-medium hover:text-primary py-2"
                         onClick={() => !item.items && setOpen(false)}
                       >
                         {item.title}
@@ -383,7 +276,7 @@ const Header = () => {
                           <Link
                             key={subItem.title}
                             href={subItem.href}
-                            className="block text-muted-foreground hover:text-primary text-sm py-2 px-2 rounded hover:bg-accent/30"
+                            className="block text-muted-foreground hover:text-primary text-sm py-2 px-2 rounded hover:bg-accent/30 font-bengali-normal"
                             onClick={() => setOpen(false)}
                           >
                             {subItem.title}
@@ -399,60 +292,64 @@ const Header = () => {
               <div className="pt-6">
                 <Link
                   href="/"
-                  className="block w-full text-center p-3 px-4 rounded-full rounded-tl-none  bg-gradient-to-b from-[#e7000b] to-[#86383c] text-white  border font-bold shadow-md hover:shadow-lg transition-all"
+                  className="block w-full text-center p-3 px-4 rounded-full rounded-tl-none  bg-gradient-to-b from-[#e7000b] to-[#86383c] text-white  border font-bengali-bold shadow-md hover:shadow-lg transition-all"
                   onClick={() => setOpen(false)}
                 >
                   পরামর্শ দিন
                 </Link>
               </div>
               <div>
-            {user && (
-              <Link
-                href={`/${user.role}/dashboard`}
-                className="block w-full text-center p-3 px-4 rounded-full rounded-tl-none  bg-gradient-to-b from-[#e7000b] to-[#86383c] text-white  border font-bold shadow-md hover:shadow-lg transition-all"
-              >
-                Dashboard
-              </Link>
-            )}
-          </div>
-
-              {/* Mobile Social Icons */}
-              <div className="flex justify-center gap-6 pt-8">
-                {[
-                  {
-                    Icon: FaFacebookF,
-                    href:
-                      userData?.data?.socialLinks?.facebook ||
-                      "https://www.facebook.com/",
-                  },
-                  {
-                    Icon: FaInstagram,
-                    href:
-                      userData?.data?.socialLinks?.instagram ||
-                      "https://www.instagram.com/",
-                  },
-                  {
-                    Icon: FaYoutube,
-                    href:
-                      userData?.data?.socialLinks?.youtube ||
-                      "https://www.youtube.com/",
-                  },
-                  {
-                    Icon: FaTwitter,
-                    href:
-                      userData?.data?.socialLinks?.twitter ||
-                      "http://www.linkedin.com/",
-                  },
-                ].map(({ Icon, href }, index) => (
+                {user && (
                   <Link
-                    key={index}
-                    href={href}
-                    className="bg-brand-primary-light border p-2 rounded-full hover:bg-accent transition-all duration-200 flex items-center justify-center hover:shadow-md"
-                    aria-label={`Visit our ${Icon.name.replace("Fa", "")}`}
+                    href={`/${user.role}/dashboard`}
+                    className="block w-full text-center p-3 px-4 rounded-full rounded-tl-none  bg-gradient-to-b from-[#e7000b] to-[#86383c] text-white  border font-bengali-bold shadow-md hover:shadow-lg transition-all"
                   >
-                    <Icon className="w-4 h-4" />
+                    Dashboard
                   </Link>
-                ))}
+                )}
+              </div>
+
+               
+              <div className="flex justify-center gap-6 pt-8">
+                {userData?.data?.socialLinks?.facebook && (
+                  <Link
+                    href={userData.data.socialLinks.facebook}
+                    className="bg-brand-primary-light border p-2 rounded-full hover:bg-accent transition-all duration-200 flex items-center justify-center hover:shadow-md hover:scale-110"
+                    aria-label="Visit our Facebook"
+                  >
+                    <FaFacebookF className="w-4 h-4" />
+                  </Link>
+                )}
+
+                {userData?.data?.socialLinks?.instagram && (
+                  <Link
+                    href={userData.data.socialLinks.instagram}
+                    className="bg-brand-primary-light border p-2 rounded-full hover:bg-accent transition-all duration-200 flex items-center justify-center hover:shadow-md hover:scale-110"
+                    aria-label="Visit our Instagram"
+                  >
+                    <FaInstagram className="w-4 h-4" />
+                  </Link>
+                )}
+
+                {userData?.data?.socialLinks?.youtube && (
+                  <Link
+                    href={userData.data.socialLinks.youtube}
+                    className="bg-brand-primary-light border p-2 rounded-full hover:bg-accent transition-all duration-200 flex items-center justify-center hover:shadow-md hover:scale-110"
+                    aria-label="Visit our YouTube"
+                  >
+                    <FaYoutube className="w-4 h-4" />
+                  </Link>
+                )}
+
+                {userData?.data?.socialLinks?.twitter && (
+                  <Link
+                    href={userData.data.socialLinks.twitter}
+                    className="bg-brand-primary-light border p-2 rounded-full hover:bg-accent transition-all duration-200 flex items-center justify-center hover:shadow-md hover:scale-110"
+                    aria-label="Visit our Twitter"
+                  >
+                    <FaTwitter className="w-4 h-4" />
+                  </Link>
+                )}
               </div>
             </div>
           </div>
