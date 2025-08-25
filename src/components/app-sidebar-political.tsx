@@ -2,6 +2,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import {
   Home,
   UserCircle,
@@ -9,6 +10,9 @@ import {
   LogOut,
   ChevronDown,
   LayoutDashboard,
+  FileText,
+  Image,
+  User,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 
@@ -45,57 +49,57 @@ import {
 // Menu items with nested structure
 const menuItems = [
   {
-    title: "Dashboard",
+    title: "ড্যাশবোর্ড",
     url: "/political/dashboard",
     icon: LayoutDashboard,
   },
   {
-    title: "Home",
+    title: "হোম",
     url: "/",
     icon: Home,
   },
   {
-    title: "Content Management",
-    icon: UserCircle,
+    title: "কন্টেন্ট ব্যবস্থাপনা",
+    icon: FileText,
     submenu: [
       {
-        title: "All Content",
+        title: "সব কন্টেন্ট",
         url: "/political/content",
       },
       {
-        title: "Create Content",
+        title: "কন্টেন্ট তৈরি",
         url: "/political/content/create-content",
       },
     ],
   },
   {
-    title: "Banner",
-    icon: ShoppingCart,
+    title: "ব্যানার",
+    icon: Image,
     submenu: [
       {
-        title: "All Banner",
+        title: "সব ব্যানার",
         url: "/political/banner",
       },
       {
-        title: "Create Banner",
+        title: "ব্যানার তৈরি",
         url: "/political/banner/create-banner",
       },
     ],
   },
   {
-    title: "Biograph",
-    icon: ShoppingCart,
+    title: "জীবন বৃত্তান্ত",
+    icon: User,
     submenu: [
       {
-        title: "Biograph",
+        title: "জীবন বৃত্তান্ত",
         url: "/political/biograph",
       },
       {
-        title: "Create Biography",
+        title: "জীবন বৃত্তান্ত তৈরি",
         url: "/political/biograph/create-biograph",
       },
       {
-        title: "Update Biography",
+        title: "জীবন বৃত্তান্ত আপডেট",
         url: "/political/biograph/update-biograph",
       },
     ],
@@ -133,16 +137,16 @@ export function AppSidebarPolitical() {
             <span className="text-lg font-bold text-primary-foreground">P</span>
           </div>
           <div className="flex flex-col">
-            <span className="text-sm font-semibold">Political Portal</span>
-            <span className="text-xs text-muted-foreground">
-              Management System
+            <span className="text-sm font-semibold font-bengali-medium">রাজনৈতিক পোর্টাল</span>
+            <span className="text-xs text-muted-foreground font-bengali-normal">
+              ব্যবস্থাপনা সিস্টেম
             </span>
           </div>
         </div>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Main Navigation</SidebarGroupLabel>
+          <SidebarGroupLabel className="font-bengali-medium">মূল নেভিগেশন</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => (
@@ -159,7 +163,7 @@ export function AppSidebarPolitical() {
                         >
                           <div className="flex items-center">
                             <item.icon className="mr-2 h-4 w-4" />
-                            <span>{item.title}</span>
+                            <span className="font-bengali-medium">{item.title}</span>
                           </div>
                           <ChevronDown
                             className={`h-4 w-4 transition-transform ${
@@ -176,7 +180,9 @@ export function AppSidebarPolitical() {
                                 asChild
                                 isActive={isActive(subItem.url)}
                               >
-                                <a href={subItem.url}>{subItem.title}</a>
+                                <Link href={subItem.url} className="font-bengali-normal">
+                                  {subItem.title}
+                                </Link>
                               </SidebarMenuSubButton>
                             </SidebarMenuSubItem>
                           ))}
@@ -185,10 +191,10 @@ export function AppSidebarPolitical() {
                     </Collapsible>
                   ) : (
                     <SidebarMenuButton asChild isActive={isActive(item.url)}>
-                      <a href={item.url}>
+                      <Link href={item.url} className="font-bengali-medium">
                         <item.icon className="mr-2 h-4 w-4" />
                         <span>{item.title}</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   )}
                 </SidebarMenuItem>
@@ -205,12 +211,12 @@ export function AppSidebarPolitical() {
                 <Avatar className="h-8 w-8">
                   <AvatarImage
                     src="/placeholder.svg?height=32&width=32"
-                    alt="Admin"
+                    alt="Political"
                   />
-                  <AvatarFallback>AD</AvatarFallback>
+                  <AvatarFallback>PL</AvatarFallback>
                 </Avatar>
                 <div className="flex flex-1 flex-col text-left">
-                  <span className="text-sm font-medium">User</span>
+                  <span className="text-sm font-medium font-bengali-medium">রাজনৈতিক ব্যবহারকারী</span>
                 </div>
                 <ChevronDown className="h-4 w-4" />
               </button>
@@ -219,7 +225,7 @@ export function AppSidebarPolitical() {
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <LogOut className="mr-2 h-4 w-4" />
-                <span>Log out</span>
+                <span className="font-bengali-medium">লগআউট</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

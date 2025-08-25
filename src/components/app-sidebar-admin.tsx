@@ -2,6 +2,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import {
   Home,
   UserCircle,
@@ -9,6 +10,8 @@ import {
   LogOut,
   ChevronDown,
   LayoutDashboard,
+  Users,
+  Settings,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 
@@ -45,46 +48,51 @@ import {
 // Menu items with nested structure
 const menuItems = [
   {
-    title: "Dashboard",
+    title: "ড্যাশবোর্ড",
     url: "/admin/dashboard",
     icon: LayoutDashboard,
   },
   {
-    title: "Home",
+    title: "হোম",
     url: "/",
     icon: Home,
   },
   {
-    title: "User Management",
-    icon: UserCircle,
+    title: "ব্যবহারকারী ব্যবস্থাপনা",
+    icon: Users,
     submenu: [
       {
-        title: "All Users",
+        title: "সব ব্যবহারকারী",
         url: "/admin/user",
       },
       {
-        title: "Create User",
+        title: "ব্যবহারকারী তৈরি",
         url: "/admin/user/create-user",
       },
       {
-        title: "Create Admin",
+        title: "অ্যাডমিন তৈরি",
         url: "/admin/user/create-admin",
       },
     ],
   },
   {
-    title: "Categories",
+    title: "শ্রেণীবিভাগ",
     icon: ShoppingCart,
     submenu: [
       {
-        title: "Categories",
+        title: "শ্রেণীসমূহ",
         url: "/admin/dashboard/category",
       },
       {
-        title: "Sub Categories",
+        title: "উপ-শ্রেণীসমূহ",
         url: "/admin/dashboard/sub-category",
       },
     ],
+  },
+  {
+    title: "সিস্টেম সেটিংস",
+    url: "/admin/settings",
+    icon: Settings,
   },
 ];
 
@@ -119,16 +127,16 @@ export function AppSidebarAdmin() {
             <span className="text-lg font-bold text-primary-foreground">A</span>
           </div>
           <div className="flex flex-col">
-            <span className="text-sm font-semibold">Admin Portal</span>
-            <span className="text-xs text-muted-foreground">
-              Management System
+            <span className="text-sm font-semibold font-bengali-medium">অ্যাডমিন পোর্টাল</span>
+            <span className="text-xs text-muted-foreground font-bengali-normal">
+              ব্যবস্থাপনা সিস্টেম
             </span>
           </div>
         </div>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
-          <SidebarGroupLabel>Main Navigation</SidebarGroupLabel>
+          <SidebarGroupLabel className="font-bengali-medium">মূল নেভিগেশন</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {menuItems.map((item) => (
@@ -145,7 +153,7 @@ export function AppSidebarAdmin() {
                         >
                           <div className="flex items-center">
                             <item.icon className="mr-2 h-4 w-4" />
-                            <span>{item.title}</span>
+                            <span className="font-bengali-medium">{item.title}</span>
                           </div>
                           <ChevronDown
                             className={`h-4 w-4 transition-transform ${
@@ -162,7 +170,9 @@ export function AppSidebarAdmin() {
                                 asChild
                                 isActive={isActive(subItem.url)}
                               >
-                                <a href={subItem.url}>{subItem.title}</a>
+                                <Link href={subItem.url} className="font-bengali-normal">
+                                  {subItem.title}
+                                </Link>
                               </SidebarMenuSubButton>
                             </SidebarMenuSubItem>
                           ))}
@@ -171,10 +181,10 @@ export function AppSidebarAdmin() {
                     </Collapsible>
                   ) : (
                     <SidebarMenuButton asChild isActive={isActive(item.url)}>
-                      <a href={item.url}>
+                      <Link href={item.url} className="font-bengali-medium">
                         <item.icon className="mr-2 h-4 w-4" />
                         <span>{item.title}</span>
-                      </a>
+                      </Link>
                     </SidebarMenuButton>
                   )}
                 </SidebarMenuItem>
@@ -196,7 +206,7 @@ export function AppSidebarAdmin() {
                   <AvatarFallback>AD</AvatarFallback>
                 </Avatar>
                 <div className="flex flex-1 flex-col text-left">
-                  <span className="text-sm font-medium">Admin User</span>
+                  <span className="text-sm font-medium font-bengali-medium">অ্যাডমিন ব্যবহারকারী</span>
                 </div>
                 <ChevronDown className="h-4 w-4" />
               </button>
@@ -205,7 +215,7 @@ export function AppSidebarAdmin() {
               <DropdownMenuSeparator />
               <DropdownMenuItem>
                 <LogOut className="mr-2 h-4 w-4" />
-                <span>Log out</span>
+                <span className="font-bengali-medium">লগআউট</span>
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
