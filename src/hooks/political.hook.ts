@@ -23,7 +23,7 @@ export const useGetLoggedPoliticalUser = () => {
 export const useUpdatePoliticalProfile = () => {
   const queryClient = useQueryClient();
   
-  return useMutation<any, Error, FieldValues>({
+  return useMutation<any, Error, FieldValues | FormData>({
     mutationKey: ["UPDATE_POLITICAL_PROFILE"],
     mutationFn: async (userData) => await updatePoliticalProfile(userData),
     onSuccess: () => {

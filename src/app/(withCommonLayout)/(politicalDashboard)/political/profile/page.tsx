@@ -1,12 +1,14 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 import { useGetLoggedPoliticalUser } from "@/hooks/political.hook";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
 import { Separator } from "@/components/ui/separator";
 import Loader from "@/components/common/Loader";
+import { Button } from "@/components/ui/button";
 import { 
   User, 
   Mail, 
@@ -19,11 +21,13 @@ import {
   Youtube,
   Instagram,
   Twitter,
-  FileText
+  FileText,
+  Edit
 } from "lucide-react";
 
 const PoliticalProfilePage = () => {
   const { data: politicalUser, isLoading, error } = useGetLoggedPoliticalUser();
+  const router = useRouter();
 console.log(politicalUser);
   if (isLoading) {
     return (
@@ -84,6 +88,13 @@ console.log(politicalUser);
             আপনার ব্যক্তিগত এবং পেশাদার তথ্য দেখুন
           </p>
         </div>
+        <Button
+          onClick={() => router.push("/political/profile/edit")}
+          className="bg-blue-600 hover:bg-blue-700"
+        >
+          <Edit className="w-4 h-4 mr-2" />
+          প্রোফাইল সম্পাদনা
+        </Button>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

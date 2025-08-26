@@ -13,6 +13,7 @@ import {
   FileText,
   Image,
   User,
+  Edit,
 } from "lucide-react";
 import { usePathname } from "next/navigation";
 
@@ -57,6 +58,11 @@ const menuItems = [
     title: "প্রোফাইল",
     url: "/political/profile",
     icon: UserCircle,
+  },
+  {
+    title: "প্রোফাইল সম্পাদনা",
+    url: "/political/profile/edit",
+    icon: Edit,
   },
   {
     title: "হোম",

@@ -18,9 +18,13 @@ export const getLoggedPoliticalUser = async () => {
 };
 
 // Update political user profile
-export const updatePoliticalProfile = async (userData: FieldValues) => {
+export const updatePoliticalProfile = async (userData: FieldValues | FormData) => {
   try {
-    const { data } = await axiosInstance.patch("/political/profile", userData);
+    const headers = userData instanceof FormData 
+      ? { "Content-Type": "multipart/form-data" }
+      : { "Content-Type": "application/json" };
+      
+    const { data } = await axiosInstance.patch("/political/profile", userData, { headers });
     return data;
   } catch (error: any) {
     const data = {
