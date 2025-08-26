@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils";
 import { useGetUserByDomain } from "@/hooks/auth.hook";
 import { useUser } from "@/context/user.provider";
 import { navigationItems } from "@/data/navigation";
+import AdviceButton from "@/components/AdviceButton";
 
 
 const Header = () => {
@@ -144,13 +145,8 @@ const Header = () => {
 
         <div className="flex items-center gap-4 md:gap-6 lg:gap-8">
           {/* CTA Button */}
-          <div>
-            <Link
-              href="/"
-              className="hidden lg:block p-3 px-5 rounded-full rounded-tl-none bg-gradient-to-b from-[#e7000b] to-[#86383c] text-white  border font-bengali-bold select-none transition-all hover:shadow-md hover:scale-105 active:scale-95"
-            >
-              পরামর্শ দিন
-            </Link>
+          <div className="hidden lg:block">
+            <AdviceButton />
           </div>
           <div>
             {user && (
@@ -290,13 +286,9 @@ const Header = () => {
 
               {/* Mobile CTA */}
               <div className="pt-6">
-                <Link
-                  href="/"
-                  className="block w-full text-center p-3 px-4 rounded-full rounded-tl-none  bg-gradient-to-b from-[#e7000b] to-[#86383c] text-white  border font-bengali-bold shadow-md hover:shadow-lg transition-all"
-                  onClick={() => setOpen(false)}
-                >
-                  পরামর্শ দিন
-                </Link>
+                <div className="block w-full">
+                  <AdviceButton />
+                </div>
               </div>
               <div>
                 {user && (
