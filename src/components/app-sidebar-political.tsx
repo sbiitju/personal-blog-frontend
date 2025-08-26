@@ -54,6 +54,11 @@ const menuItems = [
     icon: LayoutDashboard,
   },
   {
+    title: "প্রোফাইল",
+    url: "/political/profile",
+    icon: UserCircle,
+  },
+  {
     title: "হোম",
     url: "/",
     icon: Home,

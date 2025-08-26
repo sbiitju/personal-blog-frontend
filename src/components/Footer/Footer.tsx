@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 import { useGetUserByDomain } from "@/hooks/auth.hook"
 import { useGetAllContentByDomain } from "@/hooks/contnet.hook"
@@ -11,7 +12,7 @@ export default function Footer() {
   const { data: userData } = useGetUserByDomain(domain)
   const { data: contentData } = useGetAllContentByDomain(domain)
   const userInfo = userData?.data
-  const recentContent = contentData?.data?.slice(0, 4) || [] // Get latest 4 content
+  const recentContent = contentData?.data?.slice(0, 4) || []  
 
   useEffect(() => {
     if (typeof window !== "undefined") {
