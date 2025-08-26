@@ -8,6 +8,7 @@ import PHTextarea from "@/components/form/PHTextArea"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Separator } from "@/components/ui/separator"
+import { Badge } from "@/components/ui/badge"
 import { useUser } from "@/context/user.provider"
 import { useCreateContent } from "@/hooks/contnet.hook"
 import { categoryItems } from "@/lib/category-items"
@@ -17,17 +18,17 @@ import { type ChangeEvent, useEffect, useState, useMemo } from "react"
 import type { SubmitHandler } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
-
- 
+import { ArrowLeft, Upload, FileText, Image as ImageIcon, Calendar, MapPin, Tag } from "lucide-react"
+import Link from "next/link"
 
 // Define the validation schema with Zod - making it less strict
 const contentSchema = z.object({
-  title: z.string().min(1, "Title is required"),
-  date: z.string().min(2, "Date is required"),
-  place: z.string().min(1, "Place is required"),
-  description: z.string().min(1, "Description is required"),
-  category: z.string().min(1, "Category is required"),
-  subcategory: z.string().min(1, "Subcategory is required"),
+  title: z.string().min(1, "শিরোনাম প্রয়োজন"),
+  date: z.string().min(2, "তারিখ প্রয়োজন"),
+  place: z.string().min(1, "স্থান প্রয়োজন"),
+  description: z.string().min(1, "বিবরণ প্রয়োজন"),
+  category: z.string().min(1, "শ্রেণী প্রয়োজন"),
+  subcategory: z.string().min(1, "উপ-শ্রেণী প্রয়োজন"),
 })
 
 // TypeScript type derived from the schema
@@ -91,7 +92,7 @@ export default function ContentCreatePage() {
       )
       handleCreateContent(userData)
     } else {
-      toast.error("Please upload a content image")
+      toast.error("অনুগ্রহ করে একটি ছবি আপলোড করুন")
     }
   }
 
@@ -126,7 +127,7 @@ export default function ContentCreatePage() {
       toast.error(data?.message as string)
     }
     if (isSuccess && data?.success) {
-      toast.success("Content created successfully")
+      toast.success("কন্টেন্ট সফলভাবে তৈরি হয়েছে")
       router.push("/political/content")
     }
   }, [data, isSuccess, router])
@@ -134,14 +135,36 @@ export default function ContentCreatePage() {
   return (
     <>
       {isPending && <Loader />}
-      <div className="flex min-h-[calc(100vh-100px)] flex-col items-center justify-center py-8 px-4">
-        <Card className="w-full max-w-2xl shadow-md">
-          <CardHeader className="text-center bg-primary/5 rounded-t-lg pb-4">
-            <CardTitle className="text-2xl font-bold text-primary">Create New Content</CardTitle>
-            <CardDescription>Add new content with complete details</CardDescription>
+      <div className="space-y-6">
+        {/* Header */}
+        <div className="flex items-center justify-between">
+          <div>
+            <h1 className="text-3xl font-bengali-bold text-gray-900">নতুন কন্টেন্ট তৈরি</h1>
+            <p className="text-gray-600 font-bengali-normal mt-2">আপনার নতুন কন্টেন্ট যোগ করুন</p>
+          </div>
+          <Link href="/political/content">
+            <Button variant="outline" className="font-bengali-medium">
+              <ArrowLeft className="w-4 h-4 mr-2" />
+              ফিরে যান
+            </Button>
+          </Link>
+        </div>
+
+        {/* Form Card */}
+        <Card className="shadow-lg border-0 bg-gradient-to-br from-white to-gray-50/50">
+          <CardHeader className="text-center bg-gradient-to-r from-blue-50 to-indigo-50 border-b border-blue-100">
+            <div className="flex items-center justify-center mb-4">
+              <div className="p-3 bg-blue-100 rounded-full">
+                <FileText className="w-8 h-8 text-blue-600" />
+              </div>
+            </div>
+            <CardTitle className="text-2xl font-bengali-bold text-gray-900">নতুন কন্টেন্ট</CardTitle>
+            <CardDescription className="font-bengali-normal text-gray-600">
+              আপনার কন্টেন্টের সব তথ্য পূরণ করুন
+            </CardDescription>
           </CardHeader>
 
-          <CardContent className="pt-6">
+          <CardContent className="pt-8">
             <PHForm
               onSubmit={onSubmit}
               resolver={zodResolver(contentSchema)}
@@ -154,82 +177,147 @@ export default function ContentCreatePage() {
                 subcategory: "",
               }}
             >
-              <div className="space-y-6">
+              <div className="space-y-8">
                 {/* Content Information */}
-                <div>
-                  <div className="flex items-center mb-4">
-                    <h4 className="text-lg font-medium text-primary">Content Information</h4>
-                    <Separator className="flex-1 ml-3" />
+                <div className="space-y-6">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-blue-100 rounded-lg">
+                      <FileText className="w-5 h-5 text-blue-600" />
+                    </div>
+                    <h3 className="text-xl font-bengali-semibold text-gray-900">কন্টেন্টের তথ্য</h3>
                   </div>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <PHInput label="Title" name="title" placeholder="Enter content title" />
-                    <PHInput label="Date" name="date" placeholder="মার্চ ১৬, ২০২৫" />
-                    <PHInput label="Place" name="place" placeholder="Event location" />
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <PHInput 
+                      name="title" 
+                      label="শিরোনাম *"
+                      placeholder="কন্টেন্টের শিরোনাম লিখুন" 
+                      className="font-bengali-normal"
+                    />
+                    
+                    <PHInput 
+                      name="date" 
+                      label="তারিখ *"
+                      placeholder="মার্চ ১৬, ২০২৫" 
+                      className="font-bengali-normal"
+                    />
+                    
+                    <PHInput 
+                      name="place" 
+                      label="স্থান *"
+                      placeholder="ইভেন্টের স্থান" 
+                      className="font-bengali-normal"
+                    />
 
                     {/* Category Selection */}
                     <PHSelect
-                      label="Category"
                       name="category"
+                      label="শ্রেণী *"
                       options={categoryOptions}
                       onChange={handleCategoryChange}
                     />
 
                     {/* Subcategory Selection */}
                     <PHSelect
-                      label="Subcategory"
                       name="subcategory"
+                      label="উপ-শ্রেণী *"
                       options={subcategoryOptions}
                       disabled={!selectedCategory}
                     />
 
-                    <div className="space-y-2 col-span-full">
-                      <PHTextarea name="description" label="Description" />
+                    <div className="col-span-full lg:col-span-1">
+                      <PHTextarea 
+                        name="description" 
+                        label="বিবরণ *"
+                      />
                     </div>
                   </div>
                 </div>
 
                 {/* Content Image */}
-                <div>
-                  <div className="flex items-center mb-4">
-                    <h4 className="text-lg font-medium text-primary">Content Image</h4>
-                    <Separator className="flex-1 ml-3" />
+                <div className="space-y-6">
+                  <div className="flex items-center gap-3">
+                    <div className="p-2 bg-green-100 rounded-lg">
+                      <ImageIcon className="w-5 h-5 text-green-600" />
+                    </div>
+                    <h3 className="text-xl font-bengali-semibold text-gray-900">কন্টেন্টের ছবি</h3>
                   </div>
-                  <div className="flex flex-col items-center space-y-4">
-                    <div className="w-full h-48 rounded-lg bg-gray-100 border-2 border-dashed border-gray-300 flex items-center justify-center overflow-hidden">
-                      {imagePreview ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img
-                          src={imagePreview || "/placeholder.svg"}
-                          alt="Content preview"
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        <div className="text-gray-400 text-center">
-                          <p className="text-sm">Upload Image</p>
+                  
+                  <div className="flex flex-col lg:flex-row items-start gap-8">
+                    <div className="flex-1">
+                      <div className="w-full h-64 rounded-xl bg-gradient-to-br from-gray-50 to-gray-100 border-2 border-dashed border-gray-300 flex items-center justify-center overflow-hidden transition-all duration-300 hover:border-blue-400 hover:bg-blue-50/50">
+                        {imagePreview ? (
+                          <div className="relative w-full h-full">
+                            <img
+                              src={imagePreview}
+                              alt="Content preview"
+                              className="w-full h-full object-cover rounded-lg"
+                            />
+                            <div className="absolute inset-0 bg-black/20 opacity-0 hover:opacity-100 transition-opacity duration-300 rounded-lg flex items-center justify-center">
+                              <Badge className="bg-white/90 text-gray-800 font-bengali-medium">
+                                ছবি দেখুন
+                              </Badge>
+                            </div>
+                          </div>
+                        ) : (
+                          <div className="text-center space-y-3">
+                            <Upload className="w-12 h-12 text-gray-400 mx-auto" />
+                            <div className="space-y-1">
+                              <p className="text-sm font-bengali-medium text-gray-600">ছবি আপলোড করুন</p>
+                              <p className="text-xs text-gray-500 font-bengali-normal">PNG, JPG, JPEG (সর্বোচ্চ ৫MB)</p>
+                            </div>
+                          </div>
+                        )}
+                      </div>
+                    </div>
+                    
+                    <div className="space-y-4 w-full lg:w-auto">
+                      <label
+                        className="flex h-12 px-6 cursor-pointer items-center justify-center rounded-lg bg-gradient-to-r from-[#e7000b] to-[#86383c] text-white text-sm font-bengali-medium shadow-lg transition-all duration-200 hover:from-[#d6000a] hover:to-[#7a3236] hover:shadow-xl"
+                        htmlFor="content-image"
+                      >
+                        <Upload className="w-4 h-4 mr-2" />
+                        {imageFiles ? "ছবি পরিবর্তন করুন" : "ছবি আপলোড করুন"}
+                      </label>
+                      <input
+                        className="hidden"
+                        id="content-image"
+                        type="file"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                      />
+                      {imageFiles && (
+                        <div className="text-center">
+                          <Badge variant="outline" className="font-bengali-medium">
+                            {imageFiles.name}
+                          </Badge>
                         </div>
                       )}
                     </div>
-                    <label
-                      className="flex h-10 px-4 cursor-pointer items-center justify-center rounded-md bg-primary text-primary-foreground text-sm font-medium shadow-sm transition-all duration-100 hover:bg-primary/90"
-                      htmlFor="content-image"
-                    >
-                      {imageFiles ? "Change Image" : "Upload Image"}
-                    </label>
-                    <input
-                      className="hidden"
-                      id="content-image"
-                      type="file"
-                      accept="image/*"
-                      onChange={handleImageChange}
-                    />
-                    {imageFiles && <p className="text-sm text-gray-500">{imageFiles.name}</p>}
                   </div>
                 </div>
 
                 {/* Submit button */}
-                <Button className="w-full h-12 mt-6 text-base font-medium cursor-pointer" size="lg" type="submit">
-                  Create Content
-                </Button>
+                <div className="pt-6 border-t border-gray-200">
+                  <Button 
+                    className="w-full h-14 text-lg font-bengali-semibold bg-gradient-to-r from-[#e7000b] to-[#86383c] text-white hover:from-[#d6000a] hover:to-[#7a3236] transition-all duration-300 shadow-lg hover:shadow-xl" 
+                    size="lg" 
+                    type="submit"
+                    disabled={isPending}
+                  >
+                    {isPending ? (
+                      <>
+                        <div className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
+                        তৈরি হচ্ছে...
+                      </>
+                    ) : (
+                      <>
+                        <FileText className="w-5 h-5 mr-2" />
+                        কন্টেন্ট তৈরি করুন
+                      </>
+                    )}
+                  </Button>
+                </div>
               </div>
             </PHForm>
           </CardContent>

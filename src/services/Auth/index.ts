@@ -34,7 +34,7 @@ export const registerAdmin = async (userData: FieldValues) => {
 };
 
 export const getUserByDomain = async (domain: string) => {
-  const { data } = await axiosInstance.get(`/client/${domain}`);
+  const { data } = await axiosInstance.get(`/political/domain/${domain}`);
   return data;
 };
 

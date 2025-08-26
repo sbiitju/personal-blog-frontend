@@ -47,13 +47,13 @@ function Login() {
   }, []);
 
   useEffect(() => {
-    console.log(data);
+    // console.log(data);
     if (data && !data.success) {
       toast.error(data?.message);
     } else if (!isPending && isSuccess) {
       toast.success("User Logged successfully");
 
-      console.log(data);
+      // console.log(data);
       if (userData?.data?.user?.role === "admin") {
         router.push("/admin/dashboard");
       } else if (userData?.data?.user?.role === "political") {
