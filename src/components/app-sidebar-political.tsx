@@ -6,7 +6,6 @@ import Link from "next/link";
 import {
   Home,
   UserCircle,
-  ShoppingCart,
   LogOut,
   ChevronDown,
   LayoutDashboard,
@@ -15,7 +14,7 @@ import {
   User,
   Edit,
 } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import {
   Sidebar,
@@ -41,6 +40,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { useUser } from "@/context/user.provider";
 import {
   Collapsible,
   CollapsibleContent,
@@ -108,6 +108,8 @@ const menuItems = [
 export function AppSidebarPolitical() {
   const pathname = usePathname();
   const [openMenus, setOpenMenus] = useState<Record<string, boolean>>({});
+  const { user, setUser } = useUser();
+  const router = useRouter();
 
   const toggleMenu = (title: string) => {
     setOpenMenus((prev) => ({
@@ -126,6 +128,17 @@ export function AppSidebarPolitical() {
       return item.submenu.some((subItem: any) => isActive(subItem.url));
     }
     return false;
+  };
+
+  const deleteCookie = (name: string) => {
+    if (typeof document === "undefined") return;
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+  };
+
+  const handleLogout = () => {
+    deleteCookie("accessToken");
+    setUser(null);
+    router.push("/login");
   };
 
   return (
@@ -209,20 +222,20 @@ export function AppSidebarPolitical() {
               <button className="flex w-full items-center gap-2 rounded-md p-2 hover:bg-sidebar-accent hover:text-sidebar-accent-foreground">
                 <Avatar className="h-8 w-8">
                   <AvatarImage
-                    src="/placeholder.svg?height=32&width=32"
-                    alt="Political"
+                    src={user?.img || "/placeholder.svg?height=32&width=32"}
+                    alt={user?.name || "Political"}
                   />
-                  <AvatarFallback>PL</AvatarFallback>
+                  <AvatarFallback>{(user?.name || "PL").slice(0,2).toUpperCase()}</AvatarFallback>
                 </Avatar>
                 <div className="flex flex-1 flex-col text-left">
-                  <span className="text-sm font-medium font-bengali-medium">রাজনৈতিক ব্যবহারকারী</span>
+                  <span className="text-sm font-medium font-bengali-medium">{user?.name || "রাজনৈতিক ব্যবহারকারী"}</span>
                 </div>
                 <ChevronDown className="h-4 w-4" />
               </button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end" className="w-56">
               <DropdownMenuSeparator />
-              <DropdownMenuItem>
+              <DropdownMenuItem onClick={handleLogout}>
                 <LogOut className="mr-2 h-4 w-4" />
                 <span className="font-bengali-medium">লগআউট</span>
               </DropdownMenuItem>

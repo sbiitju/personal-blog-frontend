@@ -5,7 +5,6 @@ import { useState } from "react";
 import Link from "next/link";
 import {
   Home,
-  UserCircle,
   ShoppingCart,
   LogOut,
   ChevronDown,

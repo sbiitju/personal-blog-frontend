@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { NextRequest } from "next/server";
-import { getCurrentUser } from "./services/Auth";
+import { getCurrentUser } from "./services/Auth/server";
 
 // Define role-based routes
 const roleBasedRoutes = {

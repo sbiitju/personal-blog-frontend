@@ -39,6 +39,8 @@ export default function Activity({ domain }: { domain: string }) {
     error: eventError,
   } = useGetAllContentByCategoryAndDomain("events", domain);
 
+
+
   // Extract the content items with proper typing
   const blogItems: ContentItem[] = blogData?.data || [];
   const eventItems: ContentItem[] = eventsData?.data || [];

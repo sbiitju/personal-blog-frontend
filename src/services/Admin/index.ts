@@ -1,5 +1,3 @@
-"use server";
-
 import envConfig from "@/config/env.confg";
 import axiosInstance from "@/lib/AxiousInstance";
 

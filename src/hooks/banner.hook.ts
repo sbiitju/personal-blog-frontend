@@ -6,8 +6,9 @@ import { toast } from "sonner";
 
 export const useGetAllBanner = (domain: string) => {
   return useQuery<any, Error, any, string[]>({
-    queryKey: ["GET_ALL_BANNER"],
+    queryKey: ["GET_ALL_BANNER", domain],
     queryFn: async () => await getAllBanner(domain),
+    enabled: !!domain, // Only run query if domain is provided
   });
 };
 

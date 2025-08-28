@@ -14,6 +14,8 @@ interface DescriptionProps {
 export default function Description({ domain }: DescriptionProps) {
   const { data: bioData, isLoading, isError } = useGetBiographByDomain(domain)
 
+
+
   const title = "জীবন বৃত্তান্ত"
   const shortDescription = "পারিবারিক ও শিক্ষা জীবন"
   const description = bioData?.data?.shortDescription

@@ -27,6 +27,12 @@ export interface IPolitical {
   domain: string;
   position: string;
   address: string;
+  emailJs?: {
+    serviceId?: string;
+    templateId?: string;
+    publicKey?: string;
+    toEmail?: string;
+  };
   createdAt: string;
   updatedAt: string;
 }
@@ -47,6 +53,12 @@ export interface IPoliticalUpdateData {
   domain?: string;
   position?: string;
   address?: string;
+  emailJs?: {
+    serviceId?: string;
+    templateId?: string;
+    publicKey?: string;
+    toEmail?: string;
+  };
 }
 
 export interface IInput {

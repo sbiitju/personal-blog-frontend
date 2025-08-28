@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use server";
 
 import axiosInstance from "@/lib/AxiousInstance";
 import { FieldValues } from "react-hook-form";

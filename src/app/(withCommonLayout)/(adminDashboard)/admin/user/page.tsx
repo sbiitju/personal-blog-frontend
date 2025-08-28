@@ -39,7 +39,7 @@ const GetAllUsers = () => {
 
   // Initialize with empty array and update when data is available
   const [users, setUsers] = useState<User[]>([])
-console.log(users)
+
   // Update state when data changes
   useEffect(() => {
     if (contentData?.data) {

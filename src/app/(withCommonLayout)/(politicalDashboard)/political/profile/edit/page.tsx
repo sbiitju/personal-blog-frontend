@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import { useRouter } from "next/navigation";
 import { FieldValues, SubmitHandler } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -12,12 +12,10 @@ import Loader from "@/components/common/Loader";
 import PHForm from "@/components/form/PHForm";
 import PHInput from "@/components/form/PHInput";
 import PHTextArea from "@/components/form/PHTextArea";
-import PHSelect from "@/components/form/PHSelect";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
-import { Badge } from "@/components/ui/badge";
 
 import { useGetLoggedPoliticalUser, useUpdatePoliticalProfile } from "@/hooks/political.hook";
 import { IPolitical } from "@/types";
@@ -36,6 +34,10 @@ const politicalProfileSchema = z.object({
   youtube: z.string().optional(),
   instagram: z.string().optional(),
   twitter: z.string().optional(),
+  emailJs_serviceId: z.string().optional(),
+  emailJs_templateId: z.string().optional(),
+  emailJs_publicKey: z.string().optional(),
+  emailJs_toEmail: z.string().email("Invalid email").optional(),
 });
 
 function EditPoliticalProfile() {
@@ -65,7 +67,7 @@ function EditPoliticalProfile() {
   // Handle form submission
   const onSubmit: SubmitHandler<FieldValues> = (data) => {
     // Filter out empty social media links
-    const socialLinks: any = {};
+    const socialLinks: Record<string, string> = {};
     if (data.facebook && data.facebook.trim()) socialLinks.facebook = data.facebook.trim();
     if (data.youtube && data.youtube.trim()) socialLinks.youtube = data.youtube.trim();
     if (data.instagram && data.instagram.trim()) socialLinks.instagram = data.instagram.trim();
@@ -90,6 +92,12 @@ function EditPoliticalProfile() {
       position: data.position,
       address: data.address,
       ...(Object.keys(socialLinks).length > 0 && { socialLinks }),
+      emailJs: {
+        serviceId: data.emailJs_serviceId || undefined,
+        templateId: data.emailJs_templateId || undefined,
+        publicKey: data.emailJs_publicKey || undefined,
+        toEmail: data.emailJs_toEmail || undefined,
+      },
     };
     
     // Append the JSON data
@@ -213,6 +221,10 @@ function EditPoliticalProfile() {
                 youtube: user?.socialLinks?.youtube || "",
                 instagram: user?.socialLinks?.instagram || "",
                 twitter: user?.socialLinks?.twitter || "",
+                emailJs_serviceId: user?.emailJs?.serviceId || "",
+                emailJs_templateId: user?.emailJs?.templateId || "",
+                emailJs_publicKey: user?.emailJs?.publicKey || "",
+                emailJs_toEmail: user?.emailJs?.toEmail || user?.email || "",
               }}
             >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -266,6 +278,17 @@ function EditPoliticalProfile() {
               </div>
 
               <Separator className="my-6" />
+
+              {/* EmailJS Settings */}
+              <div>
+                <h3 className="text-lg font-bengali-semibold mb-4">ইমেইলজেএস সেটিংস (ঐচ্ছিক)</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <PHInput name="emailJs_serviceId" label="Service ID" placeholder="EmailJS Service ID" />
+                  <PHInput name="emailJs_templateId" label="Template ID" placeholder="EmailJS Template ID" />
+                  <PHInput name="emailJs_publicKey" label="Public Key" placeholder="EmailJS Public Key" />
+                  <PHInput name="emailJs_toEmail" type="email" label="Recipient Email" placeholder="Advice receiver email" />
+                </div>
+              </div>
 
               {/* Social Media Links */}
               <div>

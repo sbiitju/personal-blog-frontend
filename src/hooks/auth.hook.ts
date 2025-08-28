@@ -27,8 +27,9 @@ export const useAdminRegistration = () => {
 
 export const useGetUserByDomain = (domain: string) => {
   return useQuery<any, Error, any, string[]>({
-    queryKey: ["GET_USER_DOMAIN"],
+    queryKey: ["GET_USER_DOMAIN", domain],
     queryFn: async () => await getUserByDomain(domain),
+    enabled: !!domain && domain.trim() !== '', // Only run query if domain is provided and not empty
   });
 };
 

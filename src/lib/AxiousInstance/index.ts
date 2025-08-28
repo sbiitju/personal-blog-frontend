@@ -18,10 +18,11 @@ const setCookie = (name: string, value: string, days = 7) => {
   document.cookie = `${name}=${value};expires=${expires.toUTCString()};path=/`;
 };
 
-// Fallback API base URL if environment variable is not set
-const API_BASE_URL = envConfig.baseApi || "https://personal-blog-backend-eta.vercel.app/api";
+// API base URL from environment config
+const API_BASE_URL = envConfig.baseApi;
 
-console.log("AxiosInstance - API Base URL:", API_BASE_URL);
+// Log the final API URL for debugging
+
 
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,

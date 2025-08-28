@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect } from "react";
-import { useForm, SubmitHandler, FieldValues } from "react-hook-form";
+import { SubmitHandler, FieldValues } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
@@ -12,7 +12,18 @@ import Loader from "@/components/common/Loader";
 import PHForm from "@/components/form/PHForm";
 import PHInput from "@/components/form/PHInput";
 import PHTextarea from "@/components/form/PHTextArea";
-import QuillEditor, { RichTextEditorHandle } from "@/components/form/QuillEditor";
+import dynamic from "next/dynamic";
+
+const QuillEditor = dynamic(() => import("@/components/form/QuillEditor"), {
+  ssr: false,
+  loading: () => (
+    <div className="w-full h-64 bg-gray-50 border border-gray-200 rounded-lg flex items-center justify-center">
+      <div className="text-gray-500 font-bengali-normal">লোড হচ্ছে...</div>
+    </div>
+  ),
+});
+
+import type { RichTextEditorHandle } from "@/components/form/QuillEditor";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useUser } from "@/context/user.provider";

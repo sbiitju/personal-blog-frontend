@@ -7,8 +7,8 @@ import PHSelect from "@/components/form/PHSelect"
 import PHTextarea from "@/components/form/PHTextArea"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { Separator } from "@/components/ui/separator"
 import { Badge } from "@/components/ui/badge"
+
 import { useUser } from "@/context/user.provider"
 import { useCreateContent } from "@/hooks/contnet.hook"
 import { categoryItems } from "@/lib/category-items"
@@ -18,7 +18,7 @@ import { type ChangeEvent, useEffect, useState, useMemo } from "react"
 import type { SubmitHandler } from "react-hook-form"
 import { toast } from "sonner"
 import { z } from "zod"
-import { ArrowLeft, Upload, FileText, Image as ImageIcon, Calendar, MapPin, Tag } from "lucide-react"
+import { ArrowLeft, Upload, FileText, Image as ImageIcon } from "lucide-react"
 import Link from "next/link"
 
 // Define the validation schema with Zod - making it less strict

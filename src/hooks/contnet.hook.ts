@@ -31,8 +31,9 @@ export const useGetAllContent = () => {
 
 export const useGetAllContentByDomain = (domain: string) => {
   return useQuery<any, Error, any, string[]>({
-    queryKey: ["GET_ALL_CONTENT_DOMAIN"],
+    queryKey: ["GET_ALL_CONTENT_DOMAIN", domain],
     queryFn: async () => await getAllContentByDomain(domain),
+    enabled: !!domain, // Only run query if domain is provided
   });
 };
 
@@ -60,6 +61,7 @@ export const useGetAllContentByCategoryAndDomain = (
     queryKey: ["GET_ALL_CONTENT_BY_CATEGORY_AND_DOMAIN", categoryId, domain],
     queryFn: async () =>
       await getAllContentByCategoryAndDomain(categoryId, domain),
+    enabled: !!domain && !!categoryId, // Only run query if both domain and categoryId are provided
     // Optional: Add these settings for better control
     staleTime: 60000, // 1 minute
     // cacheTime: 300000, // 5 minutes
@@ -79,9 +81,10 @@ export const useGetAllContentBySubCategoryAndDomain = (
   domain: string
 ) => {
   return useQuery<any, Error, any, string[]>({
-    queryKey: ["GET_ALL_CONTENT_BY_SUB_CATEGORY"],
+    queryKey: ["GET_ALL_CONTENT_BY_SUB_CATEGORY_AND_DOMAIN", subcategoryId, domain],
     queryFn: async () =>
       await getAllContentBySubCategoryAndDomain(subcategoryId, domain),
+    enabled: !!domain && !!subcategoryId, // Only run query if both domain and subcategoryId are provided
   });
 };
 

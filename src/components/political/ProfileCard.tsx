@@ -12,14 +12,7 @@ interface ProfileCardProps {
 }
 
 const ProfileCard: React.FC<ProfileCardProps> = ({ userData, showDetails = true }) => {
-  const formatDate = (dateString: string) => {
-    if (!dateString) return "উল্লেখ করা হয়নি";
-    return new Date(dateString).toLocaleDateString('bn-BD', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric'
-    });
-  };
+
 
   return (
     <Card className="w-full">

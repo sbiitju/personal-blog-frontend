@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use server";
 
 import envConfig from "@/config/env.confg";
 import axiosInstance from "@/lib/AxiousInstance";

@@ -6,7 +6,7 @@ import { useGetLoggedPoliticalUser } from "@/hooks/political.hook";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
+
 import Loader from "@/components/common/Loader";
 import { Button } from "@/components/ui/button";
 import { 
@@ -28,7 +28,7 @@ import {
 const PoliticalProfilePage = () => {
   const { data: politicalUser, isLoading, error } = useGetLoggedPoliticalUser();
   const router = useRouter();
-console.log(politicalUser);
+
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
@@ -262,6 +262,35 @@ console.log(politicalUser);
                       </a>
                     </div>
                   )}
+                </div>
+              </CardContent>
+            </Card>
+          )}
+
+          {/* EmailJS Settings (if configured) */}
+          {userData.emailJs && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="font-bengali-bold">ইমেইলজেএস সেটিংস</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-3">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-sm text-gray-500 font-bengali-normal">Service ID</p>
+                    <p className="font-bengali-medium">{userData.emailJs.serviceId || "সংযুক্ত নয়"}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500 font-bengali-normal">Template ID</p>
+                    <p className="font-bengali-medium">{userData.emailJs.templateId || "সংযুক্ত নয়"}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500 font-bengali-normal">Public Key</p>
+                    <p className="font-bengali-medium">{userData.emailJs.publicKey ? `${userData.emailJs.publicKey.slice(0,6)}•••` : "সংযুক্ত নয়"}</p>
+                  </div>
+                  <div>
+                    <p className="text-sm text-gray-500 font-bengali-normal">Recipient Email</p>
+                    <p className="font-bengali-medium">{userData.emailJs.toEmail || userData.email || "সংযুক্ত নয়"}</p>
+                  </div>
                 </div>
               </CardContent>
             </Card>

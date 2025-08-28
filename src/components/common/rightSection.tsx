@@ -3,7 +3,6 @@
 
 import type React from "react";
 
-import { useEffect, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { ChevronRight } from "lucide-react";
@@ -13,9 +12,10 @@ import { Card, CardDescription, CardTitle } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useGetAllContentByDomain } from "@/hooks/contnet.hook";
 import { useGetUserByDomain } from "@/hooks/auth.hook";
+import { useDomain } from "@/hooks/useDomain";
 
 export default function RightSection() {
-  const [domain, setDomain] = useState<string>("");
+  const domain = useDomain();
 
   const {
     data: contentsData,
@@ -29,13 +29,7 @@ export default function RightSection() {
     isLoading: isUserLoading,
     isError: isUserError,
   } = useGetUserByDomain(domain);
-  const socialLinks = userData?.data?.socialLinks || {};
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setDomain(window.location.hostname);
-    }
-  }, []);
+  const socialLinks = userData?.data?.socialLinks || {}; // socialLinks is directly in the political user object
 
   return (
     <div className="space-y-8">

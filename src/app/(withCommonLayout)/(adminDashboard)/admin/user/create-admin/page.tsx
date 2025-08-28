@@ -28,14 +28,14 @@ function CreateAdmin() {
   } = useAdminRegistration();
 
   const onSubmit: SubmitHandler<FieldValues> = (formData) => {
-    console.log(formData);
+
     handleAdminCreation(formData);
     userLoading(true);
   };
 
   useEffect(() => {
     if (data && !data.success) {
-      console.log(data);
+  
       toast.error(data?.message);
     } else if (!isPending && isSuccess) {
       toast.success("Admin created successfully");

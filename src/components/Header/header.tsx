@@ -4,23 +4,24 @@ import { Button } from "@/components/ui/button";
 import { ChevronDown, Menu, X } from "lucide-react";
 import { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { FaFacebookF, FaInstagram, FaYoutube, FaTwitter } from "react-icons/fa";
 import { cn } from "@/lib/utils";
 import { useGetUserByDomain } from "@/hooks/auth.hook";
+import { useDomain } from "@/hooks/useDomain";
 import { useUser } from "@/context/user.provider";
 import { navigationItems } from "@/data/navigation";
 import AdviceButton from "@/components/AdviceButton";
 
 
 const Header = () => {
-  const { user } = useUser();
-  console.log(user);
+  const { user, setUser } = useUser();
+  const router = useRouter();
   const [isOpen, setOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<number | null>(null);
 
-  const [domain, setDomain] = useState<string>("");
-
+  const domain = useDomain();
   const { data: userData } = useGetUserByDomain(domain);
   // Handle scroll effect for header
   useEffect(() => {
@@ -67,11 +68,17 @@ const Header = () => {
     setActiveDropdown(activeDropdown === index ? null : index);
   };
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setDomain(window.location.hostname);
-    }
-  }, []);
+  // Logout handler
+  const deleteCookie = (name: string) => {
+    if (typeof document === "undefined") return;
+    document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+  };
+
+  const handleLogout = () => {
+    deleteCookie("accessToken");
+    setUser(null);
+    router.push("/login");
+  };
 
   return (
     <header
@@ -148,14 +155,23 @@ const Header = () => {
           <div className="hidden lg:block">
             <AdviceButton />
           </div>
-          <div>
+          <div className="hidden lg:flex items-center gap-3">
             {user && (
-              <Link
-                href={`/${user.role}/dashboard`}
-                className="hidden lg:block p-3 px-5 rounded-full rounded-tl-none bg-gradient-to-b from-[#e7000b] to-[#86383c] text-white  border font-bengali-bold select-none transition-all hover:shadow-md hover:scale-105 active:scale-95"
-              >
-                Dashboard
-              </Link>
+              <>
+                <Link
+                  href={`/${user.role}/dashboard`}
+                  className="p-3 px-5 rounded-full rounded-tl-none bg-gradient-to-b from-[#e7000b] to-[#86383c] text-white  border font-bengali-bold select-none transition-all hover:shadow-md hover:scale-105 active:scale-95"
+                >
+                  Dashboard
+                </Link>
+                <Button
+                  variant="outline"
+                  onClick={handleLogout}
+                  className="font-bengali-medium"
+                >
+                  Logout
+                </Button>
+              </>
             )}
           </div>
 
@@ -290,14 +306,26 @@ const Header = () => {
                   <AdviceButton />
                 </div>
               </div>
-              <div>
+              <div className="grid gap-3">
                 {user && (
-                  <Link
-                    href={`/${user.role}/dashboard`}
-                    className="block w-full text-center p-3 px-4 rounded-full rounded-tl-none  bg-gradient-to-b from-[#e7000b] to-[#86383c] text-white  border font-bengali-bold shadow-md hover:shadow-lg transition-all"
-                  >
-                    Dashboard
-                  </Link>
+                  <>
+                    <Link
+                      href={`/${user.role}/dashboard`}
+                      className="block w-full text-center p-3 px-4 rounded-full rounded-tl-none  bg-gradient-to-b from-[#e7000b] to-[#86383c] text-white  border font-bengali-bold shadow-md hover:shadow-lg transition-all"
+                    >
+                      Dashboard
+                    </Link>
+                    <Button
+                      variant="outline"
+                      className="w-full"
+                      onClick={() => {
+                        setOpen(false);
+                        handleLogout();
+                      }}
+                    >
+                      Logout
+                    </Button>
+                  </>
                 )}
               </div>
 

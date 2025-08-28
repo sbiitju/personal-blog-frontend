@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay, Keyboard } from "swiper/modules";
 import { Swiper as SwiperClass } from "swiper";
@@ -13,6 +13,7 @@ import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Button } from "@/components/ui/button";
 import { useGetAllBanner } from "@/hooks/banner.hook";
+import { useDomain } from "@/hooks/useDomain";
 import Loader from "../common/Loader";
 
 // Define Banner type
@@ -24,16 +25,10 @@ interface Banner {
 }
 
 const Banner = () => {
-  const [domain, setDomain] = useState<string>("");
+  const domain = useDomain();
   const { data: bannerData, isLoading, isError } = useGetAllBanner(domain);
   const banners: Banner[] = bannerData?.data || [];
   const [swiper, setSwiper] = useState<SwiperClass | null>(null);
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setDomain(window.location.hostname);
-    }
-  }, []);
 
   if (isLoading) {
     return (

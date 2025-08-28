@@ -1,10 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-"use server";
 
 import axiosInstance from "@/lib/AxiousInstance";
-import { jwtDecode } from "jwt-decode";
-import { cookies } from "next/headers";
 import { FieldValues } from "react-hook-form";
 
 export const registerUser = async (userData: FieldValues) => {
@@ -34,6 +31,9 @@ export const registerAdmin = async (userData: FieldValues) => {
 };
 
 export const getUserByDomain = async (domain: string) => {
+  if (!domain || domain.trim() === '') {
+    throw new Error('Domain is required');
+  }
   const { data } = await axiosInstance.get(`/political/domain/${domain}`);
   return data;
 };
@@ -41,10 +41,6 @@ export const getUserByDomain = async (domain: string) => {
 export const loginUser = async (userData: FieldValues) => {
   try {
     const { data } = await axiosInstance.post("/auth/login", userData);
-    if (data.success) {
-      (await cookies()).set("accessToken", data?.data?.accessToken);
-      (await cookies()).set("refreshToken", data?.data?.refreshToken);
-    }
     return data;
   } catch (error: any) {
     const data = {
@@ -52,49 +48,6 @@ export const loginUser = async (userData: FieldValues) => {
       message: error?.response?.data?.message,
     };
     return data;
-  }
-};
-
-export const logOut = async () => {
-  (await cookies()).delete("accessToken");
-  (await cookies()).delete("refreshToken");
-};
-
-export const getCurrentUser = async () => {
-  const accessToken = (await cookies()).get("accessToken")?.value;
-  let decodedToken = null;
-
-  if (accessToken) {
-    decodedToken = await jwtDecode(accessToken);
-    return {
-      id: decodedToken?.id,
-      email: decodedToken?.email,
-      role: decodedToken?.role,
-      name: decodedToken?.name,
-      img: decodedToken?.profilePicture,
-      domain: decodedToken?.domain,
-    };
-  } else {
-    return decodedToken;
-  }
-};
-
-export const getNewAccessToken = async () => {
-  try {
-    const refreshToken = (await cookies()).get("refreshToken")?.value;
-
-    const res = await axiosInstance({
-      url: "/auth/refresh-token",
-      method: "POST",
-      withCredentials: true,
-      headers: {
-        cookie: `refreshToken=${refreshToken}`,
-      },
-    });
-
-    return res.data;
-  } catch (error) {
-    throw new Error("Failed to get new access token");
   }
 };
 
@@ -142,7 +95,52 @@ export const changePassword = async (passwordData: FieldValues) => {
   }
 };
 
-export const cureentUserChecker = async () => {
-  const token = (await cookies()).get("accessToken")?.value;
-  return token;
+export const getNewAccessToken = async () => {
+  try {
+    const refreshToken = getCookie("refreshToken");
+
+    const res = await axiosInstance({
+      url: "/auth/refresh-token",
+      method: "POST",
+      withCredentials: true,
+      headers: {
+        cookie: `refreshToken=${refreshToken}`,
+      },
+    });
+
+    return res.data;
+  } catch (error) {
+    throw new Error("Failed to get new access token");
+  }
 };
+
+// Client-side cookie helper
+const getCookie = (name: string) => {
+  if (typeof document === 'undefined') return null;
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop()?.split(';').shift();
+  return null;
+};
+
+export const getCurrentUser = async () => {
+  const accessToken = getCookie("accessToken");
+  let decodedToken = null;
+
+  if (accessToken) {
+    const { jwtDecode } = await import("jwt-decode");
+    decodedToken = await jwtDecode(accessToken);
+    return {
+      id: decodedToken?.id,
+      email: decodedToken?.email,
+      role: decodedToken?.role,
+      name: decodedToken?.name,
+      img: decodedToken?.profilePicture,
+      domain: decodedToken?.domain,
+    };
+  } else {
+    return decodedToken;
+  }
+};
+
+

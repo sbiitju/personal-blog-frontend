@@ -10,8 +10,9 @@ import { toast } from "sonner";
 
 export const useGetBiographByDomain = (domain: string) => {
   return useQuery<any, Error, any, string[]>({
-    queryKey: ["GET_BIOGRAPH"],
+    queryKey: ["GET_BIOGRAPH", domain],
     queryFn: async () => await getBiographByDomain(domain),
+    enabled: !!domain, // Only run query if domain is provided
   });
 };
 
@@ -24,7 +25,7 @@ export const useCreateBiograph = () => {
     },
     onError: (error) => {
       toast.error(error?.message);
-      console.log(error?.message)
+  
     },
   });
 };

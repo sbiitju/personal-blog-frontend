@@ -7,15 +7,12 @@ import {
   Users, 
   FileText, 
   Settings, 
-  TrendingUp, 
   Activity, 
   Shield, 
   BarChart3, 
   Calendar,
   Plus,
   Eye,
-  Edit,
-  Trash2
 } from "lucide-react";
 import AdviceButton from "@/components/AdviceButton";
 

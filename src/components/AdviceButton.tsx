@@ -9,6 +9,8 @@ import { toast } from "sonner";
 import { Send, Loader2, X } from "lucide-react";
 import emailjs from '@emailjs/browser';
 import { EMAILJS_CONFIG } from "@/config/emailjs.config";
+import { useDomain } from "@/hooks/useDomain";
+import { useGetUserByDomain } from "@/hooks/auth.hook";
 
 interface AdviceFormData {
   name: string;
@@ -27,6 +29,10 @@ export default function AdviceButton() {
     message: "",
   });
 
+  const domain = useDomain();
+  const { data: userData } = useGetUserByDomain(domain);
+  const emailJs = userData?.data?.emailJs || {};
+
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
     setFormData(prev => ({
@@ -40,20 +46,26 @@ export default function AdviceButton() {
     setIsLoading(true);
 
     try {
+      const serviceId = emailJs.serviceId || EMAILJS_CONFIG.SERVICE_ID;
+      const templateId = emailJs.templateId || EMAILJS_CONFIG.TEMPLATE_ID;
+      const publicKey = emailJs.publicKey || EMAILJS_CONFIG.PUBLIC_KEY;
+      const toEmail = emailJs.toEmail;
+
+      if (!serviceId || !templateId || !publicKey) {
+        toast.error("ইমেইল কনফিগারেশন অনুপস্থিত। অ্যাডমিন সেটিংস থেকে কনফিগার করুন।");
+        setIsLoading(false);
+        return;
+      }
       const templateParams = {
         from_name: formData.name,
         from_email: formData.email,
         subject: formData.subject,
         message: formData.message,
-        to_name: "Admin", // This will be the recipient name
+        to_name: "Admin",
+        to_email: toEmail,
       };
 
-      await emailjs.send(
-        EMAILJS_CONFIG.SERVICE_ID,
-        EMAILJS_CONFIG.TEMPLATE_ID,
-        templateParams,
-        EMAILJS_CONFIG.PUBLIC_KEY
-      );
+      await emailjs.send(serviceId, templateId, templateParams, publicKey);
 
       toast.success("আপনার পরামর্শ সফলভাবে পাঠানো হয়েছে!");
       setFormData({

@@ -1,7 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { use } from "react";
 import Image from "next/image";
 import { CalendarIcon, Clock, User } from "lucide-react";
 
@@ -11,6 +11,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Separator } from "@/components/ui/separator";
 import { useGetUserByDomain } from "@/hooks/auth.hook";
 import { useGetAllContentById } from "@/hooks/contnet.hook";
+import { useDomain } from "@/hooks/useDomain";
 
 interface Params {
   id: string;
@@ -25,15 +26,9 @@ export default function ContentDetails({
   const { data: contentsData, isLoading, isError } = useGetAllContentById(id);
   const content = contentsData?.data || [];
 
-  const [domain, setDomain] = useState<string>("");
+  const domain = useDomain();
   const { data: userData } = useGetUserByDomain(domain);
   const user = userData?.data || {};
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setDomain(window.location.hostname);
-    }
-  }, []);
 
   if (isError) {
     return (

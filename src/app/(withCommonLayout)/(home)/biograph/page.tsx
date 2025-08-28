@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useState } from "react"
+ 
 import { BookOpen, AlertCircle } from "lucide-react"
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -8,17 +8,12 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { Separator } from "@/components/ui/separator"
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert"
 import { useGetBiographByDomain } from "@/hooks/biograph.hook"
+import { useDomain } from "@/hooks/useDomain"
 
 const Biograph = () => {
-  const [domain, setDomain] = useState<string>("")
+  const domain = useDomain()
   const { data: bioData, isLoading, isError } = useGetBiographByDomain(domain)
   const bio = bioData?.data?.description
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setDomain(window.location.hostname)
-    }
-  }, [])
 
   return (
     <div className="max-w-4xl mx-auto py-8 px-4 sm:px-6">

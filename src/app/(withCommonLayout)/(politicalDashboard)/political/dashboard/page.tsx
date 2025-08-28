@@ -1,27 +1,18 @@
+/* eslint-disable jsx-a11y/alt-text */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import React from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import { 
-  LayoutDashboard, 
+import {  
   FileText, 
   Image, 
   User, 
-  MessageSquare, 
-  TrendingUp, 
-  Calendar,
   Eye,
-  Edit,
   Plus,
   BarChart3,
-  Settings,
-  Bell,
-  Clock,
-  CheckCircle,
-  AlertCircle,
-  ArrowRight
 } from "lucide-react";
 import Link from "next/link"; 
 import { useUser } from "@/context/user.provider";

@@ -204,8 +204,9 @@ const QuillEditor = forwardRef<RichTextEditorHandle>((_, ref) => {
       `;
       document.head.appendChild(style);
 
-      // Add custom font options for Bengali (with proper typing)
+      // Add custom font options for Bengali
       try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const Font = Quill.import('formats/font') as any;
         if (Font && Font.whitelist) {
           Font.whitelist = ['arial', 'comic-sans', 'courier-new', 'georgia', 'helvetica', 'lucida', 'noto-sans-bengali', 'hind-siliguri', 'solaiman-lipi'];
@@ -215,8 +216,9 @@ const QuillEditor = forwardRef<RichTextEditorHandle>((_, ref) => {
         console.warn('Could not register custom fonts:', error);
       }
 
-      // Add custom size options (with proper typing)
+      // Add custom size options
       try {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const Size = Quill.import('attributors/style/size') as any;
         if (Size && Size.whitelist) {
           Size.whitelist = ['10px', '12px', '14px', '16px', '18px', '20px', '24px', '28px', '32px'];

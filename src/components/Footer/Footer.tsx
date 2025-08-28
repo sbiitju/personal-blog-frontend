@@ -2,45 +2,47 @@
 "use client"
 import { useGetUserByDomain } from "@/hooks/auth.hook"
 import { useGetAllContentByDomain } from "@/hooks/contnet.hook"
+import { useDomain } from "@/hooks/useDomain"
 import { navigationItems } from "@/data/navigation"
 import Link from "next/link"
-import { useEffect, useState } from "react"
 import { Facebook, Instagram, Twitter, Youtube, Mail, Phone, MapPin, Calendar } from "lucide-react"
 
 export default function Footer() {
-  const [domain, setDomain] = useState<string>("")
-  const { data: userData } = useGetUserByDomain(domain)
+  const domain = useDomain()
+  const { data: userData, isLoading: userLoading, isError: userError } = useGetUserByDomain(domain)
   const { data: contentData } = useGetAllContentByDomain(domain)
-  const userInfo = userData?.data
-  const recentContent = contentData?.data?.slice(0, 4) || []  
+  const userInfo = userData?.data // This is the political user object
+  const recentContent = contentData?.data?.slice(0, 4) || []
+  
 
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setDomain(window.location.hostname)
-    }
-  }, [])
 
   return (
     <footer className="bg-[#6B6B6B] py-12 text-white">
       <div className="max-w-screen-2xl mx-auto px-4 lg:px-6 xl:px-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {/* Contact Information */}
-          <div className="space-y-6">
-            <h3 className="text-xl font-semibold border-b border-white/30 pb-2 inline-block font-bengali-semibold">যোগাযোগ</h3>
-            <div className="space-y-4 text-gray-100">
-              {userInfo?.address && (
+                                           {/* Contact Information */}
+           <div className="space-y-6">
+             <h3 className="text-xl font-semibold border-b border-white/30 pb-2 inline-block font-bengali-semibold">যোগাযোগ</h3>
+             <div className="space-y-4 text-gray-100">
+               {!domain ? (
+                 <p className="text-gray-400 font-bengali-normal text-sm">Domain not available</p>
+               ) : userLoading ? (
+                 <p className="text-gray-400 font-bengali-normal text-sm">Loading contact info...</p>
+               ) : userError ? (
+                 <p className="text-red-400 font-bengali-normal text-sm">Error loading contact info</p>
+               ) : userInfo?.address && (
                 <div className="flex items-start gap-3">
                   <MapPin className="w-5 h-5 text-white/70 mt-0.5 flex-shrink-0" />
                   <p className="font-bengali-normal">{userInfo.address}</p>
                 </div>
               )}
-              {userInfo?.phone && (
+              {!domain ? null : userLoading ? null : userError ? null : userInfo?.phone && (
                 <div className="flex items-center gap-3">
                   <Phone className="w-5 h-5 text-white/70 flex-shrink-0" />
                   <p className="font-bengali-normal">{userInfo.phone}</p>
                 </div>
               )}
-              {userInfo?.email && (
+              {!domain ? null : userLoading ? null : userError ? null : userInfo?.email && (
                 <div className="flex items-center gap-3">
                   <Mail className="w-5 h-5 text-white/70 flex-shrink-0" />
                   <p className="font-bengali-normal">{userInfo.email}</p>
@@ -99,7 +101,13 @@ export default function Footer() {
           <div className="space-y-6">
             <h3 className="text-xl font-semibold border-b border-white/30 pb-2 inline-block font-bengali-semibold">সোশ্যাল মিডিয়া</h3>
             <div className="flex gap-4">
-              {userInfo?.socialLinks?.facebook && (
+              {!domain ? (
+                <div className="text-gray-400">Domain not available</div>
+              ) : userLoading ? (
+                <div className="text-gray-400">Loading...</div>
+              ) : userError ? (
+                <div className="text-red-400">Error loading data</div>
+              ) : userInfo?.socialLinks?.facebook && (
                 <Link
                   href={userInfo.socialLinks.facebook}
                   target="_blank"

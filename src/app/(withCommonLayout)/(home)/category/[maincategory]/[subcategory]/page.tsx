@@ -5,9 +5,10 @@ import { Skeleton } from "@/components/ui/skeleton";
 import Title from "@/components/ui/title";
 import { useGetAllContentBySubCategoryAndDomain } from "@/hooks/contnet.hook";
 import { getSubCategoryBengaliTitle } from "@/lib/category-items";
+import { useDomain } from "@/hooks/useDomain";
 import Image from "next/image";
 import Link from "next/link";
-import { use, useEffect, useState } from "react";
+import { use, useState } from "react";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { Calendar, MapPin, Eye } from "lucide-react";
 
@@ -32,7 +33,7 @@ export default function SubCategoryPage({ params }: { params: Promise<Params> })
   const bengaliTitle = getSubCategoryBengaliTitle(maincategory, subcategory);
   
   const [page, setPage] = useState(1);
-  const [domain, setDomain] = useState<string>("");
+  const domain = useDomain();
   const ITEMS_PER_PAGE = 9; // Reduced for better layout
 
   const {
@@ -40,13 +41,6 @@ export default function SubCategoryPage({ params }: { params: Promise<Params> })
     isLoading: contentLoading,
     error: contentError,
   } = useGetAllContentBySubCategoryAndDomain(subcategory, domain);
-
-  // Set domain for API call
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      setDomain(window.location.hostname);
-    }
-  }, []);
 
   // Calculate total pages
   const totalItems = contents?.data?.length || 0;
@@ -76,7 +70,7 @@ export default function SubCategoryPage({ params }: { params: Promise<Params> })
     const buttons = [];
     const maxVisibleButtons = 5;
     let startPage = Math.max(1, page - Math.floor(maxVisibleButtons / 2));
-    let endPage = Math.min(totalPages, startPage + maxVisibleButtons - 1);
+    const endPage = Math.min(totalPages, startPage + maxVisibleButtons - 1);
 
     if (endPage - startPage + 1 < maxVisibleButtons) {
       startPage = Math.max(1, endPage - maxVisibleButtons + 1);
